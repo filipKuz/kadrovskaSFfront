@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  
+  <h3>Zaposleni:</h3>
+
+  <table class="table">
+    <ul class="nav navbar-nav">
+      <li><a href="#" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
+      <li><a href="#" id="help"><img src="assets/images/help.gif" /></a></li>
+      <li class="group-start"><a id="first"><img src="assets/images/first.gif" /></a></li>
+      <li><a id="prev"><img src="assets/images/prev.gif" /></a></li>
+      <li><a id="next"><img src="assets/images/next.gif" /></a></li>
+      <li><a id="last"><img src="assets/images/last.gif" /></a></li>
+      <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="assets/images/add.gif" /></a></li>
+      <li><a href="#" id="nextform"><img src="assets/images/nextform.gif" /></a></li>
+    </ul>
+
+    <tr class="header">
+      <th>Ime i prezime</th>
+      <th>Ime roditelja</th>
+      <th>Datum rodjenja</th>
+      <th>Pol</th>
+      <th>Strucna sprema</th>
+      <th>Radna istorija</th>
+      <th>Kontakt podaci</th>
+      <th>Deca</th>
+    </tr>
+    <tr *ngFor = "let employee of employees">
+      <td><a href="radnik.html">{{employee.firstName}} {{employee.lastName}}</a></td>
+      <td>{{employee.parentName}}</td>
+      <td>{{employee.birthDate}}</td>
+      <td>{{employee.sex}}</td>
+      <td><a href="#">{{employee.birthDate}} </a></td>
+      <td><a href="#">Radna istorija</a></td>
+      <td><a href="#">Kontant Podaci</a></td>
+      <td><a href="#">Deca</a></td>
+    </tr>
+  </table>
