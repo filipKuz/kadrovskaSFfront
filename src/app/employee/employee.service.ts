@@ -3,7 +3,6 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 import { Observable } from "rxjs/Observable";
 
-
 @Injectable()
 export class EmployeeService {
 
@@ -16,14 +15,12 @@ export class EmployeeService {
             .map(
             (response: Response) => {
                 const data = response.json();
-
-
                 return data;
             }
             ).catch(
-                (error: Response) => {
-                  return Observable.throw('Something went wrong');
-                }
-              );
+            (error: Response) => {
+                return Observable.throw('Something went wrong');
+            }
+            );
     }
 }

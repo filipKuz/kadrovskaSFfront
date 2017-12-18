@@ -9,6 +9,9 @@ import { HttpModule } from '@angular/http';
 import { AnnualHolidayRegulationComponent } from './annual-holiday-regulation/annual-holiday-regulation.component';
 import { AnnualHolidayRegulationService } from './annual-holiday-regulation/annualHolidayRegulation.service';
 import { NavigationComponent } from './navigation/navigation.component';
+import { EmployeeProfessionalQualificationsComponent } from './employee-professional-qualifications/employee-professional-qualifications.component';
+import { EmployeeProfessionalQualificationService } from './employee-professional-qualifications/employee-professional-qualification.service';
+import { MessageService } from './shared/message.service';
 
 
 @NgModule({
@@ -16,13 +19,14 @@ import { NavigationComponent } from './navigation/navigation.component';
     AppComponent,
     EmployeeComponent,
     AnnualHolidayRegulationComponent,
-    NavigationComponent
+    NavigationComponent,
+    EmployeeProfessionalQualificationsComponent
   ],
   imports: [
     BrowserModule,
     HttpModule
   ],
-  providers: [EmployeeService,AnnualHolidayRegulationService],
+  providers: [EmployeeService,AnnualHolidayRegulationService, EmployeeProfessionalQualificationService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
