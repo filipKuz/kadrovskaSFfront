@@ -1,6 +1,6 @@
-<div class="container-fluid">
+<div class="container-fluid jumbotron">
   
-  <h3>Strucna sprema</h3>
+  <h3>Strucna sprema zaposlenog: </h3>
 
   <table class="table">
     <ul class="nav navbar-nav">
@@ -18,10 +18,14 @@
       <th>Datum sticanja</th>
       <th>Obrazovna ustanova</th>
       <th>Naziv zanimanja</th>
+      <th>Naziv strucne spreme</th>
+      <th>Stepen strucne spreme</th>
     </tr>
     <tr *ngFor = "let epq of employeesEPQCs">
       <td>{{epq.dateOfGraduation}}</td>
       <td>{{epq.educationalInstitution}}</td>
       <td>{{epq.profession}}</td>
+      <td>{{epq.professionalQId.name}}</td>
+      <td>{{epq.professionalQId.qualificationDegree}}</td>
     </tr>
   </table>

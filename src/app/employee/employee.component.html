@@ -2,10 +2,10 @@
 
   <h3>Zaposleni:</h3>
 
-  <table class="table">
+  <table class="table table-hover">
     <ul class="nav navbar-nav">
       <li>
-        <a href="#" id="refresh">
+        <a (click)="onGet()" class="show_hand" id="refresh">
           <img src="assets/images/refresh.gif" />
         </a>
       </li>
@@ -35,7 +35,7 @@
         </a>
       </li>
       <li class="group-start">
-        <a href="#inputModal" data-toggle="modal" data-target="#inputModal">
+        <a (click)="showDialog = !showDialog" class="show_hand">
           <img src="assets/images/add.gif" />
         </a>
       </li>
@@ -56,7 +56,7 @@
       <th>Kontakt podaci</th>
       <th>Deca</th>
     </tr>
-    <tr *ngFor="let employee of employees">
+    <tr *ngFor="let employee of employees; let i = index" (click)="setClickedRow(i)" [class.active]="i == selectedRow">
       <td>
         <a href="radnik.html">{{employee.firstName}} {{employee.lastName}}</a>
       </td>
@@ -64,7 +64,7 @@
       <td>{{employee.birthDate}}</td>
       <td>{{employee.sex}}</td>
       <td>
-        <a  (click)="sendMessage(employee.employeeId); EPQclicked = true">Strucna sprema</a>
+        <a (click)="setActive();sendMessage(employee.employeeId);">Strucna sprema</a>
       </td>
       <td>
         <a href="#">Radna istorija</a>
@@ -77,8 +77,177 @@
       </td>
     </tr>
   </table>
-  <div *ngIf="EPQclicked">
+  <br>
+  <div [hidden]="!EPQclicked">
     <hr>
     <app-employee-professional-qualifications></app-employee-professional-qualifications>
   </div>
+
+
+  <app-dialog [(visible)]="showDialog">
+    <h3>Dodaj zaposlenog</h3>
+    <hr>
+    <form (ngSubmit)="onSubmit()" class="form-horizontal" #f="ngForm">
+      <fieldset>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="lastName">Prezime</label>
+          <div class="col-md-5">
+            <input id="lastName"
+                   name="lastName" 
+                   type="text" 
+                   placeholder="prezime..." 
+                   class="form-control input-md" 
+                   ngModel required #lastName="ngModel">
+            <span class="help-block" *ngIf="lastName.touched && !lastName.valid">Prezime je obavezno.</span>
+          </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="name">Ime</label>
+          <div class="col-md-5">
+            <input id="name" 
+                   name="name" 
+                   type="text" 
+                   placeholder="ime..." 
+                   class="form-control input-md"
+                   ngModel required #firstName="ngModel">
+            <span class="help-block" *ngIf="firstName.touched && !firstName.valid">Ime je obavezno.</span>
+          </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="parentName">Ime roditelja</label>
+          <div class="col-md-5">
+            <input id="parentName"
+                   name="parentName" 
+                   type="text" 
+                   placeholder="ime jednog roditelja..." 
+                   class="form-control input-md"
+                   ngModel required #parentName="ngModel">
+            <span class="help-block" *ngIf="parentName.touched && !parentName.valid">Ime jednog roditelja je obavezno.</span>
+          </div>
+        </div>
+
+        <!-- Select Basic -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="sex">Pol</label>
+          <div class="col-md-4">
+            <select id="sex" name="sex" class="form-control" [ngModel]="defaultSex" required>
+              <option value="M">Muski</option>
+              <option value="Z">Zenski</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- for date -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="birthDate">Datum rodjenja</label>
+            <div class="col-md-5">
+              <input class="form-control input-md" style="float: none" placeholder="Select a date" ngx-mydatepicker name="birthDate"
+                 [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel"/>
+                 <span class="help-block" *ngIf="datePick.touched && !datePick.valid">Uneti datum nije validan.</span>
+                 
+            </div>
+          <span class="input-group-btn control-span">
+              <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                  <i class="glyphicon glyphicon-remove"></i>
+              </button>
+              <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                  <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+          </span>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="madenName">Devojacko prezime</label>
+          <div class="col-md-5">
+            <input id="madenName" 
+                   name="madenName" 
+                   type="text" 
+                   placeholder="ostaviti prazno ukoliko ga nema..." 
+                   class="form-control input-md" ngModel>
+          </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="address">Adresa</label>
+          <div class="col-md-5">
+            <input id="address" 
+                   name="address" 
+                   type="text" 
+                   placeholder="adresa..." 
+                   class="form-control input-md" ngModel required #address="ngModel">
+                   <span class="help-block" *ngIf="address.touched && !address.valid">Adresa je obavezna.</span>
+          </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="email">Email</label>
+          <div class="col-md-5">
+            <input id="email" 
+                   name="email" 
+                   type="text" 
+                   placeholder="email..." 
+                   class="form-control input-md" ngModel>
+          </div>
+        </div>
+        <p>
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="phoneNumber">Broj telefona</label>
+          <div class="col-md-5">
+            <input id="phoneNumber" 
+                   name="phoneNumber" 
+                   type="text" 
+                   placeholder="broj telefona..." 
+                   class="form-control input-md" ngModel>
+          </div>
+        </div>
+
+        <!-- Select Basic -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="companyId">Kompanija</label>
+          <div class="col-md-4">
+            <select id="companyId" name="companyId" class="form-control" ngModel required>
+              <option value="1">Option one</option>
+              <option value="2">Option two</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Select Basic -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="cityId">Grad</label>
+          <div class="col-md-4">
+            <select id="cityId" name="cityId" class="form-control" ngModel required>
+              <option value="1">Option one</option>
+              <option value="2">Option two</option>
+            </select>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <hr>
+      <div style="text-align: center">
+        <button 
+          class="btn btn-primary" 
+          type="submit" [disabled]="!f.valid">Potvrdi</button>
+        <button (click)="showDialog = !showDialog; resetForm();" class="btn">Close</button>
+      </div>
+      
+    </form>
+
+  </app-dialog>
+
+  <br>
   
+</div>
+  <br>
+  <br>

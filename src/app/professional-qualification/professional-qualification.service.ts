@@ -4,13 +4,13 @@ import 'rxjs/Rx';
 import { Observable } from "rxjs/Observable";
 
 @Injectable()
-export class EmployeeService {
+export class ProfessionalQualificationService {
 
-    private _baseUrl: string = 'http://localhost:8080/api/employees';
+    private _baseUrl: string = 'http://localhost:8080/api/PQ';
 
     constructor(private http: Http) { }
 
-    getEmployees() {
+    getProfessionalQualification() {
         return this.http.get(this._baseUrl)
             .map(
             (response: Response) => {
@@ -22,9 +22,5 @@ export class EmployeeService {
                 return Observable.throw('Something went wrong');
             }
             );
-    }
-
-    addEmployee(employee: any) {
-        return this.http.post(this._baseUrl, employee);
     }
 }
