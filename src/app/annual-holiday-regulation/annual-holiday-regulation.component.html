@@ -1,9 +1,8 @@
 <div class="container-fluid">
   
-  <h3>Resenja za godisnji odmor:</h3>
-
   <table class="table">
     <ul class="nav navbar-nav">
+      <li><h4>Resenja za godisnji odmor:</h4></li>
       <li><a href="#" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
       <li><a href="#" id="help"><img src="assets/images/help.gif" /></a></li>
       <li class="group-start"><a id="first"><img src="assets/images/first.gif" /></a></li>
@@ -15,12 +14,12 @@
     </ul>
 
     <tr class="header">
-      <th>Id radnika</th>
+      <th>Ime i prezime radnika</th>
       <th>Poslovna godina</th>
-      <th>Broj slobodnih dana</th>>
+      <th>Broj slobodnih dana</th>
     </tr>
     <tr *ngFor = "let annualHolidayRegulation of annualHolidayRegulations">
-      <td><a href="radnik.html">{{annualHolidayRegulation.employeeId}}</a></td>
+      <td><a href="#">{{annualHolidayRegulation.employeeDTO.firstName}} {{annualHolidayRegulation.employeeDTO.lastName}}</a></td>
       <td>{{annualHolidayRegulation.businessYear}}</td>
       <td>{{annualHolidayRegulation.numOfDays}}</td>
     </tr>
