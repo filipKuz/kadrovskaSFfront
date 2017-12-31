@@ -19,6 +19,7 @@ import { ProfessionalQualificationService } from './professional-qualification/p
 import { DialogComponent } from './dialog/dialog.component';
 import { from } from 'rxjs/observable/from';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { CityService } from './city/city.service';
 
 
 
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
               AnnualHolidayRegulationService, 
               EmployeeProfessionalQualificationService,
               MessageService,
-              ProfessionalQualificationService],
+              ProfessionalQualificationService,
+              CityService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

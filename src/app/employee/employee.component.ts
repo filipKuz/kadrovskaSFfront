@@ -4,6 +4,7 @@ import { EmployeeProfessionalQualificationService } from '../employee-profession
 import { MessageService } from '../shared/message.service';
 import { NgForm } from '@angular/forms';
 import { INgxMyDpOptions, IMyDateModel, NgxMyDatePickerDirective } from 'ngx-mydatepicker';
+import { CityService } from '../city/city.service';
 
 
 @Component({
@@ -13,10 +14,14 @@ import { INgxMyDpOptions, IMyDateModel, NgxMyDatePickerDirective } from 'ngx-myd
 })
 export class EmployeeComponent implements OnInit {
   @ViewChild('f') addEmployeeForm: NgForm;
+  @ViewChild('fE') editEmployeeForm: NgForm;
   @ViewChild('dp') ngxdp: NgxMyDatePickerDirective;
+  @ViewChild('dpE') ngxdpEditModal: NgxMyDatePickerDirective;
 
   employees = [];
-  newEmployee = {
+  cities = [];
+
+  Employee = {
     "lastName": "",
     "firstName": "",
     "parentName": "",
@@ -29,68 +34,138 @@ export class EmployeeComponent implements OnInit {
     "numberOfVacationDaysLeft": 0,
     "cityId": 1,
     "companyId": 1
-};
-  EPQclicked: boolean = false; 
+  };
+  EPQclicked: boolean = false;
   showDialog = false;
+  showEditDialog = false;
+
+  transormedDate: any = {};
 
   defaultSex = "M";
-
+  selectedEmployeeId = 0;
+  actionForModal = "";
   selectedRow: Number;
   setClickedRow: Function;
 
-  constructor(private employeeService: EmployeeService, 
-              private _messageService: MessageService) { 
-    this.setClickedRow = function(index) {
+  constructor(private employeeService: EmployeeService,
+    private _messageService: MessageService, private _cityService: CityService) {
+    this.setClickedRow = function (index) {
       this.selectedRow = index;
     }
   }
 
   ngOnInit() {
     this.onGet();
+    this.onPopulateDropDownCity();
   }
-  
+
   resetForm() {
     this.addEmployeeForm.resetForm();
   }
 
+  resetEditForm() {
+    this.editEmployeeForm.resetForm();
+  }
+
+  onEditEmployee(id) {
+    this.resetEditForm();
+    this.selectedEmployeeId = id;
+    this.actionForModal = "edit";
+    this.onGetById(this.selectedEmployeeId);
+    this.showEditDialog = !this.showEditDialog;
+  }
+
+  transformFormattedDate(date:string) {
+    var dateSpilt = date.split("-");
+  
+    this.transormedDate = {date : {year : Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
+    console.log(this.transormedDate);
+    
+  }
+
+
+  onPopulateJsonEmployee(addressE: string,
+    lastName: string,
+    firstName: string,
+    parentName: string,
+    sex: string,
+    madenName: string, email: string, phoneNumber: string, companyId: number, cityId: number, birthDate: string) {
+    this.Employee.address = addressE
+    this.Employee.lastName = lastName;
+    this.Employee.firstName = firstName;
+    this.Employee.parentName = parentName;
+    this.Employee.sex = sex;
+    this.Employee.madenName = madenName;
+    this.Employee.email = email;
+    this.Employee.phoneNumber = phoneNumber;
+    this.Employee.companyId = companyId;
+    this.Employee.cityId = cityId;
+    this.Employee.birthDate = birthDate;
+  }
+
   onSubmit() {
-    this.newEmployee.address = this.addEmployeeForm.value.address;
-    this.newEmployee.lastName = this.addEmployeeForm.value.lastName;
-    this.newEmployee.firstName = this.addEmployeeForm.value.name;
-    this.newEmployee.parentName = this.addEmployeeForm.value.parentName;
-    this.newEmployee.sex = this.addEmployeeForm.value.sex;
-    this.newEmployee.madenName = this.addEmployeeForm.value.madenName;
-    this.newEmployee.email = this.addEmployeeForm.value.email;
-    this.newEmployee.phoneNumber = this.addEmployeeForm.value.phoneNumber; 
-    this.newEmployee.companyId = this.addEmployeeForm.value.companyId; 
-    this.newEmployee.cityId = this.addEmployeeForm.value.cityId; 
-    this.newEmployee.birthDate = this.addEmployeeForm.value.birthDate.date.year + "-" + this.addEmployeeForm.value.birthDate.date.month + "-" + this.addEmployeeForm.value.birthDate.date.day;
-    //console.log(this.newEmployee.birthDate);
-    this.onPost();
+
+    if (this.actionForModal === "edit") {
+      this.Employee.birthDate = this.editEmployeeForm.value.birthDateEdit.formatted;
+      this.onPut();
+      this.resetEditForm();
+      this.showEditDialog = !this.showEditDialog;
+    }
+    if (this.actionForModal === "add") {
+      var dateFromAddForm = this.addEmployeeForm.value.birthDate.formatted;
+      this.onPopulateJsonEmployee(this.addEmployeeForm.value.address, this.addEmployeeForm.value.lastName, this.addEmployeeForm.value.name,
+        this.addEmployeeForm.value.parentName, this.addEmployeeForm.value.sex, this.addEmployeeForm.value.madenName,
+        this.addEmployeeForm.value.email, this.addEmployeeForm.value.phoneNumber, this.addEmployeeForm.value.companyId,
+        this.addEmployeeForm.value.cityId, dateFromAddForm);
+      //console.log(this.newEmployee.birthDate);
+      this.onPost();
+      this.showDialog = !this.showDialog;
+    }
+
     this.resetForm();
-    this.showDialog = !this.showDialog;
   }
 
   onGet() {
-    this.employeeService.getEmployees()
+    this.employeeService.getActiveEmployees()
       .subscribe(
       (response: any) => (this.employees = response),
       (error) => console.log(error)
       );
   }
 
-  onPost() {
-    this.employeeService.addEmployee(this.newEmployee)
+  onGetById(id: number) {
+    this.employeeService.getEmployeeById(id)
       .subscribe(
-        (response) => [this.employees.push(response.json()), console.log(this.employees)],
-        (error) => console.log(error)
+      (response: any) => (this.onPopulateJsonEmployee(response.address,
+        response.lastName,
+        response.firstName,
+        response.parentName, response.sex, response.madenName,
+        response.email, response.phoneNumber, response.companyId,
+        response.cityId, response.birthDate), this.transformFormattedDate(response.birthDate)),
+      (error) => console.log(error)
+      )
+  }
+
+  onPost() {
+    this.employeeService.addEmployee(this.Employee)
+      .subscribe(
+      (response) => [this.employees.push(response.json())],
+      (error) => console.log(error)
+      );
+  }
+
+  onPut() {
+    this.employeeService.editEmployee(this.Employee, this.selectedEmployeeId)
+      .subscribe(
+      (response) => this.employees.push(response.json()),
+      (error) => console.log(error)
       );
   }
 
   setActive() {
     this.EPQclicked = true;
   }
-  sendMessage(message:string): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     this._messageService.sendMessage(message);
   }
@@ -103,17 +178,29 @@ export class EmployeeComponent implements OnInit {
   //for datepicker
   myOptions: INgxMyDpOptions = {
     // other options...
-    dateFormat: 'yyyy-mm-dd',
+    dateFormat: 'yyyy-m-d',
+    maxYear: new Date().getFullYear()
   };
 
-  model: any = { date: { year: 2018, month: 10, day: 9 } };
+  //model: any = { date: { year: "2017", month: "1", day: "19" } };
   onDateChanged(event: IMyDateModel): void {
-  // date selected
-    console.log(event.date +  "  ++++");
+    // date selected
+    console.log(event.date + "  ++++");
+   
   }
+
+  model: any = { jsdate: new Date() };
 
   checkDateValidity(): void {
     let valid: boolean = this.ngxdp.isDateValid();
     console.log('Valid date in the input box: ', valid);
-}
+  }
+
+  onPopulateDropDownCity() {
+    this._cityService.getCities().
+      subscribe(
+        (response: any) => (this.cities = response),
+        (error) => (console.log(error))
+      );
+  }
 }
