@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  
+  <table class="table">
+    <ul class="nav navbar-nav">
+      <li>
+          <h4>Neradni dani:</h4>
+      </li>
+      <li><a href="#" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
+      <li><a href="#" id="help"><img src="assets/images/help.gif" /></a></li>
+      <li class="group-start"><a id="first"><img src="assets/images/first.gif" /></a></li>
+      <li><a id="prev"><img src="assets/images/prev.gif" /></a></li>
+      <li><a id="next"><img src="assets/images/next.gif" /></a></li>
+      <li><a id="last"><img src="assets/images/last.gif" /></a></li>
+      <li class="group-start">
+        <a (click)="showDialog = !showDialog" class="show_hand">
+          <img src="assets/images/add.gif" />
+        </a>
+      </li>
+      <li><a href="#" id="nextform"><img src="assets/images/nextform.gif" /></a></li>
+    </ul>
+
+    <tr class="header">
+      <th>Datum:</th>
+      <th>Opis</th>
+    </tr>
+    <tr *ngFor = "let nwd of nonworkingDays">
+      <td>{{nwd.nonworkingDayDescription}}</td>
+      <td>{{nwd.nonworkingDayDate}}</td>
+    </tr>
+  </table>
+
+  <app-dialog [(visible)]="showDialog">
+    <h3>Dodaj Neradni dan</h3>
+    <hr>
+    <form (ngSubmit)="onSubmit()" class="form-horizontal" #f="ngForm">
+      <fieldset>        
+        <!-- for date -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="nonworkingDayDate">Datum</label>
+            <div class="col-md-5">
+              <input class="form-control input-md" style="float: none" placeholder="Select a date" ngx-mydatepicker name="nonworkingDayDate"
+                 [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel"/>
+                 <span class="help-block" *ngIf="datePick.touched && !datePick.valid">Uneti datum nije validan.</span>
+                 
+            </div>
+          <span class="input-group-btn control-span">
+              <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                  <i class="glyphicon glyphicon-remove"></i>
+              </button>
+              <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                  <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="nonworkingDayDescription">Opis</label>
+          <div class="col-md-5">
+            <input id="nonworkingDayDescription"
+                   name="nonworkingDayDescription" 
+                   type="text" 
+                   placeholder="Opis neradnog dana" 
+                   class="form-control input-md"
+                   ngModel required #parentName="ngModel">
+            <span class="help-block" *ngIf="parentName.touched && !parentName.valid">Opis je obavezan</span>
+          </div>
+        </div>
+      <hr>
+      <div style="text-align: center">
+        <button 
+          class="btn btn-primary" 
+          type="submit" [disabled]="!f.valid">Potvrdi</button>
+        <button (click)="showDialog = !showDialog; resetForm();" class="btn">Close</button>
+      </div>
+     </fieldset> 
+    </form>
+
+  </app-dialog>
+
+</div>

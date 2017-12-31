@@ -19,6 +19,8 @@ import { ProfessionalQualificationService } from './professional-qualification/p
 import { DialogComponent } from './dialog/dialog.component';
 import { from } from 'rxjs/observable/from';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { NonworkingDayComponent } from './nonworking-day/nonworking-day.component';
+import { NonworkingDaysService } from './nonworking-day/nonworkingDayService';
 
 
 
@@ -28,6 +30,7 @@ const appRoutes: Routes = [
   { path: 'employees', component: EmployeeComponent},
   { path: 'ProfessionalQualification', component: ProfessionalQualificationComponent },
   { path: 'annualHolidayRegulations', component: AnnualHolidayRegulationComponent },
+  { path: 'nonworkingDay', component: NonworkingDayComponent },
     
   //{ path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },  
 ];
@@ -41,6 +44,7 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
+    NonworkingDayComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,8 @@ const appRoutes: Routes = [
               AnnualHolidayRegulationService, 
               EmployeeProfessionalQualificationService,
               MessageService,
-              ProfessionalQualificationService],
+              ProfessionalQualificationService,
+              NonworkingDaysService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
