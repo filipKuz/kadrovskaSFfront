@@ -5,6 +5,7 @@ import { MessageService } from '../shared/message.service';
 import { NgForm } from '@angular/forms';
 import { INgxMyDpOptions, IMyDateModel, NgxMyDatePickerDirective } from 'ngx-mydatepicker';
 import { CityService } from '../city/city.service';
+import { WorkPlaceService } from '../work-place/work-place.service';
 
 
 @Component({
@@ -20,7 +21,9 @@ export class EmployeeComponent implements OnInit {
 
   employees = [];
   cities = [];
+  workPlaces = [];
 
+  data = {"Employee": {}, "workPlaceId": 0};
   Employee = {
     "lastName": "",
     "firstName": "",
@@ -31,32 +34,76 @@ export class EmployeeComponent implements OnInit {
     "address": "",
     "email": "",
     "phoneNumber": "",
-    "numberOfVacationDaysLeft": 0,
     "cityId": 1,
-    "companyId": 1
+    "companyId": 0
   };
   EPQclicked: boolean = false;
   showDialog = false;
   showEditDialog = false;
-
+  showContactInfo: boolean = false;
   transormedDate: any = {};
+
+  pageNum = 0;
+  sizeNum = 5;
+  totalPages: number = 0;
 
   defaultSex = "M";
   selectedEmployeeId = 0;
   actionForModal = "";
-  selectedRow: Number;
+  selectedRow: number;
   setClickedRow: Function;
 
   constructor(private employeeService: EmployeeService,
-    private _messageService: MessageService, private _cityService: CityService) {
+    private _messageService: MessageService, private _cityService: CityService,
+    private _workPlaceService: WorkPlaceService) {
     this.setClickedRow = function (index) {
       this.selectedRow = index;
     }
+  }
+  onSelect() {
+    this.onGet();
+  }
+
+  selectPageNum(pageNum) {
+    this.pageNum = pageNum;
+    this.onGet();
+  }
+
+  onNext() {
+      if(this.selectedRow == null || this.employees.length - 1 == this.selectedRow) {
+        this.selectedRow = 0;
+        return;
+      }
+      this.selectedRow += 1;
+  }
+
+  onLastorFirst(condition:string) {
+    if (condition == "last") {
+      this.selectedRow = this.employees.length - 1;
+      return;
+    }
+    if (condition == "first") {
+      this.selectedRow = 0;
+      return;
+    }
+  }
+
+  onBack() {
+      if(this.selectedRow == null) {
+        this.selectedRow = 0;
+        return;
+      }
+      if(this.selectedRow == 0) {
+        this.selectedRow = this.employees.length - 1;
+        return;
+      }
+      this.selectedRow -= 1;
   }
 
   ngOnInit() {
     this.onGet();
     this.onPopulateDropDownCity();
+    this.onPopulateDrowDownWorkPlaces();
   }
 
   resetForm() {
@@ -77,12 +124,8 @@ export class EmployeeComponent implements OnInit {
 
   transformFormattedDate(date:string) {
     var dateSpilt = date.split("-");
-  
     this.transormedDate = {date : {year : Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
-    console.log(this.transormedDate);
-    
   }
-
 
   onPopulateJsonEmployee(addressE: string,
     lastName: string,
@@ -104,31 +147,30 @@ export class EmployeeComponent implements OnInit {
   }
 
   onSubmit() {
-
     if (this.actionForModal === "edit") {
-      this.Employee.birthDate = this.editEmployeeForm.value.birthDateEdit.formatted;
+      this.Employee.birthDate = this.transormedDate.date.year + "-" + this.transormedDate.date.month + "-" + this.transormedDate.date.day;
       this.onPut();
       this.resetEditForm();
       this.showEditDialog = !this.showEditDialog;
     }
     if (this.actionForModal === "add") {
-      var dateFromAddForm = this.addEmployeeForm.value.birthDate.formatted;
+      var dateFromAddForm = this.addEmployeeForm.value.birthDate.date.year + "-" + this.addEmployeeForm.value.birthDate.date.month + "-" + this.addEmployeeForm.value.birthDate.date.day;
       this.onPopulateJsonEmployee(this.addEmployeeForm.value.address, this.addEmployeeForm.value.lastName, this.addEmployeeForm.value.name,
         this.addEmployeeForm.value.parentName, this.addEmployeeForm.value.sex, this.addEmployeeForm.value.madenName,
-        this.addEmployeeForm.value.email, this.addEmployeeForm.value.phoneNumber, this.addEmployeeForm.value.companyId,
+        this.addEmployeeForm.value.email, this.addEmployeeForm.value.phoneNumber, 0,
         this.addEmployeeForm.value.cityId, dateFromAddForm);
-      //console.log(this.newEmployee.birthDate);
+      this.data["Employee"] = this.Employee;
+      this.data["workPlaceId"] = this.addEmployeeForm.value.workPlaceId;
       this.onPost();
       this.showDialog = !this.showDialog;
     }
-
     this.resetForm();
   }
 
   onGet() {
-    this.employeeService.getActiveEmployees()
+    this.employeeService.getActiveEmployees(this.pageNum, this.sizeNum)
       .subscribe(
-      (response: any) => (this.employees = response),
+      (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get("totalPages") * 10)),
       (error) => console.log(error)
       );
   }
@@ -136,20 +178,20 @@ export class EmployeeComponent implements OnInit {
   onGetById(id: number) {
     this.employeeService.getEmployeeById(id)
       .subscribe(
-      (response: any) => (this.onPopulateJsonEmployee(response.address,
+      (response: any) => (this.transformFormattedDate(response.birthDate),
+        this.onPopulateJsonEmployee(response.address,
         response.lastName,
         response.firstName,
         response.parentName, response.sex, response.madenName,
         response.email, response.phoneNumber, response.companyId,
-        response.cityId, response.birthDate), this.transformFormattedDate(response.birthDate)),
+        response.cityId, response.birthDate)),
       (error) => console.log(error)
       )
   }
 
   onPost() {
-    this.employeeService.addEmployee(this.Employee)
+    this.employeeService.addEmployee(this.data)
       .subscribe(
-      (response) => [this.employees.push(response.json())],
       (error) => console.log(error)
       );
   }
@@ -157,9 +199,17 @@ export class EmployeeComponent implements OnInit {
   onPut() {
     this.employeeService.editEmployee(this.Employee, this.selectedEmployeeId)
       .subscribe(
-      (response) => this.employees.push(response.json()),
       (error) => console.log(error)
       );
+  }
+
+  onFireEmployee(id) {
+    this.selectedEmployeeId = id;
+    this.employeeService.deleteEmployee(this.selectedEmployeeId)
+      .subscribe(
+      (error) => console.log(error)
+      );
+    this.onGet();
   }
 
   setActive() {
@@ -182,14 +232,14 @@ export class EmployeeComponent implements OnInit {
     maxYear: new Date().getFullYear()
   };
 
-  //model: any = { date: { year: "2017", month: "1", day: "19" } };
+  model: any = { date: { year: "2017", month: "1", day: "19" } };
   onDateChanged(event: IMyDateModel): void {
     // date selected
     console.log(event.date + "  ++++");
    
   }
 
-  model: any = { jsdate: new Date() };
+  //model: any = { jsdate: new Date() };
 
   checkDateValidity(): void {
     let valid: boolean = this.ngxdp.isDateValid();
@@ -202,5 +252,18 @@ export class EmployeeComponent implements OnInit {
         (response: any) => (this.cities = response),
         (error) => (console.log(error))
       );
+  }
+
+  onPopulateDrowDownWorkPlaces() {
+    this._workPlaceService.getAllWorkPlaces().
+      subscribe(
+        (response: any) => (this.workPlaces = response),
+        (error) => (console.log(error))
+      );
+  }
+
+  onShowContactInfo(id) {
+    this.onGetById(id);
+    this.showContactInfo = !this.showContactInfo;
   }
 }

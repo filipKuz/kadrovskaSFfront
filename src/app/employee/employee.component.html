@@ -1,31 +1,35 @@
 <div class="container-fluid">
 
-  <h3>Zaposleni:</h3>
+  
 
   <table class="table table-hover">
+    
     <ul class="nav navbar-nav">
       <li>
-        <a (click)="onGet()" class="show_hand" id="refresh">
+        <h4>Zaposleni:</h4>
+      </li>
+      <li>
+        <a (click)="onGet()" class="show_hand" id="refresh" title="Refresh.">
           <img src="assets/images/refresh.gif" />
         </a>
       </li>
       <li class="group-start">
-        <a id="first">
+        <a id="first" class="show_hand" (click)="onLastorFirst('first')" title="Select first.">
           <img src="assets/images/first.gif" />
         </a>
       </li>
       <li>
-        <a id="prev">
+        <a id="prev" class="show_hand" (click)="onBack()" title="Select previous.">
           <img src="assets/images/prev.gif" />
         </a>
       </li>
       <li>
-        <a id="next">
+        <a id="next" class="show_hand" (click)="onNext()" title="Select next.">
           <img src="assets/images/next.gif" />
         </a>
       </li>
       <li>
-        <a id="last">
+        <a id="last" class="show_hand" (click)="onLastorFirst('last')" title="Select last.">
           <img src="assets/images/last.gif" />
         </a>
       </li>
@@ -49,7 +53,7 @@
     </tr>
     <tr *ngFor="let employee of employees; let i = index" (click)="setClickedRow(i)" [class.active]="i == selectedRow">
       <td>
-        <a href="radnik.html">{{employee.firstName}} {{employee.lastName}}</a>
+        {{employee.firstName}} {{employee.lastName}}
       </td>
       <td>{{employee.parentName}}</td>
       <td>{{employee.birthDate}}</td>
@@ -61,7 +65,7 @@
         <a href="#">Radna istorija</a>
       </td>
       <td>
-        <a>Kontant Podaci</a>
+        <a class="show_hand" (click)="onShowContactInfo(employee.employeeId)">Kontant Podaci</a>
       </td>
       <td>
         <a href="#">Deca</a>
@@ -69,27 +73,49 @@
       <td><a title="Izmena!" class="show_hand" (click)="onEditEmployee(employee.employeeId)">
         <span class="glyphicon glyphicon-edit"></span>
       </a> &nbsp;
-      <a title="Brisanje!" class="show_hand">
+      <a title="Brisanje!" class="show_hand" (click)="onFireEmployee(employee.employeeId)">
         <span style="color: red;" class="glyphicon glyphicon-remove"></span>
       </a></td>
     </tr>
   </table>
   <br>
-  <hr>
-  <div class="container" style="text-align: center">
-    <ul class="pagination">
-      <li><a href="#">1</a></li>
-      <li class="active"><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-    </ul>
-    <br>
+  <div style="text-align: center">
+    <pagination [totalPages]="totalPages" (emitPageNum)="selectPageNum($event)"></pagination>
+  </div>
+  <div style="text-align: center;">
+    <p>Broj prikaza: </p>
+    <select class="selectpicker" [(ngModel)]="sizeNum" (change)="onSelect()">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+    </select>
   </div>
   <div [hidden]="!EPQclicked">
      <hr>
      <app-employee-professional-qualifications></app-employee-professional-qualifications>
   </div>
+  <app-dialog [(visible)]="showContactInfo">
+    <h4>Kontakt podaci</h4>
+    <hr>
+    <div style="text-align: center">
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="emailInfo">Email:</label>
+        <p class="col-md-5">{{Employee.email}}</p>
+      </div>
+      <div class="form-group">  
+        <label class="col-md-4 control-label" for="phoneInfo">Telefon:</label>
+        <p class="col-md-5">{{ Employee.phoneNumber }}</p>
+      </div>
+      <div class="form-group">   
+        <label class="col-md-4 control-label" for="addressInfo">Adresa:</label>
+        <p class="col-md-5">{{ Employee.address }}</p>
+      </div>
+      <div class="form-group"> 
+        <label class="col-md-4 control-label" for="cityInfo" >Grad:</label>
+        <p class="col-md-5">{{ Employee.cityId }}</p>
+      </div>
+    </div>  
+  </app-dialog>
 
   <app-dialog [(visible)]="showDialog">
     <h4>Dodaj zaposlenog</h4>
@@ -218,11 +244,10 @@
 
         <!-- Select Basic -->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="companyId">Kompanija</label>
+          <label class="col-md-4 control-label" for="workPlace">Radno mesto</label>
           <div class="col-md-4">
-            <select id="companyId" name="companyId" class="form-control" ngModel required>
-              <option value="1">Option one</option>
-              <option value="2">Option two</option>
+            <select id="workPlaceId" name="workPlaceId" class="form-control" ngModel required>
+              <option *ngFor="let wp of workPlaces" value="{{wp.workPlaceId}}">{{ wp.name }}</option>
             </select>
           </div>
         </div>
@@ -314,7 +339,7 @@
           <label class="col-md-4 control-label" for="birthDateEdit">Datum rodjenja</label>
           <div class="col-md-5">
             <input class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker name="birthDateEdit"
-            [ngModel]="transormedDate" [options]="myOptions" #dpE="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePickEdit="ngModel" required/>
+            [(ngModel)]="transormedDate" [options]="myOptions" #dpE="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePickEdit="ngModel" required/>
                <span class="help-block" *ngIf="datePickEdit.touched && !datePickEdit.valid">Uneti datum nije validan.</span>
           </div>
         <span class="input-group-btn control-span">
@@ -372,17 +397,6 @@
                    type="text" 
                    placeholder="broj telefona..." 
                    class="form-control input-md" ngModel [(ngModel)]="Employee.phoneNumber">
-          </div>
-        </div>
-
-        <!-- Select Basic -->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="companyIdEdit">Kompanija</label>
-          <div class="col-md-4">
-            <select id="companyIdEdit" name="companyIdEdit" class="form-control" ngModel required [(ngModel)]="Employee.companyId"> 
-              <option value="1">Option one</option>
-              <option value="2">Option two</option>
-            </select>
           </div>
         </div>
 

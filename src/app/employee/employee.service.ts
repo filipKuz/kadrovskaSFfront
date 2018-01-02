@@ -11,8 +11,22 @@ export class EmployeeService {
 
     constructor(private http: Http) { }
 
-    getActiveEmployees() {
-        return this.http.get(this._baseUrl + "/activeEmployees")
+    getActiveEmployees(pageNum, sizeNum) {
+        return this.http.get(this._baseUrl + "/activeEmployees?page=" + pageNum + "&size=" + sizeNum)
+            .map(
+            (response: Response) => {
+                const data = response;
+                return data;
+            }
+            ).catch(
+            (error: Response) => {
+                return Observable.throw('Something went wrong');
+            }
+            );
+    }
+
+    getEmployees() {
+        return this.http.get(this._baseUrl)
             .map(
             (response: Response) => {
                 const data = response.json();
@@ -48,6 +62,6 @@ export class EmployeeService {
     }
 
     deleteEmployee(id: number) {
-        return this.http.put(this._baseUrl + "/delete" + id, null);
+        return this.http.put(this._baseUrl + "/delete/" + id, null);
     }
 }

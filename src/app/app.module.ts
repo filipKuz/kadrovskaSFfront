@@ -13,7 +13,7 @@ import { EmployeeProfessionalQualificationsComponent } from './employee-professi
 import { EmployeeProfessionalQualificationService } from './employee-professional-qualifications/employee-professional-qualification.service';
 import { MessageService } from './shared/message.service';
 import { Routes, RouterModule } from "@angular/router"; 
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ProfessionalQualificationComponent } from './professional-qualification/professional-qualification.component';
 import { ProfessionalQualificationService } from './professional-qualification/professional-qualification.service';
 import { DialogComponent } from './dialog/dialog.component';
@@ -21,13 +21,21 @@ import { from } from 'rxjs/observable/from';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { CityService } from './city/city.service';
 
+import { NonworkingDayComponent } from './nonworking-day/nonworking-day.component';
+import { NonworkingDaysService } from './nonworking-day/nonworkingDayService';
+import { WorkPlaceService } from './work-place/work-place.service';
+import { NgbdPaginationAdvanced } from './shared/pagination.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
 const appRoutes: Routes = [
   { path: '', component: EmployeeComponent},
   { path: 'employees', component: EmployeeComponent},
-  { path: 'ProfessionalQualification', component: ProfessionalQualificationComponent },  
+  { path: 'ProfessionalQualification', component: ProfessionalQualificationComponent },
+  { path: 'annualHolidayRegulations', component: AnnualHolidayRegulationComponent },
+  { path: 'nonworkingDay', component: NonworkingDayComponent },
+    
   //{ path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },  
 ];
 
@@ -40,6 +48,7 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
+    NonworkingDayComponent, NgbdPaginationAdvanced
   ],
   imports: [
     BrowserModule,
@@ -47,14 +56,15 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
-    NgxMyDatePickerModule.forRoot()
+    NgxMyDatePickerModule.forRoot(), NgbModule.forRoot()
   ],
   providers: [EmployeeService,
               AnnualHolidayRegulationService, 
               EmployeeProfessionalQualificationService,
               MessageService,
               ProfessionalQualificationService,
-              CityService],
+              CityService,
+              NonworkingDaysService, WorkPlaceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
