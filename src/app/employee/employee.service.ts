@@ -11,8 +11,10 @@ export class EmployeeService {
 
     constructor(private http: Http) { }
 
-    getActiveEmployees(pageNum, sizeNum) {
-        return this.http.get(this._baseUrl + "/activeEmployees?page=" + pageNum + "&size=" + sizeNum)
+    getActiveEmployees(pageNum, sizeNum, searchTerm, sortTerm, sortDirection) {
+        return this.http.get(this._baseUrl + "/activeEmployees?page=" +
+            pageNum + "&size=" + 
+            sizeNum + "&searchTerm=" + searchTerm + "&sortTerm=" + sortTerm + "&sortDirection=" + sortDirection)
             .map(
             (response: Response) => {
                 const data = response;

@@ -52,6 +52,10 @@ export class EmployeeComponent implements OnInit {
   actionForModal = "";
   selectedRow: number;
   setClickedRow: Function;
+  searchTerm: string = "";
+  sortTerm: string = "";
+  sortDirection: string = "";
+  sort: string = "";
 
   constructor(private employeeService: EmployeeService,
     private _messageService: MessageService, private _cityService: CityService,
@@ -61,6 +65,14 @@ export class EmployeeComponent implements OnInit {
     }
   }
   onSelect() {
+    this.onGet();
+  }
+
+  onSelectSort() {
+    var splitSort = this.sort.split("-");
+    this.sortTerm = splitSort[0];
+    this.sortDirection = splitSort[1];
+    console.log(this.sortTerm + " " + this.sortDirection);
     this.onGet();
   }
 
@@ -168,7 +180,8 @@ export class EmployeeComponent implements OnInit {
   }
 
   onGet() {
-    this.employeeService.getActiveEmployees(this.pageNum, this.sizeNum)
+    this.employeeService.getActiveEmployees(this.pageNum, this.sizeNum, this.searchTerm,
+                                            this.sortTerm, this.sortDirection)
       .subscribe(
       (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get("totalPages") * 10)),
       (error) => console.log(error)
