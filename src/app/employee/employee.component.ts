@@ -192,6 +192,9 @@ export class EmployeeComponent implements OnInit {
   onPost() {
     this.employeeService.addEmployee(this.data)
       .subscribe(
+      (response: any) => (
+          this.onGet()
+      ),
       (error) => console.log(error)
       );
   }
@@ -199,6 +202,9 @@ export class EmployeeComponent implements OnInit {
   onPut() {
     this.employeeService.editEmployee(this.Employee, this.selectedEmployeeId)
       .subscribe(
+      (response: any) => (
+          this.onGet()
+      ),
       (error) => console.log(error)
       );
   }
@@ -207,9 +213,11 @@ export class EmployeeComponent implements OnInit {
     this.selectedEmployeeId = id;
     this.employeeService.deleteEmployee(this.selectedEmployeeId)
       .subscribe(
+      (response: any) => (
+          this.onGet()
+      ),
       (error) => console.log(error)
       );
-    this.onGet();
   }
 
   setActive() {
