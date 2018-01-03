@@ -37,6 +37,7 @@ export class EmployeeComponent implements OnInit {
     "cityId": 1,
     "companyId": 0
   };
+  AHRclicked: boolean = false;
   EPQclicked: boolean = false;
   showDialog = false;
   showEditDialog = false;
@@ -234,8 +235,16 @@ export class EmployeeComponent implements OnInit {
   }
 
   setActive() {
+    this.AHRclicked = false;
     this.EPQclicked = true;
   }
+
+ 
+  setActiveAHR() {
+    this.EPQclicked = false;
+    this.AHRclicked = true;
+  }
+
   sendMessage(message: string): void {
     // send message to subscribers via observable subject
     this._messageService.sendMessage(message);

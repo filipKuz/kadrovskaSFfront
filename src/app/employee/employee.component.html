@@ -55,6 +55,7 @@
       <th>Datum rodjenja</th>
       <th>Pol</th>
       <th>Strucna sprema</th>
+      <th>Resenje o godisnjem odmoru</th>
       <th>Radna istorija</th>
       <th>Kontakt podaci</th>
       <th>Deca</th>
@@ -69,6 +70,9 @@
       <td>{{employee.sex}}</td>
       <td>
         <a (click)="setActive();sendMessage(employee.employeeId);">Strucna sprema</a>
+      </td>
+      <td>
+        <a (click)="setActiveAHR();sendMessage(employee.employeeId);">Resenje o godisnjem odmoru</a>
       </td>
       <td>
         <a href="#">Radna istorija</a>
@@ -118,6 +122,12 @@
      <hr>
      <app-employee-professional-qualifications></app-employee-professional-qualifications>
   </div>
+
+  <div [hidden]="!AHRclicked">
+    <hr>
+    <app-annual-holiday-regulation></app-annual-holiday-regulation>
+ </div>
+
   <app-dialog [(visible)]="showContactInfo">
     <h4>Kontakt podaci</h4>
     <hr>
@@ -453,4 +463,4 @@
   
 </div>
   <br>
-  <br>
+<br>

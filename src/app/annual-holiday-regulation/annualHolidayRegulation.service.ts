@@ -1,5 +1,5 @@
+import { Http, Response } from "@angular/http";
 import { Injectable } from "@angular/core";
-import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 import { Observable } from "rxjs/Observable";
 
@@ -11,19 +11,18 @@ export class AnnualHolidayRegulationService {
 
     constructor(private http: Http) { }
 
-    getAnnualHolidayRegulations() {
-        return this.http.get(this._baseUrl)
+    getAHRByEmployee(employeeId: number) {
+
+        return this.http.get(this._baseUrl + "/findByEmployee/" + employeeId)
             .map(
-            (response: Response) => {
-                const data = response.json();
-
-
-                return data;
-            }
+                (response: Response) => {
+                    const data = response.json();
+                    return data;
+                }
             ).catch(
                 (error: Response) => {
-                  return Observable.throw('Something went wrong');
+                    return Observable.throw("Something went wrong");
                 }
-              );
+            );
     }
 }

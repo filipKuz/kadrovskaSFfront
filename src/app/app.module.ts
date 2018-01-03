@@ -33,7 +33,6 @@ const appRoutes: Routes = [
   { path: '', component: EmployeeComponent},
   { path: 'employees', component: EmployeeComponent},
   { path: 'ProfessionalQualification', component: ProfessionalQualificationComponent },
-  { path: 'annualHolidayRegulations', component: AnnualHolidayRegulationComponent },
   { path: 'nonworkingDay', component: NonworkingDayComponent },
     
   //{ path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },  
