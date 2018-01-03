@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { INgxMyDpOptions, IMyDateModel, NgxMyDatePickerDirective } from 'ngx-mydatepicker';
 import { CityService } from '../city/city.service';
 import { WorkPlaceService } from '../work-place/work-place.service';
+import { AnnualHolidayRegulationService } from '../annual-holiday-regulation/annualHolidayRegulation.service';
 
 
 @Component({
@@ -58,7 +59,7 @@ export class EmployeeComponent implements OnInit {
   sortDirection: string = "";
   sort: string = "";
 
-  constructor(private employeeService: EmployeeService,
+  constructor(private employeeService: EmployeeService,private ahrService: AnnualHolidayRegulationService,
     private _messageService: MessageService, private _cityService: CityService,
     private _workPlaceService: WorkPlaceService) {
     this.setClickedRow = function (index) {
@@ -111,6 +112,10 @@ export class EmployeeComponent implements OnInit {
         return;
       }
       this.selectedRow -= 1;
+  }
+
+  onCreateAHRs(){
+    this.ahrService.createAHRs();
   }
 
   ngOnInit() {

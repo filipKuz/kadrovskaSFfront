@@ -12,10 +12,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
 
   
   subscription: Subscription;
-  AHR = {
-    "businessYear": 0,
-    "numOfDays": 0,
-  };
+  AHRs = [];
   mess: string = "22";
 
   constructor(private _AHRS: AnnualHolidayRegulationService, private _messageService: MessageService) {
