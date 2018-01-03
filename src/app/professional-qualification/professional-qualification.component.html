@@ -3,20 +3,74 @@
     <table class="table">
       <ul class="nav navbar-nav">
         <li><h4>Strucne spreme:</h4></li>
-        <li><a href="#" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
-        <li class="group-start"><a id="first"><img src="assets/images/first.gif" /></a></li>
-        <li><a id="prev"><img src="assets/images/prev.gif" /></a></li>
-        <li><a id="next"><img src="assets/images/next.gif" /></a></li>
-        <li><a id="last"><img src="assets/images/last.gif" /></a></li>
-        <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="assets/images/add.gif" /></a></li>
+        <li><a (click)="getAllProfessionalQualifications()" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
+        <li class="group-start">
+          <a id="first" class="show_hand" (click)="onLastorFirst('first')" title="Select first.">
+            <img src="assets/images/first.gif" />
+          </a>
+        </li>
+        <li>
+          <a id="prev" class="show_hand" (click)="onBack()" title="Select previous.">
+            <img src="assets/images/prev.gif" />
+          </a>
+        </li>
+        <li>
+          <a id="next" class="show_hand" (click)="onNext()" title="Select next.">
+            <img src="assets/images/next.gif" />
+          </a>
+        </li>
+        <li>
+          <a id="last" class="show_hand" (click)="onLastorFirst('last')" title="Select last.">
+            <img src="assets/images/last.gif" />
+          </a>
+        </li>
+        <li class="group-start"><a (click)="addProfQualification = !addProfQualification"><img src="assets/images/add.gif"/></a></li>
       </ul>
   
       <tr class="header">
         <th>Naziv strucne spreme</th>
         <th>Stepen strucne spreme</th>
+        <th></th>
       </tr>
-      <tr *ngFor = "let pq of professionalQs">
+      <tr *ngFor = "let pq of professionalQs; let i = index" (click)="setClickedRow(i)" [class.active]="i == selectedRow" >
         <td>{{pq.name}}</td>
         <td>{{pq.qualificationDegree}}</td>
+        <td><a title="Izmena!" class="show_hand" (click)="onEditPQ(pq.professionalQualificationId)">
+          <span class="glyphicon glyphicon-edit"></span>
+        </a> &nbsp;
+        <a title="Brisanje!" class="show_hand" (click)="onDelete(pq.professionalQualificationId);">
+          <span style="color: red;" class="glyphicon glyphicon-remove"></span>
+        </a></td>
       </tr>
     </table>
+
+    <app-dialog [(visible)]="addProfQualification">
+      <form (ngSubmit)="onSubmit()" class="form-horizontal" #f="ngForm">
+        <fieldset>
+        
+        <legend>Dodaj strucnu spremu</legend>
+        
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="textinput">Naziv</label>  
+          <div class="col-md-5">
+          <input id="textinput" name="textinput" type="text" class="form-control input-md" ngModel required #pqName="ngModel">
+          <span class="help-block" *ngIf="pqName.touched && !pqName.valid">Naziv je obavezan.</span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="textinput">Stepen</label>  
+          <div class="col-md-5">
+          <input id="textinput" name="textinput" type="text" class="form-control input-md" ngModel required #pqDegree="ngModel">
+          <span class="help-block" *ngIf="pqDegree.touched && !pqDegree.valid">Stepen strucne spreme je obavezan.</span>
+          </div>
+        </div>
+        </fieldset>
+        <div style="text-align: center">
+          <button 
+            class="btn btn-primary" 
+            type="submit" [disabled]="!f.valid">Potvrdi</button>
+          <button (click)="addProfQualification = !addProfQualification; resetForm();" class="btn">Close</button>
+        </div>
+        </form>
+    </app-dialog>
