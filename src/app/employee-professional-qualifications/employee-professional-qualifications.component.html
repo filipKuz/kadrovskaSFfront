@@ -1,24 +1,22 @@
 <div class="container-fluid">
   
-  <table class="table">
-    <ul class="nav navbar-nav">
-      <li>
-          <h4>Strucna sprema zaposlenog:</h4>
-      </li>
-      <li><a href="#" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
-      <li class="group-start"><a id="first"><img src="assets/images/first.gif" /></a></li>
-      <li><a id="prev"><img src="assets/images/prev.gif" /></a></li>
-      <li><a id="next"><img src="assets/images/next.gif" /></a></li>
-      <li><a id="last"><img src="assets/images/last.gif" /></a></li>
-      <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="assets/images/add.gif" /></a></li>
+
+    <ul class="list-inline">
+        <li>
+            <h4>Strucna sprema zaposlenog:</h4>
+        </li>
+        <li><a href="#" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
+        <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="assets/images/add.gif" /></a></li>
     </ul>
 
+  <table class="table">
     <tr class="header">
       <th>Datum sticanja</th>
       <th>Obrazovna ustanova</th>
       <th>Naziv zanimanja</th>
       <th>Naziv strucne spreme</th>
       <th>Stepen strucne spreme</th>
+      <th></th>
     </tr>
     <tr *ngFor = "let epq of employeesEPQCs">
       <td>{{epq.dateOfGraduation}}</td>
@@ -26,5 +24,11 @@
       <td>{{epq.profession}}</td>
       <td>{{epq.professionalQId.name}}</td>
       <td>{{epq.professionalQId.qualificationDegree}}</td>
+      <td><a title="Izmena!" class="show_hand" (click)="onEditEmployee(employee.employeeId)">
+          <span class="glyphicon glyphicon-edit"></span>
+        </a> &nbsp;
+        <a title="Brisanje!" class="show_hand" (click)="onFireEmployee(employee.employeeId);">
+          <span style="color: red;" class="glyphicon glyphicon-remove"></span>
+        </a></td>
     </tr>
 </table>
