@@ -30,7 +30,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
   onGetAHRbyEmployeeId(employeeId) {
     this._AHRS.getAHRByEmployee(employeeId)
       .subscribe(
-      (response: any) => [(this.AHR = response)],
+      (response: any) => [(this.AHRs = response)],
       (error) => console.log(error)
       );
   }

@@ -7,6 +7,7 @@ import { INgxMyDpOptions, IMyDateModel, NgxMyDatePickerDirective } from 'ngx-myd
 import { CityService } from '../city/city.service';
 import { WorkPlaceService } from '../work-place/work-place.service';
 import { AnnualHolidayRegulationService } from '../annual-holiday-regulation/annualHolidayRegulation.service';
+import { fail } from 'assert';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class EmployeeComponent implements OnInit {
   };
   AHRclicked: boolean = false;
   EPQclicked: boolean = false;
+  CONTACTSclicked: boolean = false;
   showDialog = false;
   showEditDialog = false;
   showContactInfo: boolean = false;
@@ -240,14 +242,22 @@ export class EmployeeComponent implements OnInit {
   }
 
   setActive() {
+    this.CONTACTSclicked = false;
     this.AHRclicked = false;
     this.EPQclicked = true;
   }
 
  
   setActiveAHR() {
+    this.CONTACTSclicked = false;
     this.EPQclicked = false;
     this.AHRclicked = true;
+  }
+
+  setActiveCONTACTS(id){
+    this.EPQclicked = false;
+    this.AHRclicked = false;
+    this.CONTACTSclicked = true;
   }
 
   sendMessage(message: string): void {
@@ -295,10 +305,5 @@ export class EmployeeComponent implements OnInit {
         (response: any) => (this.workPlaces = response),
         (error) => (console.log(error))
       );
-  }
-
-  onShowContactInfo(id) {
-    this.onGetById(id);
-    this.showContactInfo = !this.showContactInfo;
   }
 }
