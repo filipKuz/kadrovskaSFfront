@@ -25,4 +25,18 @@ export class AnnualHolidayRegulationService {
                 }
             );
     }
+
+    createAHRs(){
+        return this.http.post(this._baseUrl + "/createAnnualHolidayRegulations",null)
+        .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+        ).catch(
+            (error: Response) => {
+                return Observable.throw("Something went wrong");
+            }
+        );
+    }
 }

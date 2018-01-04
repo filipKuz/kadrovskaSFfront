@@ -26,6 +26,7 @@ import { NonworkingDaysService } from './nonworking-day/nonworkingDayService';
 import { WorkPlaceService } from './work-place/work-place.service';
 import { NgbdPaginationAdvanced } from './shared/pagination.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ContactsComponent } from './contacts/contacts.component';
 
 
 
@@ -47,7 +48,7 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
-    NonworkingDayComponent, NgbdPaginationAdvanced
+    NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent
   ],
   imports: [
     BrowserModule,

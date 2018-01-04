@@ -6,9 +6,9 @@
       <th>Poslovna godina</th>
       <th>Broj slobodnih dana</th>
     </tr>
-    <tr>
-      <td>{{AHR.businessYear}}</td>
-      <td>{{AHR.numOfDays}}</td>
+    <tr *ngFor = "let ahr of AHRs" >
+      <td>{{ahr.businessYear}}</td>
+      <td>{{ahr.numOfDays}}</td>
     </tr>
   </table>
 </div>

@@ -12,10 +12,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
 
   
   subscription: Subscription;
-  AHR = {
-    "businessYear": 0,
-    "numOfDays": 0,
-  };
+  AHRs = [];
   mess: string = "22";
 
   constructor(private _AHRS: AnnualHolidayRegulationService, private _messageService: MessageService) {
@@ -33,7 +30,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
   onGetAHRbyEmployeeId(employeeId) {
     this._AHRS.getAHRByEmployee(employeeId)
       .subscribe(
-      (response: any) => [(this.AHR = response)],
+      (response: any) => [(this.AHRs = response)],
       (error) => console.log(error)
       );
   }
