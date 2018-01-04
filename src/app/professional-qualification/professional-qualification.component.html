@@ -45,23 +45,23 @@
     </table>
 
     <app-dialog [(visible)]="addProfQualification">
-      <form (ngSubmit)="onSubmit()" class="form-horizontal" #f="ngForm">
+      <form (ngSubmit)="onSubmit('add')" class="form-horizontal" #f="ngForm">
         <fieldset>
         
         <legend>Dodaj strucnu spremu</legend>
         
         <div class="form-group">
-          <label class="col-md-4 control-label" for="textinput">Naziv</label>  
+          <label class="col-md-4 control-label" for="name">Naziv</label>  
           <div class="col-md-5">
-          <input id="textinput" name="textinput" type="text" class="form-control input-md" ngModel required #pqName="ngModel">
+          <input id="name" name="name" type="text" class="form-control input-md" [(ngModel)]="pqNameVar" required #pqName="ngModel">
           <span class="help-block" *ngIf="pqName.touched && !pqName.valid">Naziv je obavezan.</span>
           </div>
         </div>
         
         <div class="form-group">
-          <label class="col-md-4 control-label" for="textinput">Stepen</label>  
+          <label class="col-md-4 control-label" for="degree">Stepen</label>  
           <div class="col-md-5">
-          <input id="textinput" name="textinput" type="text" class="form-control input-md" ngModel required #pqDegree="ngModel">
+          <input id="degree" name="degree" type="text" class="form-control input-md" [(ngModel)]="pqDegreeVar" required #pqDegree="ngModel">
           <span class="help-block" *ngIf="pqDegree.touched && !pqDegree.valid">Stepen strucne spreme je obavezan.</span>
           </div>
         </div>
@@ -70,7 +70,41 @@
           <button 
             class="btn btn-primary" 
             type="submit" [disabled]="!f.valid">Potvrdi</button>
-          <button (click)="addProfQualification = !addProfQualification; resetForm();" class="btn">Close</button>
+          <button type="button" (click)="addProfQualification = !addProfQualification; resetForm();" class="btn">Close</button>
+        </div>
+        </form>
+    </app-dialog>
+
+
+
+    <app-dialog [(visible)]="editProfQualification">
+      <form (ngSubmit)="onSubmit('edit')" class="form-horizontal" #fE="ngForm">
+        <fieldset>
+        
+        <legend>Izmeni strucnu spremu</legend>
+        
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="nameEdit">Naziv</label>  
+          <div class="col-md-5">
+          <input id="nameEdit" name="nameEdit" type="text" class="form-control input-md" [(ngModel)]="pq.name" required #pqNameEdit="ngModel">
+          <span class="help-block" *ngIf="pqNameEdit.touched && !pqNameEdit.valid">Naziv je obavezan.</span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="degreeEdit">Stepen</label>  
+          <div class="col-md-5">
+          <input id="degreeEdit" name="degreeEdit" type="text" class="form-control input-md" [(ngModel)]="pq.qualificationDegree" required #pqDegreeEdit="ngModel">
+          <span class="help-block" *ngIf="pqDegreeEdit.touched && !pqDegreeEdit.valid">Stepen strucne spreme je obavezan.</span>
+          </div>
+        </div>
+        </fieldset>
+        <hr>
+        <div style="text-align: center">
+          <button 
+            class="btn btn-primary" 
+            type="submit" [disabled]="!fE.valid">Potvrdi</button>
+          <button type="button" (click)="editProfQualification = !editProfQualification; resetEditForm();" class="btn">Close</button>
         </div>
         </form>
     </app-dialog>

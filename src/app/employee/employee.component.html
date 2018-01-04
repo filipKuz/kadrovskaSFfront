@@ -302,7 +302,7 @@
         <button 
           class="btn btn-primary" 
           type="submit" [disabled]="!f.valid">Potvrdi</button>
-        <button (click)="showDialog = !showDialog; resetForm();" class="btn">Close</button>
+        <button type="button" (click)="showDialog = !showDialog; resetForm();" class="btn">Close</button>
       </div>
       
     </form>
@@ -450,7 +450,7 @@
         <button 
           class="btn btn-primary" 
           type="submit" [disabled]="!fE.valid">Potvrdi</button>
-        <button (click)="showEditDialog = !showEditDialog; resetEditForm();" class="btn">Close</button>
+        <button type="button" (click)="showEditDialog = !showEditDialog; resetEditForm();" class="btn">Close</button>
       </div>
       
     </form>
