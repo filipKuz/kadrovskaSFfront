@@ -103,14 +103,14 @@
         <label class="col-md-4 control-label" for="dateOfGraduationEdit">Datum sticanja</label>
         <div class="col-md-5">
           <input class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker name="dateOfGraduationEdit"
-          [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePickEdit="ngModel" required/>
+          [(ngModel)]="model" [options]="myOptions" #dpE="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePickEdit="ngModel" required/>
             <span class="help-block" *ngIf="datePickEdit.touched && !datePickEdit.valid">Uneti datum nije validan.</span>
         </div>
       <span class="input-group-btn control-span">
-          <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+          <button type="button" class="btn btn-default" (click)="dpE.clearDate()">
               <i class="glyphicon glyphicon-remove"></i>
           </button>
-          <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+          <button type="button" class="btn btn-default" (click)="dpE.toggleCalendar()">
               <i class="glyphicon glyphicon-calendar"></i>
           </button>
       </span>

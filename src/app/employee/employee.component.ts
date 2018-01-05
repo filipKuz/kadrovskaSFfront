@@ -67,7 +67,7 @@ export class EmployeeComponent implements OnInit {
 
 
 
-  constructor(private employeeService: EmployeeService,private ahrService: AnnualHolidayRegulationService,
+  constructor(private employeeService: EmployeeService, private ahrService: AnnualHolidayRegulationService,
     private _messageService: MessageService, private _cityService: CityService,
     private _workPlaceService: WorkPlaceService) {
     this.setClickedRow = function (index) {
@@ -145,7 +145,8 @@ export class EmployeeComponent implements OnInit {
   }
 
   onCreateAHRs(){
-    this.ahrService.createAHRs();
+    this.ahrService.createAHRs().subscribe();
+    alert("Zahtevi kreirani");
   }
 
   ngOnInit() {
