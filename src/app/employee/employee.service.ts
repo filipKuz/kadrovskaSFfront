@@ -27,6 +27,22 @@ export class EmployeeService {
             );
     }
 
+    getAllEmployees(pageNum, sizeNum, searchTerm, sortTerm, sortDirection) {
+        return this.http.get(this._baseUrl + "/allEmployees?page=" +
+            pageNum + "&size=" + 
+            sizeNum + "&searchTerm=" + searchTerm + "&sortTerm=" + sortTerm + "&sortDirection=" + sortDirection)
+            .map(
+            (response: Response) => {
+                const data = response;
+                return data;
+            }
+            ).catch(
+            (error: Response) => {
+                return Observable.throw('Something went wrong');
+            }
+            );
+    }
+
     getEmployees() {
         return this.http.get(this._baseUrl)
             .map(

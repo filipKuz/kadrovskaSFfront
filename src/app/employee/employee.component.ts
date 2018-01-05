@@ -8,6 +8,7 @@ import { CityService } from '../city/city.service';
 import { WorkPlaceService } from '../work-place/work-place.service';
 import { AnnualHolidayRegulationService } from '../annual-holiday-regulation/annualHolidayRegulation.service';
 import { fail } from 'assert';
+import { element } from 'protractor';
 
 
 @Component({
@@ -24,6 +25,9 @@ export class EmployeeComponent implements OnInit {
   employees = [];
   cities = [];
   workPlaces = [];
+
+  all = false;
+  activeE = true;
 
   data = {"Employee": {}, "workPlaceId": 0};
   Employee = {
@@ -61,6 +65,8 @@ export class EmployeeComponent implements OnInit {
   sortDirection: string = "";
   sort: string = "";
 
+
+
   constructor(private employeeService: EmployeeService,private ahrService: AnnualHolidayRegulationService,
     private _messageService: MessageService, private _cityService: CityService,
     private _workPlaceService: WorkPlaceService) {
@@ -68,8 +74,30 @@ export class EmployeeComponent implements OnInit {
       this.selectedRow = index;
     }
   }
+
+  onGetBySearch() {
+    this.onSelect();
+  }
+
+  radioButton(action) {
+    if(action == "all") {
+      this.all = !this.all;
+      this.activeE = !this.activeE;
+      this.onGetAll();
+    }if(action == "active") {
+      this.activeE = !this.activeE;
+      this.all = !this.all;
+      this.onGet();
+    }
+  }
+
   onSelect() {
-    this.onGet();
+    if(this.all) {
+      this.onGetAll();
+    }
+    if(this.activeE) {
+      this.onGet();
+    }
   }
 
   onSelectSort() {
@@ -77,12 +105,12 @@ export class EmployeeComponent implements OnInit {
     this.sortTerm = splitSort[0];
     this.sortDirection = splitSort[1];
     console.log(this.sortTerm + " " + this.sortDirection);
-    this.onGet();
+    this.onSelect();
   }
 
   selectPageNum(pageNum) {
     this.pageNum = pageNum;
-    this.onGet();
+    this.onSelect();
   }
 
   onNext() {
@@ -121,7 +149,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.onGet();
+    this.onGetAll();
     this.onPopulateDropDownCity();
     this.onPopulateDrowDownWorkPlaces();
   }
@@ -189,6 +217,15 @@ export class EmployeeComponent implements OnInit {
 
   onGet() {
     this.employeeService.getActiveEmployees(this.pageNum, this.sizeNum, this.searchTerm,
+                                            this.sortTerm, this.sortDirection)
+      .subscribe(
+      (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get("totalPages") * 10)),
+      (error) => console.log(error)
+      );
+  }
+
+  onGetAll() {
+    this.employeeService.getAllEmployees(this.pageNum, this.sizeNum, this.searchTerm,
                                             this.sortTerm, this.sortDirection)
       .subscribe(
       (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get("totalPages") * 10)),

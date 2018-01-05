@@ -26,4 +26,18 @@ export class CityService {
             );
     }
 
+    getCityById(id) {
+        return this._http.get(this._baseUrl + "/" + id)
+            .map(
+                (response: Response) => {
+                    const data = response.json();
+                    return data;
+                }
+            ).catch(
+                (error: Error) => {
+                    return Observable.throw("Something went wrong");
+                }
+            );
+    }
+
 }

@@ -5,8 +5,8 @@
         <li>
             <h4>Strucna sprema zaposlenog:</h4>
         </li>
-        <li><a href="#" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
-        <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="assets/images/add.gif" /></a></li>
+        <li><a id="refresh" (click)="onGetEPQbyEmployeeId(mess)"><img src="assets/images/refresh.gif"/></a></li>
+        <li class="group-start"><a (click)="onAddButton()"><img src="assets/images/add.gif"/></a></li>
     </ul>
 
   <table class="table">
@@ -24,11 +24,132 @@
       <td>{{epq.profession}}</td>
       <td>{{epq.professionalQId.name}}</td>
       <td>{{epq.professionalQId.qualificationDegree}}</td>
-      <td><a title="Izmena!" class="show_hand" (click)="onEditEmployee(employee.employeeId)">
+      <td><a title="Izmena!" class="show_hand" (click)="onEditButton(epq.ePQId)">
           <span class="glyphicon glyphicon-edit"></span>
         </a> &nbsp;
-        <a title="Brisanje!" class="show_hand" (click)="onFireEmployee(employee.employeeId);">
+        <a title="Brisanje!" class="show_hand" (click)="onDeleteEPQ(epq.ePQId);">
           <span style="color: red;" class="glyphicon glyphicon-remove"></span>
         </a></td>
     </tr>
 </table>
+
+<app-dialog [(visible)]="addEmployeeProfQ">
+  <form (ngSubmit)="onSubmit('add')" class="form-horizontal" #f="ngForm">
+      <fieldset>
+      
+      <legend>Dodaj strucnu spremu zaposlenom</legend>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="dateOfGraduation">Datum sticanja</label>
+        <div class="col-md-5">
+          <input class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker name="dateOfGraduation"
+          [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel" required/>
+            <span class="help-block" *ngIf="datePick.touched && !datePick.valid">Uneti datum nije validan.</span>
+        </div>
+      <span class="input-group-btn control-span">
+          <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+              <i class="glyphicon glyphicon-remove"></i>
+          </button>
+          <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+              <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+      </span>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="educInst">Obrazovna ustanova</label>  
+        <div class="col-md-5">
+        <input id="educInst" name="educInst" type="text" class="form-control input-md" [(ngModel)]="epq.educationalInstitution" required maxlength="30" #edInst="ngModel">
+        <span class="help-block" *ngIf="edInst.touched && !edInst.valid">Obrazovna ustanova je obavezna.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="profession">Profesija</label>  
+        <div class="col-md-5">
+        <input id="profession" name="profession" type="text" class="form-control input-md" [(ngModel)]="epq.profession" required maxlength="30" #prof="ngModel">
+        <span class="help-block" *ngIf="prof.touched && !prof.valid">Profesija je obavezna.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="pq">Strucna sprema</label>
+        <div class="col-md-6">
+          <select id="pq" name="pq" class="form-control" ngModel required [(ngModel)]="epq.professionalQId.professionalQualificationId"> 
+            <option *ngFor="let pq of profQ" value="{{ pq.professionalQualificationId }}">{{pq.name}}, {{pq.qualificationDegree}}</option>
+          </select>
+        </div>
+      </div>
+
+      </fieldset>
+      <hr>
+      <div style="text-align: center">
+        <button 
+          class="btn btn-primary" 
+          type="submit" [disabled]="!f.valid">Potvrdi</button>
+        <button type="button" (click)="addEmployeeProfQ = !addEmployeeProfQ; resetForm();" class="btn">Close</button>
+      </div>
+    </form>
+</app-dialog>
+
+
+<app-dialog [(visible)]="editEmployeeProfQ">
+  <form (ngSubmit)="onSubmit('edit')" class="form-horizontal" #fE="ngForm">
+      <fieldset>
+      
+      <legend>Izmeni strucnu spremu zaposlenom</legend>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="dateOfGraduationEdit">Datum sticanja</label>
+        <div class="col-md-5">
+          <input class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker name="dateOfGraduationEdit"
+          [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePickEdit="ngModel" required/>
+            <span class="help-block" *ngIf="datePickEdit.touched && !datePickEdit.valid">Uneti datum nije validan.</span>
+        </div>
+      <span class="input-group-btn control-span">
+          <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+              <i class="glyphicon glyphicon-remove"></i>
+          </button>
+          <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+              <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+      </span>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="educInstEdit">Obrazovna ustanova</label>  
+        <div class="col-md-5">
+        <input id="educInstEdit" name="educInstEdit" type="text" class="form-control input-md" [(ngModel)]="epq.educationalInstitution" required maxlength="30" #edInstE="ngModel">
+        <span class="help-block" *ngIf="edInstE.touched && !edInstE.valid">Obrazovna ustanova je obavezna.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="professionEdit">Profesija</label>  
+        <div class="col-md-5">
+        <input id="professionEdit" name="professionEdit" type="text" class="form-control input-md" [(ngModel)]="epq.profession" required maxlength="30" #profE="ngModel">
+        <span class="help-block" *ngIf="profE.touched && !profE.valid">Profesija je obavezna.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="pqEdit">Strucna sprema</label>
+        <div class="col-md-6">
+          <select id="pqEdit" name="pqEdit" class="form-control" ngModel required [(ngModel)]="epq.professionalQId.professionalQualificationId"> 
+            <option *ngFor="let pq of profQ" value="{{ pq.professionalQualificationId }}">{{pq.name}}, {{pq.qualificationDegree}}</option>
+          </select>
+        </div>
+      </div>
+
+      </fieldset>
+      <hr>
+      <div style="text-align: center">
+        <button 
+          class="btn btn-primary" 
+          type="submit" [disabled]="!fE.valid">Potvrdi</button>
+        <button type="button" (click)="editEmployeeProfQ = !editEmployeeProfQ; resetEditForm();" class="btn">Close</button>
+      </div>
+    </form>
+</app-dialog>
+
+</div>

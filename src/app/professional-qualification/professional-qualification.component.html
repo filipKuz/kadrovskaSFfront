@@ -53,7 +53,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="name">Naziv</label>  
           <div class="col-md-5">
-          <input id="name" name="name" type="text" class="form-control input-md" [(ngModel)]="pqNameVar" required #pqName="ngModel">
+          <input id="name" name="name" type="text" class="form-control input-md" [(ngModel)]="pqNameVar" required #pqName="ngModel" maxlength="30">
           <span class="help-block" *ngIf="pqName.touched && !pqName.valid">Naziv je obavezan.</span>
           </div>
         </div>
@@ -61,7 +61,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="degree">Stepen</label>  
           <div class="col-md-5">
-          <input id="degree" name="degree" type="text" class="form-control input-md" [(ngModel)]="pqDegreeVar" required #pqDegree="ngModel">
+          <input id="degree" name="degree" type="text" class="form-control input-md" [(ngModel)]="pqDegreeVar" required #pqDegree="ngModel" maxlength="3">
           <span class="help-block" *ngIf="pqDegree.touched && !pqDegree.valid">Stepen strucne spreme je obavezan.</span>
           </div>
         </div>
@@ -86,7 +86,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="nameEdit">Naziv</label>  
           <div class="col-md-5">
-          <input id="nameEdit" name="nameEdit" type="text" class="form-control input-md" [(ngModel)]="pq.name" required #pqNameEdit="ngModel">
+          <input id="nameEdit" name="nameEdit" type="text" class="form-control input-md" [(ngModel)]="pq.name" maxlength="30" required #pqNameEdit="ngModel">
           <span class="help-block" *ngIf="pqNameEdit.touched && !pqNameEdit.valid">Naziv je obavezan.</span>
           </div>
         </div>
@@ -94,7 +94,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="degreeEdit">Stepen</label>  
           <div class="col-md-5">
-          <input id="degreeEdit" name="degreeEdit" type="text" class="form-control input-md" [(ngModel)]="pq.qualificationDegree" required #pqDegreeEdit="ngModel">
+          <input id="degreeEdit" name="degreeEdit" type="text" class="form-control input-md" maxlength="3" [(ngModel)]="pq.qualificationDegree" required #pqDegreeEdit="ngModel">
           <span class="help-block" *ngIf="pqDegreeEdit.touched && !pqDegreeEdit.valid">Stepen strucne spreme je obavezan.</span>
           </div>
         </div>

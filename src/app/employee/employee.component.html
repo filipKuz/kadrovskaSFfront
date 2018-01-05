@@ -30,19 +30,23 @@
         <img src="assets/images/last.gif" />
       </a>
     </li>
-    <li class="group-start">
+    <li class="group-start" *ngIf="!all">
       <a (click)="showDialog = !showDialog; actionForModal = 'add'" class="show_hand">
         <img src="assets/images/add.gif" />
       </a>
     </li>
     <li>
-      <button (click)="onCreateAHRs()" type="button" class="btn btn-primary">Kreiraj resenja za godisnje odmore</button>
+      <label class="radio-inline"><input (click)="radioButton('active')" checked="checked" type="radio" name="optradio">Zaposleni</label>
+      <label class="radio-inline"><input (click)="radioButton('all')" type="radio" name="optradio">Baza radnika</label>
+    </li>
+    <li>
+      <button *ngIf="!all" (click)="onCreateAHRs()" type="button" class="btn btn-primary">Kreiraj resenja za godisnje odmore</button>
     </li>
     <li class="pull-right">
         <form action="" class="search-form inline">
             <div class="form-group has-feedback">
             <label for="search" class="sr-only">Search</label>
-            <input [(ngModel)]="searchTerm" (keyup)="onGet()" autocomplete="off" type="text" class="form-control" name="search" id="search" placeholder="search">
+            <input [(ngModel)]="searchTerm" (keyup)="onGetBySearch()" autocomplete="off" type="text" class="form-control" name="search" id="search" placeholder="search">
               <span class="glyphicon glyphicon-search form-control-feedback"></span>
             </div>
         </form>
@@ -100,17 +104,17 @@
       <td>
         <a href="#">Deca</a>
       </td>
-      <td><a title="Izmena!" class="show_hand" (click)="onEditEmployee(employee.employeeId)">
+      <td><a *ngIf="!all" title="Izmena!" class="show_hand" (click)="onEditEmployee(employee.employeeId)">
         <span class="glyphicon glyphicon-edit"></span>
       </a> &nbsp;
-      <a title="Brisanje!" class="show_hand" (click)="onFireEmployee(employee.employeeId);">
+      <a *ngIf="!all" title="Brisanje!" class="show_hand" (click)="onFireEmployee(employee.employeeId);">
         <span style="color: red;" class="glyphicon glyphicon-remove"></span>
       </a></td>
     </tr>
   </table>
 
   <div style="text-align: center">
-    <pagination [totalPages]="totalPages" (emitPageNum)="selectPageNum($event)"></pagination>
+    <pagination [(totalPages)]="totalPages" (emitPageNum)="selectPageNum($event)"></pagination>
   </div>
   <div style="text-align: center;">
     Broj prikaza:
@@ -149,7 +153,7 @@
                    type="text" 
                    placeholder="prezime..." 
                    class="form-control input-md" 
-                   ngModel required #lastName="ngModel">
+                   ngModel required #lastName="ngModel" maxlength="15">
             <span class="help-block" *ngIf="lastName.touched && !lastName.valid">Prezime je obavezno.</span>
           </div>
         </div>
@@ -164,7 +168,7 @@
                    placeholder="ime..." 
                    class="form-control input-md"
                    ngModel required #firstName="ngModel">
-            <span class="help-block" *ngIf="firstName.touched && !firstName.valid">Ime je obavezno.</span>
+            <span class="help-block" *ngIf="firstName.touched && !firstName.valid" maxlength="15">Ime je obavezno.</span>
           </div>
         </div>
 
@@ -178,7 +182,7 @@
                    placeholder="ime jednog roditelja..." 
                    class="form-control input-md"
                    ngModel required #parentName="ngModel">
-            <span class="help-block" *ngIf="parentName.touched && !parentName.valid">Ime jednog roditelja je obavezno.</span>
+            <span class="help-block" *ngIf="parentName.touched && !parentName.valid" maxlength="15">Ime jednog roditelja je obavezno.</span>
           </div>
         </div>
 
@@ -219,7 +223,7 @@
                    name="madenName" 
                    type="text" 
                    placeholder="ostaviti prazno ukoliko ga nema..." 
-                   class="form-control input-md" ngModel>
+                   class="form-control input-md" ngModel maxlength="15">
           </div>
         </div>
 
@@ -232,7 +236,7 @@
                    type="text" 
                    placeholder="adresa..." 
                    class="form-control input-md" ngModel required #address="ngModel">
-                   <span class="help-block" *ngIf="address.touched && !address.valid">Adresa je obavezna.</span>
+                   <span class="help-block" *ngIf="address.touched && !address.valid" maxlength="45">Adresa je obavezna.</span>
           </div>
         </div>
 
@@ -244,7 +248,7 @@
                    name="email" 
                    type="text" 
                    placeholder="email..." 
-                   class="form-control input-md" ngModel>
+                   class="form-control input-md" ngModel maxlength="30">
           </div>
         </div>
         <p>
@@ -256,7 +260,7 @@
                    name="phoneNumber" 
                    type="text" 
                    placeholder="broj telefona..." 
-                   class="form-control input-md" ngModel>
+                   class="form-control input-md" ngModel maxlength="20">
           </div>
         </div>
 
@@ -308,7 +312,7 @@
                    type="text" 
                    placeholder="prezime..." 
                    class="form-control input-md" 
-                   ngModel required #lastNameEdit="ngModel" [(ngModel)]="Employee.lastName">
+                   ngModel required #lastNameEdit="ngModel" [(ngModel)]="Employee.lastName" maxlength="15">
             <span class="help-block" *ngIf="lastNameEdit.touched && !lastNameEdit.valid">Prezime je obavezno.</span>
           </div>
         </div>
@@ -322,7 +326,7 @@
                    type="text" 
                    placeholder="ime..." 
                    class="form-control input-md"
-                   ngModel required #firstNameEdit="ngModel" [(ngModel)]="Employee.firstName">
+                   ngModel required #firstNameEdit="ngModel" [(ngModel)]="Employee.firstName" maxlength="15">
             <span class="help-block" *ngIf="firstNameEdit.touched && !firstNameEdit.valid">Ime je obavezno.</span>
           </div>
         </div>
@@ -336,7 +340,7 @@
                    type="text" 
                    placeholder="ime jednog roditelja..." 
                    class="form-control input-md"
-                   ngModel required #parentNameEdit="ngModel" [(ngModel)]="Employee.parentName">
+                   ngModel required #parentNameEdit="ngModel" [(ngModel)]="Employee.parentName" maxlength="15">
             <span class="help-block" *ngIf="parentNameEdit.touched && !parentNameEdit.valid">Ime jednog roditelja je obavezno.</span>
           </div>
         </div>
@@ -378,7 +382,7 @@
                    name="madenNameEdit" 
                    type="text" 
                    placeholder="ostaviti prazno ukoliko ga nema..." 
-                   class="form-control input-md" ngModel [(ngModel)]="Employee.madenName">
+                   class="form-control input-md" ngModel [(ngModel)]="Employee.madenName" maxlength="15">
           </div>
         </div>
 
@@ -390,7 +394,7 @@
                    name="addressEdit" 
                    type="text" 
                    placeholder="adresa..." 
-                   class="form-control input-md" ngModel #address="ngModel" [(ngModel)]="Employee.address">
+                   class="form-control input-md" ngModel #address="ngModel" [(ngModel)]="Employee.address" maxlength="45">
           </div>
         </div>
 
@@ -402,7 +406,7 @@
                    name="emailEdit" 
                    type="text" 
                    placeholder="email..." 
-                   class="form-control input-md" ngModel [(ngModel)]="Employee.email">
+                   class="form-control input-md" ngModel [(ngModel)]="Employee.email" maxlength="30">
           </div>
         </div>
         <p>
@@ -414,7 +418,7 @@
                    name="phoneNumberEdit" 
                    type="text" 
                    placeholder="broj telefona..." 
-                   class="form-control input-md" ngModel [(ngModel)]="Employee.phoneNumber">
+                   class="form-control input-md" ngModel [(ngModel)]="Employee.phoneNumber" maxlength="20">
           </div>
         </div>
 
