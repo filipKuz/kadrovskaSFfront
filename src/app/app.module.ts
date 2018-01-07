@@ -27,6 +27,7 @@ import { WorkPlaceService } from './work-place/work-place.service';
 import { NgbdPaginationAdvanced } from './shared/pagination.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContactsComponent } from './contacts/contacts.component';
+import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 
 
 
@@ -48,7 +49,7 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
-    NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent
+    NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent, VacationRequestComponent
   ],
   imports: [
     BrowserModule,

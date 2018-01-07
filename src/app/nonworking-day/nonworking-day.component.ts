@@ -12,7 +12,9 @@ import { MessageService } from '../shared/message.service';
 export class NonworkingDayComponent implements OnInit {
 
   @ViewChild('f') addNonworkingDayForm: NgForm;
+  @ViewChild('fE') editNonworkingDayForm: NgForm;
   @ViewChild('dp') ngxdp: NgxMyDatePickerDirective;
+  @ViewChild('dpE') ngxdpEditModal: NgxMyDatePickerDirective;
 
 
   nonworkingDays=[];
@@ -23,9 +25,14 @@ export class NonworkingDayComponent implements OnInit {
 
 EPQclicked: boolean = false; 
 showDialog = false;
+showEditDialog = false;
+selectedNWDId = 0;
+actionForModal = "";
+transormedDate: any = {};
 
 selectedRow: Number;
 setClickedRow: Function;
+
 
 
   constructor(private nonWorkingDayService: NonworkingDaysService, 
@@ -37,6 +44,26 @@ setClickedRow: Function;
 
   ngOnInit() {
     this.onGet();
+  }
+
+  onGetById(id: number) {
+    this.nonWorkingDayService.getNonworkingDayById(id)
+      .subscribe(
+      (response: any) => (this.transformFormattedDate(response.nonworkingDayDate),
+        this.onPopulateJsonNWD(
+        response.nonworkingDayDate,
+        response.nonworkingDayDescription,
+        )),
+      (error) => console.log(error)
+      )
+  }
+
+  onPopulateJsonNWD(
+    nonworkingDayDate: string,
+    nonworkingDayDescription: string,
+    ) {
+    this.newNonworkingDay.nonworkingDayDate = nonworkingDayDate;
+    this.newNonworkingDay.nonworkingDayDescription = nonworkingDayDescription;
   }
 
   onGet() {
@@ -53,6 +80,10 @@ setClickedRow: Function;
     this.addNonworkingDayForm.resetForm();
   }
 
+  resetEditForm() {
+    this.editNonworkingDayForm.resetForm();
+  }
+
   onSubmit() {
     this.newNonworkingDay.nonworkingDayDescription = this.addNonworkingDayForm.value.nonworkingDayDescription;
     this.newNonworkingDay.nonworkingDayDate = this.addNonworkingDayForm.value.nonworkingDayDate.formatted;
@@ -60,6 +91,16 @@ setClickedRow: Function;
     this.onPost();
     this.resetForm();
     this.showDialog = !this.showDialog;
+  }
+
+
+
+  onEditNonworkingDay(id) {
+    this.resetEditForm();
+    this.selectedNWDId= id;
+    this.actionForModal = "edit";
+    this.onGetById(this.selectedNWDId);
+    this.showEditDialog = !this.showEditDialog;
   }
 
   onPost() {
@@ -70,9 +111,21 @@ setClickedRow: Function;
       );
   }
 
-  setActive() {
-    this.EPQclicked = true;
+  onPut() {
+    this.nonWorkingDayService.editNWD(this.newNonworkingDay, this.selectedNWDId)
+      .subscribe(
+      (response: any) => (
+          this.onGet()
+      ),
+      (error) => console.log(error)
+      );
   }
+
+  transformFormattedDate(date:string) {
+    var dateSpilt = date.split("-");
+    this.transormedDate = {date : {year : Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
+  }
+
   sendMessage(message:string): void {
     // send message to subscribers via observable subject
     this._messageService.sendMessage(message);

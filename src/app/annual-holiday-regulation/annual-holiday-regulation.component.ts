@@ -18,7 +18,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
   constructor(private _AHRS: AnnualHolidayRegulationService, private _messageService: MessageService) {
     this.subscription = this._messageService.getMessage()
                                             .subscribe(message => 
-                                                { this.mess = message.text, console.log(this.mess + "  " + message.text), this.onGetAHRbyEmployeeId(message.text); }
+                                                { this.mess = message.text, this.onGetAHRbyEmployeeId(message.text); }
                                               );
                                               
   }

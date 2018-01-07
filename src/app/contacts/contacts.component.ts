@@ -37,7 +37,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
               private _cityService: CityService) {
     this.subscription = this._messageService.getMessage()
                                             .subscribe(message => 
-                                                { this.mess = message.text, console.log(this.mess + "  " + message.text), this.onGetEmployeeByID(message.text); }
+                                                { this.mess = message.text, this.onGetEmployeeByID(message.text); }
                                               );
                                               
   }

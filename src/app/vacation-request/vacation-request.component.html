@@ -1,0 +1,37 @@
+<div class="container-fluid">
+
+  <ul class="list-inline">
+    <li>
+      <h4>Zahtevi za godisnji :</h4>
+    </li>
+    <li>
+      <a (click)="onGet()" class="show_hand" id="refresh" title="Refresh.">
+        <img src="assets/images/refresh.gif" />
+      </a>
+    </li>
+    <li class="group-start" *ngIf="!all">
+      <a (click)="showDialog = !showDialog; actionForModal = 'add'" class="show_hand">
+        <img src="assets/images/add.gif" />
+      </a>
+    </li>
+  </ul>
+
+  <table class="table">
+
+    <tr class="header">
+      <th>Pocetni datum</th>
+      <th>Broj dana</th>
+      <th>Krajnji datum</th>
+      <th></th>
+    </tr>
+    <tr *ngFor = "let vReq of vReqss" >
+      <td>{{vReq.businessYear}}</td>
+      <td>{{vReq.numOfDays}}</td>
+      <td>{{vReq.numOfDays}}</td>
+      <td><a title="Brisanje!" class="show_hand" (click)="onDeleteNonworkingDay(nwd.nonWorkingDayId);">
+        <span style="color: red;" class="glyphicon glyphicon-remove"></span>
+      </a></td>
+    </tr>
+  </table>
+  
+</div>

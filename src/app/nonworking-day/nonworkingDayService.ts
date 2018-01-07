@@ -30,4 +30,23 @@ export class NonworkingDaysService {
     addNonworkingDay(nonworkingDay: any){
         return this.http.post(this._baseUrl, nonworkingDay);
     }
+
+    getNonworkingDayById(id: number) {
+        return this.http.get(this._baseUrl + "/" + id)
+            .map(
+                (response: Response) => {
+                    const data = response.json();
+                    return data;
+                }
+            ).catch(
+                (error: Response) => {
+                    return Observable.throw('Something went wrong');
+                }
+            );
+    }
+
+    editNWD(nonworkingDay: any, id: number) {
+        return this.http.put(this._baseUrl + "/" + id, nonworkingDay);
+    }
+
 }

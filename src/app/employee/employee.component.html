@@ -42,15 +42,6 @@
     <li>
       <button *ngIf="!all" (click)="onCreateAHRs()" type="button" class="btn btn-primary">Kreiraj resenja za godisnje odmore</button>
     </li>
-    <li class="pull-right">
-        <form action="" class="search-form inline">
-            <div class="form-group has-feedback">
-            <label for="search" class="sr-only">Search</label>
-            <input [(ngModel)]="searchTerm" (keyup)="onGetBySearch()" autocomplete="off" type="text" class="form-control" name="search" id="search" placeholder="search">
-              <span class="glyphicon glyphicon-search form-control-feedback"></span>
-            </div>
-        </form>
-    </li>
     <li class="pull-right"> 
       <div class="form-group">
           <select class="form-control" [(ngModel)]="sort" (change)="onSelectSort()">
@@ -68,6 +59,16 @@
             </select>
       </div>      
     </li>
+    <li class="pull-right">
+        <form action="" class="search-form inline">
+            <div class="form-group has-feedback">
+            <label for="search" class="sr-only">Search</label>
+            <input [(ngModel)]="searchTerm" (keyup)="onGetBySearch()" autocomplete="off" type="text" class="form-control" name="search" id="search" placeholder="pretraga">
+              <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            </div>
+        </form>
+    </li>
+    
   </ul>
   <table class="table table-hover">
     <tr class="header">

@@ -5,3 +5,7 @@ input.ng-invalid.ng-touched {
 .show_hand {
     cursor: pointer;
 }
+
+a {
+    cursor: pointer;
+  }

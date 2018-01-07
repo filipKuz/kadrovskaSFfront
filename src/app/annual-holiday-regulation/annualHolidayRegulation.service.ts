@@ -39,4 +39,18 @@ export class AnnualHolidayRegulationService {
             }
         );
     }
+
+    getById(vReq: number) {
+        return this.http.get(this._baseUrl + "/findById/" + vReq)
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            ).catch(
+            (error: Response) => {
+                return Observable.throw("Something went wrong");
+            }
+            );
+    }
 }
