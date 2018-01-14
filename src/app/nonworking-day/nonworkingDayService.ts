@@ -49,4 +49,8 @@ export class NonworkingDaysService {
         return this.http.put(this._baseUrl + "/" + id, nonworkingDay);
     }
 
+    deleteNWD(id) {
+        return this.http.delete(this._baseUrl + "/" + id);
+    }
+
 }

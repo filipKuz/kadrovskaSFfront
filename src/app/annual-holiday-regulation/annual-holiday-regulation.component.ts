@@ -14,23 +14,27 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
   subscription: Subscription;
   AHRs = [];
   mess: string = "22";
+  ahrId: number = 0;
 
   constructor(private _AHRS: AnnualHolidayRegulationService, private _messageService: MessageService) {
     this.subscription = this._messageService.getMessage()
                                             .subscribe(message => 
-                                                { this.mess = message.text, this.onGetAHRbyEmployeeId(message.text); }
+                                                { this.mess = message.text, this.onGetAHRbyEmployeeId(message.text),
+                                                  
+                                                  console.log(this.AHRs) }
                                               );
                                               
   }
 
 
   ngOnInit() {
+    
   }
 
   onGetAHRbyEmployeeId(employeeId) {
     this._AHRS.getAHRByEmployee(employeeId)
       .subscribe(
-      (response: any) => [(this.AHRs = response)],
+      (response: any) => [(this.AHRs = response, this.ahrId = this.AHRs[0].annualHolidayRegulationId)],
       (error) => console.log(error)
       );
   }

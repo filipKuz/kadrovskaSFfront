@@ -11,10 +11,11 @@ export class VacationReqService {
     constructor(private http: Http) { }
 
     getByAHR(annualHolidayRegulationId: number) {
-        return this.http.get(this._baseUrl + "//findByAHRId/" + annualHolidayRegulationId)
+        return this.http.get(this._baseUrl + "/findByAHRId/" + annualHolidayRegulationId)
             .map(
             (response: Response) => {
                 const data = response.json();
+                console.log(data);
                 return data;
             }
             ).catch(
@@ -29,6 +30,8 @@ export class VacationReqService {
             .map(
             (response: Response) => {
                 const data = response.json();
+                console.log(data);
+                
                 return data;
             }
             ).catch(

@@ -28,6 +28,7 @@ import { NgbdPaginationAdvanced } from './shared/pagination.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContactsComponent } from './contacts/contacts.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
+import { VacationReqService } from './vacation-request/vacation-request.service';
 
 
 
@@ -65,7 +66,7 @@ const appRoutes: Routes = [
               MessageService,
               ProfessionalQualificationService,
               CityService,
-              NonworkingDaysService, WorkPlaceService],
+              NonworkingDaysService, WorkPlaceService, VacationReqService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

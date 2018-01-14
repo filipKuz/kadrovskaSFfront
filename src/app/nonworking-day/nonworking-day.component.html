@@ -10,7 +10,7 @@
     <li><a id="next"><img src="assets/images/next.gif" /></a></li>
     <li><a id="last"><img src="assets/images/last.gif" /></a></li>
     <li class="group-start">
-      <a (click)="showDialog = !showDialog" class="show_hand">
+      <a (click)="onAddNonworkingDay()" class="show_hand">
         <img src="assets/images/add.gif" />
       </a>
     </li>
@@ -28,7 +28,7 @@
       <td><a title="Izmena!" class="show_hand" (click)="onEditNonworkingDay(nwd.nonWorkingDayId)">
         <span class="glyphicon glyphicon-edit"></span>
       </a> &nbsp;
-      <a title="Brisanje!" class="show_hand" (click)="onDeleteNonworkingDay(nwd.nonWorkingDayId);">
+      <a title="Brisanje!" class="show_hand" (click)="onDeleteNWD(nwd.nonWorkingDayId);">
         <span style="color: red;" class="glyphicon glyphicon-remove"></span>
       </a></td>
     </tr>
@@ -37,16 +37,15 @@
   <app-dialog [(visible)]="showDialog">
     <h3>Dodaj neradni dan</h3>
     <hr>
-    <form (ngSubmit)="onSubmit()" class="form-horizontal" #f="ngForm">
+    <form (ngSubmit)="onSubmit('add')" class="form-horizontal" #f="ngForm">
       <fieldset>        
         <!-- for date -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="nonworkingDayDate">Datum</label>
             <div class="col-md-5">
-              <input class="form-control input-md" style="float: none" placeholder="Select a date" ngx-mydatepicker name="nonworkingDayDate"
-                 [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel"/>
-                 <span class="help-block" *ngIf="datePick.touched && !datePick.valid">Uneti datum nije validan.</span>
-                 
+              <input class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker id="nonworkingDayDate" name="nonworkingDayDate"
+                 [(ngModel)]="nwdDateVar" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel"/>
+                 <span class="help-block" *ngIf="datePick.touched && !datePick.valid">Uneti datum nije validan.</span>               
             </div>
           <span class="input-group-btn control-span">
               <button type="button" class="btn btn-default" (click)="dp.clearDate()">
@@ -66,8 +65,9 @@
                    type="text" 
                    placeholder="Opis neradnog dana" 
                    class="form-control input-md"
-                   ngModel required #parentName="ngModel">
-            <span class="help-block" *ngIf="parentName.touched && !parentName.valid">Opis je obavezan</span>
+                   [(ngModel)]="nwdDesVar"
+                   ngModel required #NWDdescription="ngModel">
+            <span class="help-block" *ngIf="NWDdescription.touched && !NWDdescription.valid">Opis je obavezan</span>
           </div>
         </div>
       <hr>
@@ -75,7 +75,7 @@
         <button 
           class="btn btn-primary" 
           type="submit" [disabled]="!f.valid">Potvrdi</button>
-        <button (click)="showDialog = !showDialog; resetForm();" class="btn">Close</button>
+        <button type="button" class="btn" (click)="showDialog = !showDialog; resetForm();">Close</button>
       </div>
      </fieldset> 
     </form>
@@ -84,21 +84,21 @@
   <app-dialog [(visible)]="showEditDialog">
     <h3>Izmeni neradni dan</h3>
     <hr>
-    <form (ngSubmit)="onSubmit()" class="form-horizontal" #fe="ngForm">
+    <form (ngSubmit)="onSubmit('edit')" class="form-horizontal" #fe="ngForm">
       <fieldset>        
         <!-- for date -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="nonworkingDayDate">Datum</label>
             <div class="col-md-5">
-              <input class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker name="nonworkingDayDateEdit"
-                 [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel"/>
+              <input class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker id="nonworkingDayDateEdit" name="nonworkingDayDateEdit"
+                 [(ngModel)]="model" [options]="myOptions" #dpE="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel"/>
                  <span class="help-block" *ngIf="datePick.touched && !datePick.valid">Uneti datum nije validan.</span>          
             </div>
           <span class="input-group-btn control-span">
-              <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+              <button type="button" class="btn btn-default" (click)="dpE.clearDate()">
                   <i class="glyphicon glyphicon-remove"></i>
               </button>
-              <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+              <button type="button" class="btn btn-default" (click)="dpE.toggleCalendar()">
                   <i class="glyphicon glyphicon-calendar"></i>
               </button>
           </span>
@@ -111,8 +111,9 @@
                    type="text" 
                    placeholder="Opis neradnog dana" 
                    class="form-control input-md"
-                   ngModel required #parentName="ngModel">
-            <span class="help-block" *ngIf="parentName.touched && !parentName.valid">Opis je obavezan</span>
+                   [(ngModel)]="nonworkingDay.nonworkingDayDescription"
+                   ngModel required #NWDdescription="ngModel">
+            <span class="help-block" *ngIf="NWDdescription.touched && !NWDdescription.valid">Opis je obavezan</span>
           </div>
         </div>
       <hr>
@@ -120,7 +121,7 @@
         <button 
           class="btn btn-primary" 
           type="submit" [disabled]="!fe.valid">Potvrdi</button>
-        <button (click)="showDialog = !showDialog; resetForm();" class="btn">Close</button>
+          <button  type="button"  class="btn"(click)="showEditDialog = !showEditDialog; resetForm();">Close</button>
       </div>
      </fieldset> 
     </form>

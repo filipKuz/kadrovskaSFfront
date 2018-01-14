@@ -12,16 +12,21 @@ import { MessageService } from '../shared/message.service';
 export class NonworkingDayComponent implements OnInit {
 
   @ViewChild('f') addNonworkingDayForm: NgForm;
-  @ViewChild('fE') editNonworkingDayForm: NgForm;
+  @ViewChild('fe') editNonworkingDayForm: NgForm;
   @ViewChild('dp') ngxdp: NgxMyDatePickerDirective;
   @ViewChild('dpE') ngxdpEditModal: NgxMyDatePickerDirective;
 
 
+
+  model: any = { date: { year: "2018", month: "1", day: "19" } };
   nonworkingDays=[];
-  newNonworkingDay = {
-    "nonworkingDayDescription": "",
-    "nonworkingDayDate": "",
+  nonworkingDay = {
+    "nonworkingDayDescription":"",
+    "nonworkingDayDate": this.model.date.year + "-" + this.model.date.month + "-" + this.model.date.day,
 };
+
+nwdDateVar: any;
+nwdDesVar: string;
 
 EPQclicked: boolean = false; 
 showDialog = false;
@@ -29,6 +34,7 @@ showEditDialog = false;
 selectedNWDId = 0;
 actionForModal = "";
 transormedDate: any = {};
+
 
 selectedRow: Number;
 setClickedRow: Function;
@@ -51,19 +57,19 @@ setClickedRow: Function;
       .subscribe(
       (response: any) => (this.transformFormattedDate(response.nonworkingDayDate),
         this.onPopulateJsonNWD(
-        response.nonworkingDayDate,
-        response.nonworkingDayDescription,
+          response.nonworkingDayDescription,
+          response.nonworkingDayDate,
         )),
       (error) => console.log(error)
       )
   }
 
   onPopulateJsonNWD(
-    nonworkingDayDate: string,
     nonworkingDayDescription: string,
+    nonworkingDayDate: any,
     ) {
-    this.newNonworkingDay.nonworkingDayDate = nonworkingDayDate;
-    this.newNonworkingDay.nonworkingDayDescription = nonworkingDayDescription;
+    this.nonworkingDay.nonworkingDayDescription = nonworkingDayDescription;
+    this.nonworkingDay.nonworkingDayDate = nonworkingDayDate;
   }
 
   onGet() {
@@ -84,27 +90,51 @@ setClickedRow: Function;
     this.editNonworkingDayForm.resetForm();
   }
 
-  onSubmit() {
-    this.newNonworkingDay.nonworkingDayDescription = this.addNonworkingDayForm.value.nonworkingDayDescription;
-    this.newNonworkingDay.nonworkingDayDate = this.addNonworkingDayForm.value.nonworkingDayDate.formatted;
-    console.log(this.newNonworkingDay);
-    this.onPost();
+  onDateChanged(event: IMyDateModel): void {
+    this.nonworkingDay.nonworkingDayDate = this.model.date.year + "-" + this.model.date.month + "-" + this.model.date.day;
+  }
+
+
+  
+
+  onSubmit(action) {
+    if (action === "add") {
+      this.onPopulateJsonNWD(this.nwdDesVar, this.nwdDateVar.formatted);
+      this.onPost();
+      this.showDialog = !this.showDialog;
+    }if (action === "edit") {
+      this.onPopulateJsonNWD(this.editNonworkingDayForm.value.nonworkingDayDescriptionEdit, this.editNonworkingDayForm.value.nonworkingDayDateEdit.formatted);
+      this.onPut();
+      this.showEditDialog = !this.showEditDialog;
+      this.resetEditForm();
+    }
+  }
+
+
+  onAddNonworkingDay(){
     this.resetForm();
     this.showDialog = !this.showDialog;
   }
 
-
-
   onEditNonworkingDay(id) {
     this.resetEditForm();
     this.selectedNWDId= id;
-    this.actionForModal = "edit";
     this.onGetById(this.selectedNWDId);
     this.showEditDialog = !this.showEditDialog;
   }
 
+
+  onDeleteNWD(id) {
+    this.nonWorkingDayService.deleteNWD(id).subscribe(
+      (response: any) => (
+          this.onGet()
+      ),
+      (error) => console.log(error)
+      );
+  }
+
   onPost() {
-    this.nonWorkingDayService.addNonworkingDay(this.newNonworkingDay)
+    this.nonWorkingDayService.addNonworkingDay(this.nonworkingDay)
       .subscribe(
         (response) => [this.nonworkingDays.push(response.json()), console.log(this.nonworkingDays)],
         (error) => console.log(error)
@@ -112,7 +142,7 @@ setClickedRow: Function;
   }
 
   onPut() {
-    this.nonWorkingDayService.editNWD(this.newNonworkingDay, this.selectedNWDId)
+    this.nonWorkingDayService.editNWD(this.nonworkingDay, this.selectedNWDId)
       .subscribe(
       (response: any) => (
           this.onGet()
@@ -123,7 +153,8 @@ setClickedRow: Function;
 
   transformFormattedDate(date:string) {
     var dateSpilt = date.split("-");
-    this.transormedDate = {date : {year : Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
+    this.model = {date : {year : Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
+    console.log(this.nonworkingDay.nonworkingDayDate);
   }
 
   sendMessage(message:string): void {
