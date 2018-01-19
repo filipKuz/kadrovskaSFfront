@@ -71,6 +71,20 @@ export class EmployeeService {
             );
     }
 
+    getEmployeeByCityId(cityId: number) {
+        return this.http.get(this._baseUrl + '/byCity/' + cityId)
+            .map(
+            (response: Response) => {
+                const data = response.json();
+                return data;
+            }
+            ).catch(
+            (error: Response) => {
+                return Observable.throw('Something went wrong');
+            }
+            );
+    }
+
     addEmployee(employee: any) {
         return this.http.post(this._baseUrl, employee);
     }

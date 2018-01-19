@@ -29,7 +29,7 @@ export class EmployeeComponent implements OnInit {
   all = false;
   activeE = true;
 
-  data = {"Employee": {}, "workPlaceId": 0};
+  data = { "Employee": {}, "workPlaceId": 0 };
   Employee = {
     "lastName": "",
     "firstName": "",
@@ -80,11 +80,11 @@ export class EmployeeComponent implements OnInit {
   }
 
   radioButton(action) {
-    if(action == "all") {
+    if (action == "all") {
       this.all = !this.all;
       this.activeE = !this.activeE;
       this.onGetAll();
-    }if(action == "active") {
+    } if (action == "active") {
       this.activeE = !this.activeE;
       this.all = !this.all;
       this.onGet();
@@ -92,10 +92,10 @@ export class EmployeeComponent implements OnInit {
   }
 
   onSelect() {
-    if(this.all) {
+    if (this.all) {
       this.onGetAll();
     }
-    if(this.activeE) {
+    if (this.activeE) {
       this.onGet();
     }
   }
@@ -114,14 +114,14 @@ export class EmployeeComponent implements OnInit {
   }
 
   onNext() {
-      if(this.selectedRow == null || this.employees.length - 1 == this.selectedRow) {
-        this.selectedRow = 0;
-        return;
-      }
-      this.selectedRow += 1;
+    if (this.selectedRow == null || this.employees.length - 1 == this.selectedRow) {
+      this.selectedRow = 0;
+      return;
+    }
+    this.selectedRow += 1;
   }
 
-  onLastorFirst(condition:string) {
+  onLastorFirst(condition: string) {
     if (condition == "last") {
       this.selectedRow = this.employees.length - 1;
       return;
@@ -133,18 +133,18 @@ export class EmployeeComponent implements OnInit {
   }
 
   onBack() {
-      if(this.selectedRow == null) {
-        this.selectedRow = 0;
-        return;
-      }
-      if(this.selectedRow == 0) {
-        this.selectedRow = this.employees.length - 1;
-        return;
-      }
-      this.selectedRow -= 1;
+    if (this.selectedRow == null) {
+      this.selectedRow = 0;
+      return;
+    }
+    if (this.selectedRow == 0) {
+      this.selectedRow = this.employees.length - 1;
+      return;
+    }
+    this.selectedRow -= 1;
   }
 
-  onCreateAHRs(){
+  onCreateAHRs() {
     this.ahrService.createAHRs().subscribe();
     alert("Zahtevi kreirani");
   }
@@ -171,9 +171,9 @@ export class EmployeeComponent implements OnInit {
     this.showEditDialog = !this.showEditDialog;
   }
 
-  transformFormattedDate(date:string) {
+  transformFormattedDate(date: string) {
     var dateSpilt = date.split("-");
-    this.transormedDate = {date : {year : Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
+    this.transormedDate = { date: { year: Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
   }
 
   onPopulateJsonEmployee(addressE: string,
@@ -182,7 +182,7 @@ export class EmployeeComponent implements OnInit {
     parentName: string,
     sex: string,
     madenName: string, email: string, phoneNumber: string, companyId: number, cityId: number, birthDate: string) {
-    this.Employee.address = addressE
+    this.Employee.address = addressE;
     this.Employee.lastName = lastName;
     this.Employee.firstName = firstName;
     this.Employee.parentName = parentName;
@@ -218,7 +218,7 @@ export class EmployeeComponent implements OnInit {
 
   onGet() {
     this.employeeService.getActiveEmployees(this.pageNum, this.sizeNum, this.searchTerm,
-                                            this.sortTerm, this.sortDirection)
+      this.sortTerm, this.sortDirection)
       .subscribe(
       (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get("totalPages") * 10)),
       (error) => console.log(error)
@@ -227,7 +227,7 @@ export class EmployeeComponent implements OnInit {
 
   onGetAll() {
     this.employeeService.getAllEmployees(this.pageNum, this.sizeNum, this.searchTerm,
-                                            this.sortTerm, this.sortDirection)
+      this.sortTerm, this.sortDirection)
       .subscribe(
       (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get("totalPages") * 10)),
       (error) => console.log(error)
@@ -239,11 +239,11 @@ export class EmployeeComponent implements OnInit {
       .subscribe(
       (response: any) => (this.transformFormattedDate(response.birthDate),
         this.onPopulateJsonEmployee(response.address,
-        response.lastName,
-        response.firstName,
-        response.parentName, response.sex, response.madenName,
-        response.email, response.phoneNumber, response.companyId,
-        response.cityId, response.birthDate)),
+          response.lastName,
+          response.firstName,
+          response.parentName, response.sex, response.madenName,
+          response.email, response.phoneNumber, response.companyId,
+          response.cityId, response.birthDate)),
       (error) => console.log(error)
       )
   }
@@ -252,7 +252,7 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.addEmployee(this.data)
       .subscribe(
       (response: any) => (
-          this.onGet()
+        this.onGet()
       ),
       (error) => console.log(error)
       );
@@ -262,7 +262,7 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.editEmployee(this.Employee, this.selectedEmployeeId)
       .subscribe(
       (response: any) => (
-          this.onGet()
+        this.onGet()
       ),
       (error) => console.log(error)
       );
@@ -273,7 +273,7 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.deleteEmployee(this.selectedEmployeeId)
       .subscribe(
       (response: any) => (
-          this.onGet()
+        this.onGet()
       ),
       (error) => console.log(error)
       );
@@ -285,14 +285,14 @@ export class EmployeeComponent implements OnInit {
     this.EPQclicked = true;
   }
 
- 
+
   setActiveAHR() {
     this.CONTACTSclicked = false;
     this.EPQclicked = false;
     this.AHRclicked = true;
   }
 
-  setActiveCONTACTS(id){
+  setActiveCONTACTS(id) {
     this.EPQclicked = false;
     this.AHRclicked = false;
     this.CONTACTSclicked = true;
@@ -319,7 +319,7 @@ export class EmployeeComponent implements OnInit {
   onDateChanged(event: IMyDateModel): void {
     // date selected
     console.log(event.date + "  ++++");
-   
+
   }
 
   //model: any = { jsdate: new Date() };
@@ -330,18 +330,18 @@ export class EmployeeComponent implements OnInit {
   }
 
   onPopulateDropDownCity() {
-    this._cityService.getCities().
+    this._cityService.getAllCities().
       subscribe(
-        (response: any) => (this.cities = response),
-        (error) => (console.log(error))
+      (response: any) => (this.cities = response),
+      (error) => (console.log(error))
       );
   }
 
   onPopulateDrowDownWorkPlaces() {
     this._workPlaceService.getAllWorkPlaces().
       subscribe(
-        (response: any) => (this.workPlaces = response),
-        (error) => (console.log(error))
+      (response: any) => (this.workPlaces = response),
+      (error) => (console.log(error))
       );
   }
 }

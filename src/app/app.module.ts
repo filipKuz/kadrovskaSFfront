@@ -9,10 +9,11 @@ import { HttpModule } from '@angular/http';
 import { AnnualHolidayRegulationComponent } from './annual-holiday-regulation/annual-holiday-regulation.component';
 import { AnnualHolidayRegulationService } from './annual-holiday-regulation/annualHolidayRegulation.service';
 import { NavigationComponent } from './navigation/navigation.component';
+import { CityComponent } from './city/city.component';
 import { EmployeeProfessionalQualificationsComponent } from './employee-professional-qualifications/employee-professional-qualifications.component';
 import { EmployeeProfessionalQualificationService } from './employee-professional-qualifications/employee-professional-qualification.service';
 import { MessageService } from './shared/message.service';
-import { Routes, RouterModule } from "@angular/router"; 
+import { Routes, RouterModule } from "@angular/router";
 import { FormsModule } from '@angular/forms';
 import { ProfessionalQualificationComponent } from './professional-qualification/professional-qualification.component';
 import { ProfessionalQualificationService } from './professional-qualification/professional-qualification.service';
@@ -29,16 +30,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContactsComponent } from './contacts/contacts.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { VacationReqService } from './vacation-request/vacation-request.service';
+import { CityEmployeesComponent } from './city/city-employees.component';
 
 
 
 const appRoutes: Routes = [
-  { path: '', component: EmployeeComponent},
-  { path: 'employees', component: EmployeeComponent},
+  { path: '', component: EmployeeComponent },
+  { path: 'employees', component: EmployeeComponent },
   { path: 'ProfessionalQualification', component: ProfessionalQualificationComponent },
   { path: 'nonworkingDay', component: NonworkingDayComponent },
-    
-  //{ path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },  
+  { path: 'cities', component: CityComponent }
+
+  // { path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },
 ];
 
 @NgModule({
@@ -50,7 +53,7 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
-    NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent, VacationRequestComponent
+    NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent
   ],
   imports: [
     BrowserModule,
@@ -61,12 +64,12 @@ const appRoutes: Routes = [
     NgxMyDatePickerModule.forRoot(), NgbModule.forRoot()
   ],
   providers: [EmployeeService,
-              AnnualHolidayRegulationService, 
-              EmployeeProfessionalQualificationService,
-              MessageService,
-              ProfessionalQualificationService,
-              CityService,
-              NonworkingDaysService, WorkPlaceService, VacationReqService],
+    AnnualHolidayRegulationService,
+    EmployeeProfessionalQualificationService,
+    MessageService,
+    ProfessionalQualificationService,
+    CityService,
+    NonworkingDaysService, WorkPlaceService, VacationReqService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

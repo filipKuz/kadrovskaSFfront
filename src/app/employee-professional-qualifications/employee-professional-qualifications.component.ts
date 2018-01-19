@@ -23,7 +23,7 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
   @ViewChild('fE') editEpqForm: NgForm;
   subscription: Subscription;
   employeesEPQCs = [];
-  mess: string = "22";
+  mess = '22';
   model: any = { date: { year: "2017", month: "1", day: "19" } };
 
   clickedEPQid;
@@ -48,10 +48,8 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
               private _messageService: MessageService,
               private _pqService: ProfessionalQualificationService) {
     this.subscription = this._messageService.getMessage()
-                                            .subscribe(message => 
-                                                { this.mess = message.text, this.onGetEPQbyEmployeeId(message.text); this.epq.employeeId = message.text}
+                                            .subscribe(message => { this.mess = message.text, this.onGetEPQbyEmployeeId(message.text); this.epq.employeeId = message.text}
                                               );
-                                              
   }
 
   onEditButton(id) {

@@ -1,0 +1,46 @@
+<div class="container-fluid">
+
+    <table class="table">
+        <ul class="nav navbar-nav">
+            <li>
+                <h4>Zaposleni:</h4>
+            </li>
+            <li class="group-start">
+                <a id="first" class="show_hand" (click)="onLastorFirst('first')" title="Select first.">
+                    <img src="assets/images/first.gif" />
+                </a>
+            </li>
+            <li>
+                <a id="prev" class="show_hand" (click)="onBack()" title="Select previous.">
+                    <img src="assets/images/prev.gif" />
+                </a>
+            </li>
+            <li>
+                <a id="next" class="show_hand" (click)="onNext()" title="Select next.">
+                    <img src="assets/images/next.gif" />
+                </a>
+            </li>
+            <li>
+                <a id="last" class="show_hand" (click)="onLastorFirst('last')" title="Select last.">
+                    <img src="assets/images/last.gif" />
+                </a>
+            </li>
+        </ul>
+
+        <tr class="header">
+            <th>Ime i prezime</th>
+            <th>Datum rodjenja</th>
+            <th>Pol</th>
+            <th>Adresa</th>
+            <th>Email</th>
+            <th>Telefon</th>
+        </tr>
+        <tr *ngFor="let employee of employees; let i = index" (click)="setClickedRow(i)" [class.active]="i == selectedRow">
+            <td>{{employee.firstName}} {{employee.lastName}}</td>
+            <td>{{employee.birthDate}}</td>
+            <td>{{employee.sex}}</td>
+            <td>{{employee.adress}}</td>
+            <td>{{employee.email}}</td>
+            <td>{{employee.phoneNumber}}</td>
+        </tr>
+    </table>

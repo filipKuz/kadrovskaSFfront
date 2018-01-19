@@ -1,0 +1,172 @@
+<div class="container-fluid">
+  <ul class="list-inline">
+    <li>
+      <h4>Gradovi:</h4>
+    </li>
+    <li>
+      <a (click)="onGetAll()" class="show_hand" id="refresh" title="Refresh.">
+        <img src="assets/images/refresh.gif" />
+      </a>
+    </li>
+    <li class="group-start">
+      <a id="first" class="show_hand" (click)="onLastorFirst('first')" title="Select first.">
+        <img src="assets/images/first.gif" />
+      </a>
+    </li>
+    <li>
+      <a id="prev" class="show_hand" (click)="onBack()" title="Select previous.">
+        <img src="assets/images/prev.gif" />
+      </a>
+    </li>
+    <li>
+      <a id="next" class="show_hand" (click)="onNext()" title="Select next.">
+        <img src="assets/images/next.gif" />
+      </a>
+    </li>
+    <li>
+      <a id="last" class="show_hand" (click)="onLastorFirst('last')" title="Select last.">
+        <img src="assets/images/last.gif" />
+      </a>
+    </li>
+    <li class="group-start" *ngIf="!all">
+      <a (click)="showDialog = !showDialog; actionForModal = 'add'" class="show_hand">
+        <img src="assets/images/add.gif" />
+      </a>
+    </li>
+    <li class="pull-right">
+      <div class="form-group">
+        <select class="form-control" [(ngModel)]="sort" (change)="onSelectSort()">
+          <option value="">Sortiraj po:</option>
+          <option value="cityName-DESC">Nazivu opadajuce</option>
+          <option value="cityName-ASC">Nazivu rastuce</option>
+          <option value="zipCode-DESC">Postanskom broju opadajuce</option>
+          <option value="zipCode-ASC">Postanskom broju rastuce</option>
+        </select>
+      </div>
+    </li>
+    <li class="pull-right">
+      <form action="" class="search-form inline">
+        <div class="form-group has-feedback">
+          <label for="search" class="sr-only">Search</label>
+          <input [(ngModel)]="searchTerm" (keyup)="onGetAll()" autocomplete="off" type="text" class="form-control" name="search" id="search"
+            placeholder="pretraga">
+          <span class="glyphicon glyphicon-search form-control-feedback"></span>
+        </div>
+      </form>
+    </li>
+
+  </ul>
+  <table class="table table-hover">
+    <tr class="header">
+      <th>Postanski broj</th>
+      <th>Naziv</th>
+      <th>Zaposleni</th>
+      <th>Opcije</th>
+    </tr>
+    <tr *ngFor="let city of cities; let i = index" (click)="setClickedRow(i)" [class.active]="i == selectedRow">
+      <td>{{city.zipCode}}</td>
+      <td>{{city.cityName}}</td>
+      <td>
+        <a (click)="setActiveEmployees();sendMessage(city.cityId);">Zaposleni</a>
+      </td>
+      <td>
+        <a title="Izmena" class="show_hand" (click)="onEditCity(city.cityId)">
+          <span class="glyphicon glyphicon-edit"></span>
+        </a> &nbsp;
+        <a title="Brisanje" class="show_hand">
+          <span style="color: red;" class="glyphicon glyphicon-remove"></span>
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <div style="text-align: center">
+    <pagination [(totalPages)]="totalPages" (emitPageNum)="selectPageNum($event)"></pagination>
+  </div>
+  <div style="text-align: center;">
+    Broj prikaza:
+    <select class="selectpicker" [(ngModel)]="sizeNum" (change)="onGetAll()">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+    </select>
+  </div>
+
+  <div [hidden]="!employeesClicked">
+    <hr>
+    <app-city-employees></app-city-employees>
+  </div>
+
+  <app-dialog [(visible)]="showDialog">
+    <h4>Dodaj grad</h4>
+    <hr>
+    <form (ngSubmit)="onSubmit()" class="form-horizontal" #f="ngForm">
+      <fieldset>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="cityName">Naziv</label>
+          <div class="col-md-5">
+            <input id="cityName" name="cityName" type="text" placeholder="naziv grada" class="form-control input-md" ngModel required
+              #cityName="ngModel" maxlength="15">
+            <span class="help-block" *ngIf="cityName.touched && !cityName.valid">Naziv grada je obavezan.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="zipCode">Postanski broj</label>
+          <div class="col-md-5">
+            <input id="zipCode" name="zipCode" type="text" placeholder="zip code" class="form-control input-md" ngModel required #zipCode="ngModel">
+            <span class="help-block" *ngIf="zipCode.touched && !zipCode.valid" maxlength="15">Postanski broj je obavezan.</span>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <hr>
+      <div style="text-align: center">
+        <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Potvrdi</button>
+        <button type="button" (click)="showDialog = !showDialog; resetForm();" class="btn">Zatvori</button>
+      </div>
+
+    </form>
+
+  </app-dialog>
+
+  <!-- Edit modal -->
+  <app-dialog [(visible)]="showEditDialog">
+    <h4>Izmeni grad</h4>
+    <hr>
+    <form (ngSubmit)="onSubmit()" class="form-horizontal" #fE="ngForm">
+      <fieldset>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="cityName">Naziv</label>
+          <div class="col-md-5">
+            <input id="cityNameEdit" name="cityNameEdit" type="text" placeholder="naziv grada" class="form-control input-md" ngModel
+              required #cityNameEdit="ngModel" [(ngModel)]="City.cityName" maxlength="15">
+            <span class="help-block" *ngIf="cityNameEdit.touched && !cityNameEdit.valid">Naziv grada je obavezan.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="zipCode">Postanski broj</label>
+          <div class="col-md-5">
+            <input id="zipCodeEdit" name="zipCodeEdit" type="text" placeholder="zip code" class="form-control input-md" ngModel required
+              #zipCodeEdit="ngModel" [(ngModel)]="City.zipCode" maxlength="15">
+            <span class="help-block" *ngIf="zipCodeEdit.touched && !zipCodeEdit.valid">Ime je obavezno.</span>
+          </div>
+        </div>
+
+
+      </fieldset>
+
+      <hr>
+      <div style="text-align: center">
+        <button class="btn btn-primary" type="submit" [disabled]="!fE.valid">Potvrdi</button>
+        <button type="button" (click)="showEditDialog = !showEditDialog; resetEditForm();" class="btn">Close</button>
+      </div>
+    </form>
+  </app-dialog>
+  <br>
+</div>
+<br>
