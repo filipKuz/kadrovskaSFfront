@@ -3,6 +3,8 @@ import { EmployeeService } from '../employee/employee.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../shared/message.service';
+import { CityService } from './city.service';
+import { last } from 'rxjs/operators/last';
 
 @Component({
     selector: 'app-city-employees',
@@ -12,6 +14,8 @@ import { MessageService } from '../shared/message.service';
 export class CityEmployeesComponent implements OnInit {
 
     employees = [];
+    cityId = 0;
+    cityName = '';
 
     selectedRow: number;
     setClickedRow: Function;
@@ -22,12 +26,14 @@ export class CityEmployeesComponent implements OnInit {
     pqDegreeVar: string;
 
     subscription: Subscription;
-    constructor(private _employeeService: EmployeeService, private _messageService: MessageService) {
+    constructor(private _employeeService: EmployeeService, private _messageService: MessageService, private _cityService: CityService) {
         this.setClickedRow = function (index) {
             this.selectedRow = index;
         };
         this.subscription = this._messageService.getMessage()
-            .subscribe(message => { this.onGetEmployeesByCity(message.text); }
+            .subscribe(message => {
+                this.onGetEmployeesByCity(message.text); this.cityId = message.text; this.setCityName();
+            }
             );
     }
 
@@ -39,6 +45,14 @@ export class CityEmployeesComponent implements OnInit {
         this._employeeService.getEmployeeByCityId(cityId)
             .subscribe(
             (response: any) => [(this.employees = response)],
+            (error) => console.log(error)
+            );
+    }
+
+    setCityName() {
+        this._cityService.getCityById(this.cityId)
+            .subscribe(
+            (response: any) => [(this.cityName = response.cityName)],
             (error) => console.log(error)
             );
     }
