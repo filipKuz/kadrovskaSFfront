@@ -4,11 +4,7 @@
     <li>
         <h4>Neradni dani:</h4>
     </li>
-    <li><a href="#" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
-    <li class="group-start"><a id="first"><img src="assets/images/first.gif" /></a></li>
-    <li><a id="prev"><img src="assets/images/prev.gif" /></a></li>
-    <li><a id="next"><img src="assets/images/next.gif" /></a></li>
-    <li><a id="last"><img src="assets/images/last.gif" /></a></li>
+    <li><a (click)="onGet()" claas="show_hand"><img src="assets/images/refresh.gif" /></a></li>
     <li class="group-start">
       <a (click)="onAddNonworkingDay()" class="show_hand">
         <img src="assets/images/add.gif" />

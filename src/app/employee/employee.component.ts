@@ -51,6 +51,7 @@ export class EmployeeComponent implements OnInit {
   showContactInfo: boolean = false;
   transormedDate: any = {};
 
+  responseSize:number = 0;
   pageNum = 0;
   sizeNum = 5;
   totalPages: number = 0;
@@ -145,8 +146,13 @@ export class EmployeeComponent implements OnInit {
   }
 
   onCreateAHRs() {
-    this.ahrService.createAHRs().subscribe();
-    alert("Zahtevi kreirani");
+    this.ahrService.createAHRs().subscribe(
+      (response:any) => (
+        this.responseSize = (response).length ,
+        alert("Kreiranli ste " + this.responseSize + " resenja za godisnji odmor")
+      ),
+      (error) => console.log(error)
+    );
   }
 
   ngOnInit() {

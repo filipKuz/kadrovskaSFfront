@@ -115,7 +115,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="zipCode">Postanski broj</label>
           <div class="col-md-5">
-            <input id="zipCode" name="zipCode" type="text" placeholder="zip code" class="form-control input-md" ngModel required #zipCode="ngModel">
+            <input id="zipCode" name="zipCode" type="number" placeholder="zip code" class="form-control input-md" ngModel required #zipCode="ngModel">
             <span class="help-block" *ngIf="zipCode.touched && !zipCode.valid" maxlength="15">Postanski broj je obavezan.</span>
           </div>
         </div>
@@ -151,7 +151,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="zipCode">Postanski broj</label>
           <div class="col-md-5">
-            <input id="zipCodeEdit" name="zipCodeEdit" type="text" placeholder="zip code" class="form-control input-md" ngModel required
+            <input id="zipCodeEdit" name="zipCodeEdit" type="number" placeholder="zip code" class="form-control input-md" ngModel required
               #zipCodeEdit="ngModel" [(ngModel)]="City.zipCode" maxlength="15">
             <span class="help-block" *ngIf="zipCodeEdit.touched && !zipCodeEdit.valid">Ime je obavezno.</span>
           </div>

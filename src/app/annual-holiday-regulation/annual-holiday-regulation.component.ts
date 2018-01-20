@@ -39,6 +39,15 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
       );
   }
 
+  /*
+  onRefresh(){
+    this._AHRS.getById(this.ahrId)
+    .subscribe(
+      (response: any) => [(this.AHRs = response, this.ahrId = this.AHRs[0].annualHolidayRegulationId)],
+      (error) => console.log(error)
+      );
+  }
+  */
 
   
   ngOnDestroy() {

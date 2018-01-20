@@ -54,7 +54,6 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onGetVReqbyAHRId(this.ahrId);
-    console.log("asdasd"  + this.ahrId);
   }
 
   onGetVReqbyAHRId(AHRId) {
@@ -111,11 +110,13 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
 
   onCreateVReq() {
     this.onPopulateJsonVReq(this.startDateVar.formatted, this.numOfDaysVar)
-    console.log(this.vreq);
     this._vacationReqSevice.postVReq(this.vreq)
       .subscribe(
         (response:any) => (this.vacationRequests.push(response)),
-        (error) => console.log(error)
+        (error) =>(
+        alert("Nemate toliko slobodinh dana pokusajte sa manjim brojem"),
+        console.log(error)
+        )
       )
     }
 
