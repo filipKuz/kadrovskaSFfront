@@ -6,6 +6,7 @@ import { INgxMyDpOptions, IMyDateModel, NgxMyDatePickerDirective } from 'ngx-myd
 import { AnnualHolidayRegulationService } from '../annual-holiday-regulation/annualHolidayRegulation.service';
 import { NgForm } from '@angular/forms';
 import { error } from 'selenium-webdriver';
+import { AnnualHolidayRegulationComponent } from '../annual-holiday-regulation/annual-holiday-regulation.component';
 
 
 @Component({
@@ -28,8 +29,9 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
   clickedVReq;
   showDialog = false;
   startDateVar: any;
-  numOfDaysVar: number;
+  numOfDaysVar: number=1;
   @Input() ahrId: number;
+  AHRRef:AnnualHolidayRegulationComponent;
 
   vreq = {
         "startDate": this.model.date.year + "-" + this.model.date.month + "-" + this.model.date.day,
@@ -114,7 +116,7 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
       .subscribe(
         (response:any) => (this.vacationRequests.push(response)),
         (error) =>(
-        alert("Nemate toliko slobodinh dana pokusajte sa manjim brojem"),
+        alert("Nemate toliko slobodnih dana"),
         console.log(error)
         )
       )
@@ -133,7 +135,7 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
         (response: any) => (this.onGetVReqbyAHRId(this.ahrId)),
         (error) => console.log(error)
       )
-  }
+  } 
 
   
 }
