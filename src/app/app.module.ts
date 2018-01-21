@@ -10,6 +10,7 @@ import { AnnualHolidayRegulationComponent } from './annual-holiday-regulation/an
 import { AnnualHolidayRegulationService } from './annual-holiday-regulation/annualHolidayRegulation.service';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CityComponent } from './city/city.component';
+import { CompanyComponent } from './company/company.component';
 import { EmployeeProfessionalQualificationsComponent } from './employee-professional-qualifications/employee-professional-qualifications.component';
 import { EmployeeProfessionalQualificationService } from './employee-professional-qualifications/employee-professional-qualification.service';
 import { MessageService } from './shared/message.service';
@@ -31,6 +32,7 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { VacationReqService } from './vacation-request/vacation-request.service';
 import { CityEmployeesComponent } from './city/city-employees.component';
+import { CompanyService } from './company/company.service';
 
 
 
@@ -39,7 +41,8 @@ const appRoutes: Routes = [
   { path: 'employees', component: EmployeeComponent },
   { path: 'ProfessionalQualification', component: ProfessionalQualificationComponent },
   { path: 'nonworkingDay', component: NonworkingDayComponent },
-  { path: 'cities', component: CityComponent }
+  { path: 'cities', component: CityComponent },
+  { path: 'company', component: CompanyComponent }
 
   // { path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },
 ];
@@ -53,7 +56,9 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
-    NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent
+    NonworkingDayComponent,
+    NgbdPaginationAdvanced,
+    ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent, CompanyComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,10 @@ const appRoutes: Routes = [
     MessageService,
     ProfessionalQualificationService,
     CityService,
-    NonworkingDaysService, WorkPlaceService, VacationReqService],
+    CompanyService,
+    NonworkingDaysService,
+    WorkPlaceService,
+    VacationReqService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
