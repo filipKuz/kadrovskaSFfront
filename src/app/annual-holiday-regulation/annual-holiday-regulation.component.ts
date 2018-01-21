@@ -31,6 +31,10 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
     
   }
 
+  onCV(){
+    console.log("Uspelo");
+  }
+
   onGetAHRbyEmployeeId(employeeId) {
     this._AHRS.getAHRByEmployee(employeeId)
       .subscribe(

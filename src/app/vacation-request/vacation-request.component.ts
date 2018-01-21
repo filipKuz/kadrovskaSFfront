@@ -7,6 +7,7 @@ import { AnnualHolidayRegulationService } from '../annual-holiday-regulation/ann
 import { NgForm } from '@angular/forms';
 import { error } from 'selenium-webdriver';
 import { AnnualHolidayRegulationComponent } from '../annual-holiday-regulation/annual-holiday-regulation.component';
+import { FunctionCall } from '@angular/compiler';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
   startDateVar: any;
   numOfDaysVar: number=1;
   @Input() ahrId: number;
-  AHRRef:AnnualHolidayRegulationComponent;
+  
 
   vreq = {
         "startDate": this.model.date.year + "-" + this.model.date.month + "-" + this.model.date.day,
