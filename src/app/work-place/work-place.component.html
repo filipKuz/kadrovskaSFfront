@@ -1,0 +1,130 @@
+<div class="container-fluid">
+  <ul class="nav navbar-nav">
+    <li>
+        <h4>Radna mesta :</h4>
+    </li>
+    <li><a href="#" id="refresh"><img src="assets/images/refresh.gif" /></a></li>
+    <li class="group-start"><a id="first"><img src="assets/images/first.gif" /></a></li>
+    <li><a id="prev"><img src="assets/images/prev.gif" /></a></li>
+    <li><a id="next"><img src="assets/images/next.gif" /></a></li>
+    <li><a id="last"><img src="assets/images/last.gif" /></a></li>
+    <li class="group-start">
+      <a (click)="onAddWorkPlace()" class="show_hand">
+        <img src="assets/images/add.gif" />
+      </a>
+    </li>
+  </ul>
+
+  <table class="table">
+    <tr class="header">
+      <th>Naziv</th>
+      <th>Koeficijent</th>
+      <td></td>
+    </tr>
+    <tr *ngFor = "let workPlace of workPlaces">
+      <td>{{workPlace.name}}</td>
+      <td>{{workPlace.coefficient}}</td>
+      <td><a title="Izmena!" class="show_hand" (click)="onEditWorkPlace(workPlace.workPlaceId)">
+        <span class="glyphicon glyphicon-edit"></span>
+      </a> &nbsp;
+      <a title="Brisanje!" class="show_hand" (click)="onDeleteWorkPlace(workPlace.workPlaceId);">
+        <span style="color: red;" class="glyphicon glyphicon-remove"></span>
+      </a></td>
+    </tr>
+  </table>
+
+  <app-dialog [(visible)]="showDialog">
+    <h3>Dodaj radno mesto</h3>
+    <hr>
+    <form (ngSubmit)="onSubmit('add')" class="form-horizontal" #f="ngForm">
+      <fieldset>        
+        <!-- for name -->
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="name">Naziv</label>
+          <div class="col-md-5">
+            <input id="workPlaceNameEdit"
+                   name="workPlaceNameEdit" 
+                   type="text" 
+                   placeholder="Naziv radnog mesta" 
+                   class="form-control input-md"
+                   [(ngModel)]="name"
+                   ngModel required #workPlaceName="ngModel">
+            <span class="help-block" *ngIf="workPlaceName.touched && !workPlaceName.valid">Opis je obavezan</span>
+          </div>
+        </div>
+      <hr>
+      <!-- for coefficient -->
+      <div style="text-align: center">
+      </div>
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="coefficient">Keoficijent</label>
+        <div class="col-md-5">
+          <input id="workPlaceCoefficientEdit"
+                 name="workPlaceCoefficientEdit" 
+                 type="text" 
+                 placeholder="Keoficijent" 
+                 class="form-control input-md"
+                 [(ngModel)]="coefficient"
+                 ngModel required #workPlaceCoefficient="ngModel">
+          <span class="help-block" *ngIf="workPlaceCoefficient.touched && !workPlaceCoefficient.valid">Keoficijent je obavezan</span>
+        </div>
+      </div>
+    <hr>
+    <div style="text-align: center">
+      <button 
+        class="btn btn-primary" 
+        type="submit" [disabled]="!f.valid">Potvrdi</button>
+      <button type="button" class="btn" (click)="showDialog = !showDialog; resetForm();">Close</button>
+    </div>
+     </fieldset> 
+    </form>
+  </app-dialog>
+
+  <app-dialog [(visible)]="showEditDialog">
+    <h3>Izmeni radno mesto</h3>
+    <hr>
+    <form (ngSubmit)="onSubmit('edit')" class="form-horizontal" #fe="ngForm">
+      <fieldset>        
+        
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="name">Naziv</label>
+          <div class="col-md-5">
+            <input id="workPlaceNameEdit"
+                   name="workPlaceNameEdit" 
+                   type="text" 
+                   placeholder="Naziv radnog mesta" 
+                   class="form-control input-md"
+                   [(ngModel)]="name"
+                   ngModel required #workPlaceName="ngModel">
+            <span class="help-block" *ngIf="workPlaceName.touched && !workPlaceName.valid">Opis je obavezan</span>
+          </div>
+        </div>
+        <hr>
+        <div style="text-align: center">
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="coefficient">Keoficijent</label>
+            <div class="col-md-5">
+              <input id="workPlaceCoefficientEdit"
+                     name="workPlaceCoefficientEdit" 
+                     type="text" 
+                     placeholder="Keoficijent" 
+                     class="form-control input-md"
+                     [(ngModel)]="coefficient"
+                     ngModel required #workPlaceCoefficient="ngModel">
+              <span class="help-block" *ngIf="workPlaceCoefficient.touched && !workPlaceCoefficient.valid">Keoficijent je obavezan</span>
+            </div>
+          </div>
+      <div style="text-align: center">
+        <button 
+          class="btn btn-primary" 
+          type="submit" [disabled]="!fe.valid">Potvrdi</button>
+          <button  type="button"  class="btn"(click)="showEditDialog = !showEditDialog; resetForm();">Close</button>
+      </div>
+     </fieldset> 
+    </form>
+  </app-dialog>
+  
+
+</div>
