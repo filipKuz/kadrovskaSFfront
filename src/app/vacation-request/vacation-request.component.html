@@ -61,12 +61,12 @@
           <label class="col-md-4 control-label" for="numOfDays">Broj radnih dana</label>
           <div class="col-md-5">
             <input id="numOfDays"
-                   name="numOfDays" 
-                   type="number"
-                   min="1"
-                   step="1"    
+                   name="numOfDays"    
                    placeholder="Broj radnih dana" 
                    class="form-control input-md"
+                   type="number"
+                   min="1"
+                   step="1" 
                    [(ngModel)]="numOfDaysVar"
                    ngModel required #VREQnumOfDays="ngModel">
             <span class="help-block" *ngIf="VREQnumOfDays.touched && !VREQnumOfDays.valid">Obavezno je uneti pozitivan celi broj dana</span>
