@@ -23,6 +23,14 @@ export class CompanyComponent implements OnInit {
         'email': '',
         'cityId': 0
     };
+
+    companyNameVar: string = "";
+    companyAddressVar: string = "";
+    companyPgoneNumberVar: string="";
+    companyEmailVar: string = "";
+    companyVatVar: string = "";
+    companyCityIdVar: number = 0;
+
     cities = [];
     city = new Object();
 
@@ -44,6 +52,24 @@ export class CompanyComponent implements OnInit {
             );
     }
 
+    onEditJsonCompany(companyName:string, companyAddress: string, companyPhone:string, companyEmail:string, companyVat: string, companyCityId:number ){
+        this.company.name = companyName;
+        this.company.address = companyAddress;
+        this.company.phoneNumber = companyPhone;
+        this.company.email = companyEmail;
+        this.company.vat = companyVat;
+        this.company.cityId = companyCityId;
+    }
+
+    onPopulateCompanyVar(){
+        this.companyNameVar = this.company.name;
+        this.companyAddressVar = this.company.address;
+        this.companyPgoneNumberVar = this.company.phoneNumber;
+        this.companyEmailVar = this.company.email;
+        this.companyVatVar = this.company.vat;
+        this.companyCityIdVar = this.company.cityId;
+    }
+
     onPopulateDropDownCity() {
         this._cityService.getAllCities().
             subscribe(
@@ -61,10 +87,12 @@ export class CompanyComponent implements OnInit {
     }
 
     onEditCompany() {
+        this.onPopulateCompanyVar();
         this.showEditDialog = !this.showEditDialog;
     }
 
     onSubmit() {
+        this.onEditJsonCompany(this.companyNameVar,this.companyAddressVar,this.companyPgoneNumberVar,this.companyEmailVar,this.companyVatVar, this.companyCityIdVar);
         this.onPut();
         this.showEditDialog = !this.showEditDialog;
     }
