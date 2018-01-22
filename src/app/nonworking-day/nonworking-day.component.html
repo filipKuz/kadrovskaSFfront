@@ -58,9 +58,10 @@
           <div class="col-md-5">
             <input id="nonworkingDayDescription"
                    name="nonworkingDayDescription" 
-                   type="text" 
+                   type="text"
                    placeholder="Opis neradnog dana" 
                    class="form-control input-md"
+                   maxlength="30" 
                    [(ngModel)]="nwdDesVar"
                    ngModel required #NWDdescription="ngModel">
             <span class="help-block" *ngIf="NWDdescription.touched && !NWDdescription.valid">Opis je obavezan</span>
@@ -107,6 +108,7 @@
                    type="text" 
                    placeholder="Opis neradnog dana" 
                    class="form-control input-md"
+                   maxlength="30"
                    [(ngModel)]="nonworkingDay.nonworkingDayDescription"
                    ngModel required #NWDdescription="ngModel">
             <span class="help-block" *ngIf="NWDdescription.touched && !NWDdescription.valid">Opis je obavezan</span>
