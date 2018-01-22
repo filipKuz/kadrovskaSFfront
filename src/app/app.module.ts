@@ -22,7 +22,6 @@ import { DialogComponent } from './dialog/dialog.component';
 import { from } from 'rxjs/observable/from';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { CityService } from './city/city.service';
-
 import { NonworkingDayComponent } from './nonworking-day/nonworking-day.component';
 import { NonworkingDaysService } from './nonworking-day/nonworkingDayService';
 import { WorkPlaceService } from './work-place/work-place.service';
@@ -32,11 +31,8 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { VacationReqService } from './vacation-request/vacation-request.service';
 import { CityEmployeesComponent } from './city/city-employees.component';
-<<<<<<< HEAD
 import { WorkPlaceComponent } from './work-place/work-place.component';
-=======
 import { CompanyService } from './company/company.service';
->>>>>>> 4ecb9dd668215be62cb7bc2cfe4fc1d740acc916
 
 
 
@@ -46,11 +42,8 @@ const appRoutes: Routes = [
   { path: 'ProfessionalQualification', component: ProfessionalQualificationComponent },
   { path: 'nonworkingDay', component: NonworkingDayComponent },
   { path: 'cities', component: CityComponent },
-<<<<<<< HEAD
-  { path: 'workPlace', component: WorkPlaceComponent }
-=======
+  { path: 'workPlace', component: WorkPlaceComponent },
   { path: 'company', component: CompanyComponent }
->>>>>>> 4ecb9dd668215be62cb7bc2cfe4fc1d740acc916
 
   // { path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },
 ];
@@ -64,14 +57,15 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
-<<<<<<< HEAD
-    NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent,
-    WorkPlaceComponent
-=======
     NonworkingDayComponent,
     NgbdPaginationAdvanced,
-    ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent, CompanyComponent
->>>>>>> 4ecb9dd668215be62cb7bc2cfe4fc1d740acc916
+    ContactsComponent,
+    VacationRequestComponent,
+    CityComponent,
+    CityEmployeesComponent,
+    CompanyComponent,
+    WorkPlaceComponent
+
   ],
   imports: [
     BrowserModule,
