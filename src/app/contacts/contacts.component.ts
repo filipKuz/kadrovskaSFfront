@@ -30,7 +30,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   };
 
   mess: string = "22";
-  cityName = "";
+  cityName:string = "";
   
   constructor(private EmployeeService: EmployeeService,
               private _messageService: MessageService,
@@ -48,7 +48,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   onGetEmployeeByID(employeeId) {
     this.EmployeeService.getEmployeeById(employeeId)
       .subscribe(
-      (response: any) => [(this.employee = response), this.ngOngetCity(employeeId)],
+      (response: any) => [(this.employee = response), this.ngOngetCity(response.cityId)],
       (error) => console.log(error)
       );
   }

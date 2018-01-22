@@ -154,7 +154,6 @@ setClickedRow: Function;
   transformFormattedDate(date:string) {
     var dateSpilt = date.split("-");
     this.model = {date : {year : Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
-    console.log(this.nonworkingDay.nonworkingDayDate);
   }
 
   sendMessage(message:string): void {

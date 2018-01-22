@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { VacationReqService } from './vacation-request.service';
 import { MessageService } from '../shared/message.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -6,6 +6,8 @@ import { INgxMyDpOptions, IMyDateModel, NgxMyDatePickerDirective } from 'ngx-myd
 import { AnnualHolidayRegulationService } from '../annual-holiday-regulation/annualHolidayRegulation.service';
 import { NgForm } from '@angular/forms';
 import { error } from 'selenium-webdriver';
+import { AnnualHolidayRegulationComponent } from '../annual-holiday-regulation/annual-holiday-regulation.component';
+import { FunctionCall } from '@angular/compiler';
 
 
 @Component({
@@ -20,6 +22,15 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
   @ViewChild('dpE') ngxdpE: NgxMyDatePickerDirective;
   @ViewChild('f') addVreqForm: NgForm;
 
+  daysToAddOrSubtract: number = 0;
+
+  @Output() emitDays = new EventEmitter<number>();
+
+
+  onEmitDays() {
+      this.emitDays.emit(this.daysToAddOrSubtract);
+  }
+
   
   subscription: Subscription;
   vacationRequests = [];
@@ -28,8 +39,9 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
   clickedVReq;
   showDialog = false;
   startDateVar: any;
-  numOfDaysVar: number;
+  numOfDaysVar: number=1;
   @Input() ahrId: number;
+  
 
   vreq = {
         "startDate": this.model.date.year + "-" + this.model.date.month + "-" + this.model.date.day,
@@ -54,7 +66,6 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onGetVReqbyAHRId(this.ahrId);
-    console.log("asdasd"  + this.ahrId);
   }
 
   onGetVReqbyAHRId(AHRId) {
@@ -107,15 +118,15 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
     this.vreq.numOfDays = numOfDays;
   }
 
-
-
   onCreateVReq() {
     this.onPopulateJsonVReq(this.startDateVar.formatted, this.numOfDaysVar)
-    console.log(this.vreq);
     this._vacationReqSevice.postVReq(this.vreq)
       .subscribe(
-        (response:any) => (this.vacationRequests.push(response)),
-        (error) => console.log(error)
+        (response:any) => (this.vacationRequests.push(response), this.daysToAddOrSubtract = -Number(response.numOfDays), this.onEmitDays()),
+        (error) =>(
+        alert("Nemate toliko slobodnih dana"),
+        console.log(error)
+        )
       )
     }
 
@@ -129,10 +140,10 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
   onDeleteVreq(id) {
     this._vacationReqSevice.deleteVReq(id)
       .subscribe(
-        (response: any) => (this.onGetVReqbyAHRId(this.ahrId)),
+        (response) => [(this.onGetVReqbyAHRId(this.ahrId)), this.daysToAddOrSubtract = response.headers.get("daysToAdd"), this.onEmitDays()],
         (error) => console.log(error)
       )
-  }
+  } 
 
   
 }

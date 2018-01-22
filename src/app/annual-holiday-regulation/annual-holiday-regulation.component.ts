@@ -31,6 +31,14 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
     
   }
 
+  setDaysToAddOrSubtract(days) {
+    this.AHRs[0].numOfDays += Number(days);
+  }
+
+  onCV(){
+    console.log("Uspelo");
+  }
+
   onGetAHRbyEmployeeId(employeeId) {
     this._AHRS.getAHRByEmployee(employeeId)
       .subscribe(
@@ -39,6 +47,23 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
       );
   }
 
+  onGetById(ahrId){
+    this._AHRS.getById(ahrId)
+    .subscribe(
+      (response: any) => [(this.AHRs = response, this.ahrId = this.AHRs[0].annualHolidayRegulationId)],
+      (error) => console.log(error)
+    );
+  }
+
+  /*
+  onRefresh(){
+    this._AHRS.getById(this.ahrId)
+    .subscribe(
+      (response: any) => [(this.AHRs = response, this.ahrId = this.AHRs[0].annualHolidayRegulationId)],
+      (error) => console.log(error)
+      );
+  }
+  */
 
   
   ngOnDestroy() {

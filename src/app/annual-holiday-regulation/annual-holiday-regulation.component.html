@@ -1,9 +1,11 @@
-<div class="container-fluid"> 
-  
+<div class="container-fluid">
+
   <table class="">
-    <tr *ngFor = "let ahr of AHRs" >
-      <td><h4>Broj slobodnih dana za {{ahr.businessYear}}. poslovnu godinu: {{ahr.numOfDays}} </h4></td>
+    <tr *ngFor="let ahr of AHRs">
+      <td>
+        <h4>Broj slobodnih dana za {{ahr.businessYear}}. poslovnu godinu: {{AHRs[0].numOfDays}} </h4>
+      </td>
     </tr>
   </table>
-  <app-vacation-request [(ahrId)]="ahrId"></app-vacation-request>
+  <app-vacation-request (emitDays)="setDaysToAddOrSubtract($event)" [(ahrId)]="ahrId"></app-vacation-request>
 </div>

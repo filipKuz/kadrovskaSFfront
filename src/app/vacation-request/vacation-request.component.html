@@ -5,7 +5,7 @@
       <h4>Zahtevi za godisnji :</h4>
     </li>
     <li>
-      <a (click)="onGet()" class="show_hand" id="refresh" title="Refresh.">
+      <a (click)="ngOnInit()" class="show_hand" id="refresh" title="Refresh.">
         <img src="assets/images/refresh.gif" />
       </a>
     </li>
@@ -61,13 +61,15 @@
           <label class="col-md-4 control-label" for="numOfDays">Broj radnih dana</label>
           <div class="col-md-5">
             <input id="numOfDays"
-                   name="numOfDays" 
-                   type="number"     
+                   name="numOfDays"    
                    placeholder="Broj radnih dana" 
                    class="form-control input-md"
+                   type="number"
+                   min="1"
+                   step="1" 
                    [(ngModel)]="numOfDaysVar"
                    ngModel required #VREQnumOfDays="ngModel">
-            <span class="help-block" *ngIf="VREQnumOfDays.touched && !VREQnumOfDays.valid">Obavezno je uneti broj dana</span>
+            <span class="help-block" *ngIf="VREQnumOfDays.touched && !VREQnumOfDays.valid">Obavezno je uneti pozitivan celi broj dana</span>
           </div>
         </div>
       <hr>
