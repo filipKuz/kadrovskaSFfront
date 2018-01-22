@@ -149,7 +149,7 @@ export class EmployeeComponent implements OnInit {
     this.ahrService.createAHRs().subscribe(
       (response:any) => (
         this.responseSize = (response).length ,
-        alert("Kreiranli ste " + this.responseSize + " resenja za godisnji odmor")
+        alert("Kreirali ste " + this.responseSize + " resenja za godisnji odmor")
       ),
       (error) => console.log(error)
     );

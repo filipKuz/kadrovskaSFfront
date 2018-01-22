@@ -31,6 +31,10 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
     
   }
 
+  setDaysToAddOrSubtract(days) {
+    this.AHRs[0].numOfDays += Number(days);
+  }
+
   onCV(){
     console.log("Uspelo");
   }

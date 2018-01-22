@@ -112,7 +112,7 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
     this.editEpqForm.resetForm();
   }
 
-  onSubmit(action) {
+  onSubmit(action: string) {
     if (action=="add") {
       this.onCreateEPQ();
       this.addEmployeeProfQ = !this.addEmployeeProfQ;
@@ -129,7 +129,7 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
   }
   
   onDateChanged(event: IMyDateModel): void {
-    this.epq.dateOfGraduation = this.model.date.year + "-" + this.model.date.month + "-" + this.model.date.day;
+    this.epq.dateOfGraduation = event.date.year + "-" + event.date.month + "-" + event.date.day;
   }
 
 

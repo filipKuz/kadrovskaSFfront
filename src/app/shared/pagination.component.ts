@@ -20,7 +20,6 @@ export class NgbdPaginationAdvanced implements OnInit, OnDestroy {
     }
 
     onSelect(event:number) {
-        console.log(event);
         this.page = event-1;
         this.onSelectPage(event-1);
     }
