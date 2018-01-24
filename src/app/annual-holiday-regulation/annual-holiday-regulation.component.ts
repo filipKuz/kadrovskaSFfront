@@ -19,9 +19,8 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
   constructor(private _AHRS: AnnualHolidayRegulationService, private _messageService: MessageService) {
     this.subscription = this._messageService.getMessage()
                                             .subscribe(message => 
-                                                { this.mess = message.text, this.onGetAHRbyEmployeeId(message.text),
-                                                  
-                                                  console.log(this.AHRs) }
+                                                { this.mess = message.text, this.onGetAHRbyEmployeeId(message.text)
+                                                  }
                                               );
                                               
   }
@@ -33,10 +32,6 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
 
   setDaysToAddOrSubtract(days) {
     this.AHRs[0].numOfDays += Number(days);
-  }
-
-  onCV(){
-    console.log("Uspelo");
   }
 
   onGetAHRbyEmployeeId(employeeId) {
@@ -54,17 +49,6 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
       (error) => console.log(error)
     );
   }
-
-  /*
-  onRefresh(){
-    this._AHRS.getById(this.ahrId)
-    .subscribe(
-      (response: any) => [(this.AHRs = response, this.ahrId = this.AHRs[0].annualHolidayRegulationId)],
-      (error) => console.log(error)
-      );
-  }
-  */
-
   
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
