@@ -26,6 +26,11 @@ export class EmployeeComponent implements OnInit {
   cities = [];
   workPlaces = [];
 
+  workPlace = {
+    "name": "",
+    "coefficient": 1
+};
+
   all = false;
   activeE = true;
 
@@ -45,6 +50,7 @@ export class EmployeeComponent implements OnInit {
   };
   AHRclicked: boolean = false;
   EPQclicked: boolean = false;
+  WorkHistoryClicked: boolean = false;
   CONTACTSclicked: boolean = false;
   showDialog = false;
   showEditDialog = false;
@@ -288,6 +294,7 @@ export class EmployeeComponent implements OnInit {
   setActive() {
     this.CONTACTSclicked = false;
     this.AHRclicked = false;
+    this.WorkHistoryClicked = false;
     this.EPQclicked = true;
   }
 
@@ -295,13 +302,23 @@ export class EmployeeComponent implements OnInit {
   setActiveAHR() {
     this.CONTACTSclicked = false;
     this.EPQclicked = false;
+    this.WorkHistoryClicked = false;
     this.AHRclicked = true;
   }
 
   setActiveCONTACTS(id) {
     this.EPQclicked = false;
     this.AHRclicked = false;
+    this.WorkHistoryClicked = false;
     this.CONTACTSclicked = true;
+  }
+
+  setActiveWorkHistory() {
+    this.CONTACTSclicked = false;
+    this.EPQclicked = false;
+    this.AHRclicked = false;
+    this.WorkHistoryClicked = true;
+
   }
 
   sendMessage(message: string): void {
@@ -350,4 +367,20 @@ export class EmployeeComponent implements OnInit {
       (error) => (console.log(error))
       );
   }
+
+  onAddWorkPlace() {
+    let send = {
+        name: this.workPlace.name,
+        coefficient: Number(this.workPlace.coefficient)
+    };
+    this._workPlaceService.addWorkPlace(send)
+        .subscribe(
+        (response) => [this.workPlaces.push(response.json()), console.log(this.workPlaces)],
+        (error) => console.log(error)
+        );
+}
+
+
+
+
 }

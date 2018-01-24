@@ -94,8 +94,11 @@
       <td>
         <a (click)="setActiveAHR();sendMessage(employee.employeeId);">Resenje o godisnjem odmoru</a>
       </td>
-      <td>
+      <!-- <td>
         <a href="#">Radna istorija</a>
+      </td> -->
+      <td>
+        <a (click)="setActiveWorkHistory();sendMessage(employee.employeeId);">Radna istorija</a>
       </td>
       <td>
         <a (click)="setActiveCONTACTS();sendMessage(employee.employeeId);">Kontant Podaci</a>
@@ -127,6 +130,10 @@
      <hr>
      <app-employee-professional-qualifications></app-employee-professional-qualifications>
   </div>
+  <div [hidden]="!WorkHistoryClicked">
+    <hr>
+    <app-work-history></app-work-history>
+ </div>
 
   <div [hidden]="!AHRclicked">
     <hr>
@@ -137,6 +144,8 @@
     <hr>
     <app-contacts></app-contacts>
  </div>
+
+ 
 
   <app-dialog [(visible)]="showDialog">
     <h4>Dodaj zaposlenog</h4>
@@ -271,6 +280,11 @@
               <option *ngFor="let wp of workPlaces" value="{{wp.workPlaceId}}">{{ wp.name }}</option>
             </select>
           </div>
+          <span class="input-group-btn control-span">
+            <button type="button" class="btn btn-default" (click)="onAddWorkPlace()">
+              <img src="assets/images/add.gif" />
+            </button>
+        </span>
         </div>
 
         <!-- Select Basic -->
@@ -294,6 +308,8 @@
       </div>
       
     </form>
+
+    
 
   </app-dialog>
   <!-- Edit modal -->

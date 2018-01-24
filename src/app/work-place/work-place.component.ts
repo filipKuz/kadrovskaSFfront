@@ -19,7 +19,7 @@ export class WorkPlaceComponent implements OnInit {
     workPlaces = [];
     workPlace = {
         "name": "",
-        "coefficient": ''
+        "coefficient": 1
     };
 
     workplaceForSend = {};
@@ -36,7 +36,7 @@ export class WorkPlaceComponent implements OnInit {
     actionForModal = "";
 
 
-    selectedRow: Number;
+    selectedRow: number;
     setClickedRow: Function;
 
 
@@ -58,6 +58,37 @@ export class WorkPlaceComponent implements OnInit {
     ) {
         this.workPlace.name = name;
         this.workPlace.coefficient = coefficient;
+    }
+
+    onNext() {
+        if (this.selectedRow == null || this.workPlaces.length - 1 == this.selectedRow) {
+            this.selectedRow = 0;
+            return;
+        }
+        this.selectedRow += 1;
+    }
+
+    onLastorFirst(condition: string) {
+        if (condition == "last") {
+            this.selectedRow = this.workPlaces.length - 1;
+            return;
+        }
+        if (condition == "first") {
+            this.selectedRow = 0;
+            return;
+        }
+    }
+
+    onBack() {
+        if (this.selectedRow == null) {
+            this.selectedRow = 0;
+            return;
+        }
+        if (this.selectedRow == 0) {
+            this.selectedRow = this.workPlaces.length - 1;
+            return;
+        }
+        this.selectedRow -= 1;
     }
 
 
@@ -113,8 +144,8 @@ export class WorkPlaceComponent implements OnInit {
             .subscribe(
             (response: any) => (
                 this.onPopulateJsonWorkPlace(
-                    response.workPlaceName,
-                    response.workPlaceCoefficient,
+                    response.name,
+                    response.coefficient,
                 )),
             (error) => console.log(error)
             )
