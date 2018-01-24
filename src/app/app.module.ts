@@ -22,7 +22,6 @@ import { DialogComponent } from './dialog/dialog.component';
 import { from } from 'rxjs/observable/from';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { CityService } from './city/city.service';
-
 import { NonworkingDayComponent } from './nonworking-day/nonworking-day.component';
 import { NonworkingDaysService } from './nonworking-day/nonworkingDayService';
 import { WorkPlaceService } from './work-place/work-place.service';
@@ -34,8 +33,11 @@ import { VacationReqService } from './vacation-request/vacation-request.service'
 import { CityEmployeesComponent } from './city/city-employees.component';
 import { WorkPlaceComponent } from './work-place/work-place.component';
 import { CompanyService } from './company/company.service';
+<<<<<<< HEAD
 import { WorkHistoryComponent } from './work-history/work-history.component';
 import { WorkHistoryService } from './work-history/work-history.service';
+=======
+>>>>>>> 8a44f92a82f17d72af183343e58479b5216bdf10
 
 
 
@@ -60,11 +62,23 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
+<<<<<<< HEAD
     NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent,
     WorkPlaceComponent,
     NonworkingDayComponent,
     NgbdPaginationAdvanced,
     ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent, CompanyComponent, WorkHistoryComponent
+=======
+    NonworkingDayComponent,
+    NgbdPaginationAdvanced,
+    ContactsComponent,
+    VacationRequestComponent,
+    CityComponent,
+    CityEmployeesComponent,
+    CompanyComponent,
+    WorkPlaceComponent
+
+>>>>>>> 8a44f92a82f17d72af183343e58479b5216bdf10
   ],
   imports: [
     BrowserModule,

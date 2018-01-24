@@ -1,11 +1,15 @@
 <div class="container-fluid">
     <h4>Podaci o firmi:</h4>
+    <a title="Izmena podataka o firmi" class="show_hand" (click)="onEditCompany()">
+         Izmena <span class="glyphicon glyphicon-edit"></span>
+    </a>
     <table class="table table-striped">
         <tr class="header">
             <th>Naziv</th>
             <th>PIB</th>
             <th>Adresa</th>
             <th>Email</th>
+            <th>Telefon</th>
             <th>Grad</th>
         </tr>
         <tr>
@@ -14,7 +18,78 @@
             <td>{{company.address}}</td>
             <td>{{company.email}}</td>
             <td>{{company.phoneNumber}}</td>
-            <td>{{company.city}}</td>
+            <td>{{city.cityName}}</td>
         </tr>
     </table>
+
+    <app-dialog [(visible)]="showEditDialog">
+        <h4>Izmeni podatke o firmi</h4>
+        <hr>
+        <form (ngSubmit)="onSubmit()" class="form-horizontal" #editForm="ngForm">
+            <fieldset>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="name">Naziv</label>
+                    <div class="col-md-5">
+                        <input id="name" name="name" type="text" placeholder="naziv firme" class="form-control input-md" ngModel required
+                            #name="ngModel" [(ngModel)]="companyNameVar" maxlength="30">
+                        <span class="help-block" *ngIf="name.touched && !name.valid">Naziv firme je obavezan.</span>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="vat">PIB</label>
+                    <div class="col-md-5">
+                        <input id="vat" name="vat" type="number" placeholder="poreski identifikacioni broj" class="form-control input-md" ngModel required
+                            #vat="ngModel" [(ngModel)]="companyVatVar">
+                        <span class="help-block" *ngIf="vat.touched && !vat.valid">PIB firme je obavezan.</span>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="address">Adresa</label>
+                    <div class="col-md-5">
+                        <input id="address" name="address" type="text" placeholder="adresa firme" class="form-control input-md" ngModel
+                         #address="ngModel" [(ngModel)]="companyAddressVar" maxlength="40">
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="email">Email</label>
+                    <div class="col-md-5">
+                        <input id="email" name="email" type="email" placeholder="email firme" class="form-control input-md" ngModel
+                         #email="ngModel" [(ngModel)]="companyEmailVar" maxlength="60">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="phoneNumber">Telefon</label>
+                    <div class="col-md-5">
+                        <input id="phoneNumber" name="phoneNumber" type="text" placeholder="telefon firme" class="form-control input-md" ngModel
+                         #phoneNumber="ngModel" [(ngModel)]="companyPgoneNumberVar" maxlength="25">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="cityIdEdit">Grad</label>
+                    <div class="col-md-4">
+                        <select id="cityIdEdit" name="cityIdEdit" class="form-control" ngModel required [(ngModel)]="companyCityIdVar">
+                            <option *ngFor="let city of cities" value="{{city.cityId}}">{{city.cityName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+    
+            <hr>
+            <div style="text-align: center">
+                <button class="btn btn-primary" type="submit" [disabled]="!editForm.valid">Potvrdi</button>
+                <button type="button" (click)="showEditDialog = !showEditDialog;" class="btn">Zatvori</button>
+            </div>
+    
+        </form>
+    
+    </app-dialog>
+    
+    
+    <br>
 </div>
