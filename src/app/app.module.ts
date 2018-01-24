@@ -45,7 +45,8 @@ const appRoutes: Routes = [
   { path: 'nonworkingDay', component: NonworkingDayComponent },
   { path: 'cities', component: CityComponent },
   { path: 'workPlace', component: WorkPlaceComponent },
-  { path: 'company', component: CompanyComponent }
+  { path: 'company', component: CompanyComponent },
+  { path: 'workHistory', component: WorkHistoryComponent }
 
   // { path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },
 ];

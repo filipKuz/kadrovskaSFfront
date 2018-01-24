@@ -38,7 +38,7 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
   workHistory = {
     "previousCompany": "",
      "startDate": this.startDate.date.year + "-" + this.startDate.date.month + "-" + this.startDate.date.day,
-     "endDate": this.endDate.date.year + "-" + this.endDate.date.month + "-" + this.endDate.date.day,    
+     //"endDate": this.endDate.date.year + "-" + this.endDate.date.month + "-" + this.endDate.date.day,    
      "employeeId":0
   };
 
