@@ -17,6 +17,7 @@ import { element } from 'protractor';
   styleUrls: ['./employee.component.css']
 })
 export class EmployeeComponent implements OnInit {
+  workPlaces: any;
   @ViewChild('f') addEmployeeForm: NgForm;
   @ViewChild('fE') editEmployeeForm: NgForm;
   @ViewChild('dp') ngxdp: NgxMyDatePickerDirective;
@@ -158,7 +159,6 @@ export class EmployeeComponent implements OnInit {
   ngOnInit() {
     this.onGetAll();
     this.onPopulateDropDownCity();
-    this.onPopulateDrowDownWorkPlaces();
   }
 
   resetForm() {
@@ -354,6 +354,6 @@ export class EmployeeComponent implements OnInit {
       );
   }
 
-
+  
 
 }
