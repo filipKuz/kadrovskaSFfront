@@ -24,12 +24,6 @@ export class EmployeeComponent implements OnInit {
 
   employees = [];
   cities = [];
-  workPlaces = [];
-
-  workPlace = {
-    "name": "",
-    "coefficient": 1
-};
 
   all = false;
   activeE = true;
@@ -359,27 +353,6 @@ export class EmployeeComponent implements OnInit {
       (error) => (console.log(error))
       );
   }
-
-  onPopulateDrowDownWorkPlaces() {
-    this._workPlaceService.getAllWorkPlaces().
-      subscribe(
-      (response: any) => (this.workPlaces = response),
-      (error) => (console.log(error))
-      );
-  }
-
-  onAddWorkPlace() {
-    let send = {
-        name: this.workPlace.name,
-        coefficient: Number(this.workPlace.coefficient)
-    };
-    this._workPlaceService.addWorkPlace(send)
-        .subscribe(
-        (response) => [this.workPlaces.push(response.json()), console.log(this.workPlaces)],
-        (error) => console.log(error)
-        );
-}
-
 
 
 
