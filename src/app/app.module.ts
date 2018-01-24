@@ -33,11 +33,8 @@ import { VacationReqService } from './vacation-request/vacation-request.service'
 import { CityEmployeesComponent } from './city/city-employees.component';
 import { WorkPlaceComponent } from './work-place/work-place.component';
 import { CompanyService } from './company/company.service';
-<<<<<<< HEAD
 import { WorkHistoryComponent } from './work-history/work-history.component';
 import { WorkHistoryService } from './work-history/work-history.service';
-=======
->>>>>>> 8a44f92a82f17d72af183343e58479b5216bdf10
 
 
 
@@ -62,23 +59,11 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
-<<<<<<< HEAD
     NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent,
     WorkPlaceComponent,
     NonworkingDayComponent,
     NgbdPaginationAdvanced,
     ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent, CompanyComponent, WorkHistoryComponent
-=======
-    NonworkingDayComponent,
-    NgbdPaginationAdvanced,
-    ContactsComponent,
-    VacationRequestComponent,
-    CityComponent,
-    CityEmployeesComponent,
-    CompanyComponent,
-    WorkPlaceComponent
-
->>>>>>> 8a44f92a82f17d72af183343e58479b5216bdf10
   ],
   imports: [
     BrowserModule,

@@ -42,7 +42,6 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
   };
 
   //workHostories = []
-
   constructor(private EmployeeService: EmployeeService,
     private workHistoryService: WorkHistoryService,
     private _messageService: MessageService) {
@@ -137,6 +136,7 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
     this.editWorkHistoryForm.resetForm();
   }
 
+  /*
   onDateChanged(event: IMyDateModel, whichChanged): void {
     console.log(whichChanged);
     if(whichChanged == 1){
@@ -145,7 +145,7 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
       this.workHistory.endDate = event.date.year + "-" + event.date.month + "-" + event.date.day;
     }
   }
-
+*/
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();
@@ -153,7 +153,7 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
 
   onSubmit(action: string) {
     if (action == "add") {
-      this.onCreateWorkHistory();
+     // this.onCreateWorkHistory();
       this.addWorkHistory = !this.addWorkHistory;
     }
     if (action == "edit") {
@@ -163,7 +163,7 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-
+/*
   onCreateWorkHistory() {
     this.workHistory.employeeId = this.employeeId;
     this.workHistoryService.newWorkHistory(this.workHistory)
@@ -175,7 +175,7 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
       (error) => console.log(error)
       )
   }
-
+*/
   onEditWorkHistory() {
     this.workHistoryService.editWorkHistory(this.workHistory, this.clickedWorkHistoryid)
       .subscribe(
