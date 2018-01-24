@@ -15,7 +15,6 @@ export class VacationReqService {
             .map(
             (response: Response) => {
                 const data = response.json();
-                console.log(data);
                 return data;
             }
             ).catch(
@@ -30,8 +29,6 @@ export class VacationReqService {
             .map(
             (response: Response) => {
                 const data = response.json();
-                console.log(data);
-                
                 return data;
             }
             ).catch(
