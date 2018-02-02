@@ -1,0 +1,160 @@
+<div class="container-fluid">
+  <ul class="list-inline">
+    <li>
+      <h4>Deca zaposlenog:</h4>
+    </li>
+    <li>
+      <a id="refresh" (click)="onGetChildrenByEmployeeId(message)">
+        <img src="assets/images/refresh.gif" />
+      </a>
+    </li>
+    <li class="group-start">
+      <a (click)="onAddButton()">
+        <img src="assets/images/add.gif" />
+      </a>
+    </li>
+  </ul>
+
+  <table class="table">
+    <tr class="header">
+      <th>Ime i prezime</th>
+      <th>Datum rodjenja</th>
+      <th>Pol</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let child of children">
+      <td>{{child.lastName}} {{child.name}}</td>
+      <td>{{child.birthDate}}</td>
+      <td>{{child.sex}}</td>
+      <td>
+        <a title="Izmena" class="show_hand" (click)="onEditButton(child.employeeChildId)">
+          <span class="glyphicon glyphicon-edit"></span>
+        </a> &nbsp;
+        <a title="Brisanje" class="show_hand" (click)="onDeleteChild(child.employeeChildId);">
+          <span style="color: red;" class="glyphicon glyphicon-remove"></span>
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <app-dialog [(visible)]="addChild">
+    <form (ngSubmit)="onSubmit('add')" class="form-horizontal" #f="ngForm">
+      <fieldset>
+
+        <legend>Dodaj dete zaposlenom</legend>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="name">Ime</label>
+          <div class="col-md-5">
+            <input id="name" name="name" type="text" class="form-control input-md" [(ngModel)]="child.name" required maxlength="30" #name="ngModel">
+            <span class="help-block" *ngIf="name.touched && !name.valid">Ime je obavezno.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="lastNameEdit">Prezime</label>
+          <div class="col-md-5">
+            <input id="lastNameEdit" name="lastNameEdit" type="text" class="form-control input-md" [(ngModel)]="child.lastNameEdit" required
+              maxlength="40" #lastNameEdit="ngModel">
+            <span class="help-block" *ngIf="lastNameEdit.touched && !lastNameEdit.valid">Prezime je obavezno.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="birthDate">Datum rodjenja</label>
+          <div class="col-md-5">
+            <input id="birthDate" class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker name="birthDate"
+              ngModel [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel"
+              required/>
+            <span class="help-block" *ngIf="datePick.touched && !datePick.valid">Uneti datum nije validan.</span>
+          </div>
+          <span class="input-group-btn control-span">
+            <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+              <i class="glyphicon glyphicon-remove"></i>
+            </button>
+            <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="sex">Pol</label>
+          <div class="col-md-4">
+            <select id="sex" name="sex" class="form-control" [ngModel]="defaultSex" required>
+              <option value="M">Muski</option>
+              <option value="Z">Zenski</option>
+            </select>
+          </div>
+        </div>
+
+      </fieldset>
+      <hr>
+      <div style="text-align: center">
+        <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Potvrdi</button>
+        <button type="button" (click)="addChild = !addChild; resetForm();" class="btn">Zatvori</button>
+      </div>
+    </form>
+  </app-dialog>
+
+
+  <app-dialog [(visible)]="editChild">
+    <form (ngSubmit)="onSubmit('edit')" class="form-horizontal" #fE="ngForm">
+      <fieldset>
+
+        <legend>Izmeni dete zaposlenog</legend>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="nameEdit">Ime</label>
+          <div class="col-md-5">
+            <input id="nameEdit" name="nameEdit" type="text" class="form-control input-md" [(ngModel)]="child.name" required maxlength="30"
+              #nameEdit="ngModel">
+            <span class="help-block" *ngIf="nameEdit.touched && !nameEdit.valid">Ime je obavezno.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="lastNameEdit">Prezime</label>
+          <div class="col-md-5">
+            <input id="lastNameEdit" name="lastNameEdit" type="text" class="form-control input-md" [(ngModel)]="child.lastNameEdit" required
+              maxlength="40" #lastNameEdit="ngModel">
+            <span class="help-block" *ngIf="lastNameEdit.touched && !lastNameEdit.valid">Prezime je obavezno.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="birthDateEdit">Datum rodjenja</label>
+          <div class="col-md-5">
+            <input id="birthDateEdit" class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker
+              name="birthDateEdit" ngModel [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)"
+              #datePickEdit="ngModel" required/>
+            <span class="help-block" *ngIf="datePickEdit.touched && !datePickEdit.valid">Uneti datum nije validan.</span>
+          </div>
+          <span class="input-group-btn control-span">
+            <button type="button" class="btn btn-default" (click)="dpE.clearDate()">
+              <i class="glyphicon glyphicon-remove"></i>
+            </button>
+            <button type="button" class="btn btn-default" (click)="dpE.toggleCalendar()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="sexEdit">Pol</label>
+          <div class="col-md-4">
+            <select id="sexEdit" name="sexEdit" class="form-control" [ngModel]="child.sex" required>
+              <option value="M">Muski</option>
+              <option value="Z">Zenski</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+      <hr>
+      <div style="text-align: center">
+        <button class="btn btn-primary" type="submit" [disabled]="!fE.valid">Potvrdi</button>
+        <button type="button" (click)="editChild = !editChild; resetEditForm();" class="btn">Zatvori</button>
+      </div>
+    </form>
+  </app-dialog>
+</div>

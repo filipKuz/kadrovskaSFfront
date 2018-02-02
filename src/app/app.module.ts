@@ -35,6 +35,8 @@ import { WorkPlaceComponent } from './work-place/work-place.component';
 import { CompanyService } from './company/company.service';
 import { WorkHistoryComponent } from './work-history/work-history.component';
 import { WorkHistoryService } from './work-history/work-history.service';
+import { ChildrenComponent } from './children/children.component';
+import { ChildrenService } from './children/children.service';
 
 
 
@@ -64,7 +66,13 @@ const appRoutes: Routes = [
     WorkPlaceComponent,
     NonworkingDayComponent,
     NgbdPaginationAdvanced,
-    ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent, CompanyComponent, WorkHistoryComponent
+    ContactsComponent,
+    VacationRequestComponent,
+    CityComponent,
+    CityEmployeesComponent,
+    CompanyComponent,
+    WorkHistoryComponent,
+    ChildrenComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +91,9 @@ const appRoutes: Routes = [
     CompanyService,
     NonworkingDaysService,
     WorkPlaceService,
-    VacationReqService,WorkHistoryService],
+    VacationReqService,
+    WorkHistoryService,
+    ChildrenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

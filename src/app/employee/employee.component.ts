@@ -29,43 +29,44 @@ export class EmployeeComponent implements OnInit {
   all = false;
   activeE = true;
 
-  data = { "Employee": {}, "workPlaceId": 0 };
+  data = { 'Employee': {}, 'workPlaceId': 0 };
   Employee = {
-    "lastName": "",
-    "firstName": "",
-    "parentName": "",
-    "madenName": "",
-    "birthDate": "",
-    "sex": "",
-    "address": "",
-    "email": "",
-    "phoneNumber": "",
-    "cityId": 1,
-    "companyId": 0
+    'lastName': '',
+    'firstName': '',
+    'parentName': '',
+    'madenName': '',
+    'birthDate': '',
+    'sex': '',
+    'address': '',
+    'email': '',
+    'phoneNumber': '',
+    'cityId': 1,
+    'companyId': 0
   };
-  AHRclicked: boolean = false;
-  EPQclicked: boolean = false;
-  WorkHistoryClicked: boolean = false;
-  CONTACTSclicked: boolean = false;
+  AHRclicked = false;
+  EPQclicked = false;
+  WorkHistoryClicked = false;
+  CONTACTSclicked = false;
+  ChildrenClicked = false;
   showDialog = false;
   showEditDialog = false;
-  showContactInfo: boolean = false;
+  showContactInfo = false;
   transormedDate: any = {};
 
-  responseSize:number = 0;
+  responseSize = 0;
   pageNum = 0;
   sizeNum = 5;
-  totalPages: number = 0;
+  totalPages = 0;
 
-  defaultSex = "M";
+  defaultSex = 'M';
   selectedEmployeeId = 0;
-  actionForModal = "";
+  actionForModal = '';
   selectedRow: number;
   setClickedRow: Function;
-  searchTerm: string = "";
-  sortTerm: string = "";
-  sortDirection: string = "";
-  sort: string = "";
+  searchTerm = '';
+  sortTerm = '';
+  sortDirection = '';
+  sort = '';
 
 
 
@@ -74,7 +75,7 @@ export class EmployeeComponent implements OnInit {
     private _workPlaceService: WorkPlaceService) {
     this.setClickedRow = function (index) {
       this.selectedRow = index;
-    }
+    };
   }
 
   onGetBySearch() {
@@ -82,11 +83,11 @@ export class EmployeeComponent implements OnInit {
   }
 
   radioButton(action) {
-    if (action == "all") {
+    if (action === 'all') {
       this.all = !this.all;
       this.activeE = !this.activeE;
       this.onGetAll();
-    } if (action == "active") {
+    } if (action === 'active') {
       this.activeE = !this.activeE;
       this.all = !this.all;
       this.onGet();
@@ -103,10 +104,10 @@ export class EmployeeComponent implements OnInit {
   }
 
   onSelectSort() {
-    var splitSort = this.sort.split("-");
+    var splitSort = this.sort.split('-');
     this.sortTerm = splitSort[0];
     this.sortDirection = splitSort[1];
-    console.log(this.sortTerm + " " + this.sortDirection);
+    console.log(this.sortTerm + ' ' + this.sortDirection);
     this.onSelect();
   }
 
@@ -116,7 +117,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   onNext() {
-    if (this.selectedRow == null || this.employees.length - 1 == this.selectedRow) {
+    if (this.selectedRow == null || this.employees.length - 1 === this.selectedRow) {
       this.selectedRow = 0;
       return;
     }
@@ -124,11 +125,11 @@ export class EmployeeComponent implements OnInit {
   }
 
   onLastorFirst(condition: string) {
-    if (condition == "last") {
+    if (condition === 'last') {
       this.selectedRow = this.employees.length - 1;
       return;
     }
-    if (condition == "first") {
+    if (condition === 'first') {
       this.selectedRow = 0;
       return;
     }
@@ -139,7 +140,7 @@ export class EmployeeComponent implements OnInit {
       this.selectedRow = 0;
       return;
     }
-    if (this.selectedRow == 0) {
+    if (this.selectedRow === 0) {
       this.selectedRow = this.employees.length - 1;
       return;
     }
@@ -148,9 +149,9 @@ export class EmployeeComponent implements OnInit {
 
   onCreateAHRs() {
     this.ahrService.createAHRs().subscribe(
-      (response:any) => (
-        this.responseSize = (response).length ,
-        alert("Kreirali ste " + this.responseSize + " resenja za godisnji odmor")
+      (response: any) => (
+        this.responseSize = (response).length,
+        alert('Kreirali ste ' + this.responseSize + ' resenja za godisnji odmor')
       ),
       (error) => console.log(error)
     );
@@ -172,13 +173,13 @@ export class EmployeeComponent implements OnInit {
   onEditEmployee(id) {
     this.resetEditForm();
     this.selectedEmployeeId = id;
-    this.actionForModal = "edit";
+    this.actionForModal = 'edit';
     this.onGetById(this.selectedEmployeeId);
     this.showEditDialog = !this.showEditDialog;
   }
 
   transformFormattedDate(date: string) {
-    var dateSpilt = date.split("-");
+    var dateSpilt = date.split('-');
     this.transormedDate = { date: { year: Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
   }
 
@@ -202,20 +203,21 @@ export class EmployeeComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.actionForModal === "edit") {
-      this.Employee.birthDate = this.transormedDate.date.year + "-" + this.transormedDate.date.month + "-" + this.transormedDate.date.day;
+    if (this.actionForModal === 'edit') {
+      this.Employee.birthDate = this.transormedDate.date.year + '-' + this.transormedDate.date.month + '-' + this.transormedDate.date.day;
       this.onPut();
       this.resetEditForm();
       this.showEditDialog = !this.showEditDialog;
     }
-    if (this.actionForModal === "add") {
-      var dateFromAddForm = this.addEmployeeForm.value.birthDate.date.year + "-" + this.addEmployeeForm.value.birthDate.date.month + "-" + this.addEmployeeForm.value.birthDate.date.day;
+    if (this.actionForModal === 'add') {
+      var dateFromAddForm = this.addEmployeeForm.value.birthDate.date.year + '-' + this.addEmployeeForm.value.birthDate.date.month +
+        '-' + this.addEmployeeForm.value.birthDate.date.day;
       this.onPopulateJsonEmployee(this.addEmployeeForm.value.address, this.addEmployeeForm.value.lastName, this.addEmployeeForm.value.name,
         this.addEmployeeForm.value.parentName, this.addEmployeeForm.value.sex, this.addEmployeeForm.value.madenName,
         this.addEmployeeForm.value.email, this.addEmployeeForm.value.phoneNumber, 0,
         this.addEmployeeForm.value.cityId, dateFromAddForm);
-      this.data["Employee"] = this.Employee;
-      this.data["workPlaceId"] = this.addEmployeeForm.value.workPlaceId;
+      this.data['Employee'] = this.Employee;
+      this.data['workPlaceId'] = this.addEmployeeForm.value.workPlaceId;
       this.onPost();
       this.showDialog = !this.showDialog;
     }
@@ -226,7 +228,7 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.getActiveEmployees(this.pageNum, this.sizeNum, this.searchTerm,
       this.sortTerm, this.sortDirection)
       .subscribe(
-      (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get("totalPages") * 10)),
+      (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get('totalPages') * 10)),
       (error) => console.log(error)
       );
   }
@@ -235,7 +237,7 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.getAllEmployees(this.pageNum, this.sizeNum, this.searchTerm,
       this.sortTerm, this.sortDirection)
       .subscribe(
-      (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get("totalPages") * 10)),
+      (response: any) => (this.employees = response.json(), this.totalPages = Number(response.headers.get('totalPages') * 10)),
       (error) => console.log(error)
       );
   }
@@ -289,14 +291,15 @@ export class EmployeeComponent implements OnInit {
     this.CONTACTSclicked = false;
     this.AHRclicked = false;
     this.WorkHistoryClicked = false;
+    this.ChildrenClicked = false;
     this.EPQclicked = true;
   }
-
 
   setActiveAHR() {
     this.CONTACTSclicked = false;
     this.EPQclicked = false;
     this.WorkHistoryClicked = false;
+    this.ChildrenClicked = false;
     this.AHRclicked = true;
   }
 
@@ -304,6 +307,7 @@ export class EmployeeComponent implements OnInit {
     this.EPQclicked = false;
     this.AHRclicked = false;
     this.WorkHistoryClicked = false;
+    this.ChildrenClicked = false;
     this.CONTACTSclicked = true;
   }
 
@@ -311,8 +315,16 @@ export class EmployeeComponent implements OnInit {
     this.CONTACTSclicked = false;
     this.EPQclicked = false;
     this.AHRclicked = false;
+    this.ChildrenClicked = false;
     this.WorkHistoryClicked = true;
+  }
 
+  setActiveChildren() {
+    this.CONTACTSclicked = false;
+    this.EPQclicked = false;
+    this.AHRclicked = false;
+    this.WorkHistoryClicked = false;
+    this.ChildrenClicked = true;
   }
 
   sendMessage(message: string): void {
@@ -332,10 +344,10 @@ export class EmployeeComponent implements OnInit {
     maxYear: new Date().getFullYear()
   };
 
-  model: any = { date: { year: "2017", month: "1", day: "19" } };
+  model: any = { date: { year: '2017', month: '1', day: '19' } };
   onDateChanged(event: IMyDateModel): void {
     // date selected
-    console.log(event.date + "  ++++");
+    console.log(event.date + '  ++++');
 
   }
 
@@ -353,7 +365,4 @@ export class EmployeeComponent implements OnInit {
       (error) => (console.log(error))
       );
   }
-
-  
-
 }

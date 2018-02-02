@@ -34,39 +34,42 @@
       </a>
     </li>
     <li>
-      <label class="radio-inline"><input (click)="radioButton('active')" checked="checked" type="radio" name="optradio">Zaposleni</label>
-      <label class="radio-inline"><input (click)="radioButton('all')" type="radio" name="optradio">Baza radnika</label>
+      <label class="radio-inline">
+        <input (click)="radioButton('active')" checked="checked" type="radio" name="optradio">Zaposleni</label>
+      <label class="radio-inline">
+        <input (click)="radioButton('all')" type="radio" name="optradio">Baza radnika</label>
     </li>
     <li>
       <button *ngIf="!all" (click)="onCreateAHRs()" type="button" class="btn btn-primary">Kreiraj resenja za godisnje odmore</button>
     </li>
-    <li class="pull-right"> 
+    <li class="pull-right">
       <div class="form-group">
-          <select class="form-control" [(ngModel)]="sort" (change)="onSelectSort()">
-              <option value="">Sortiraj po:</option>
-              <option value="firstName-DESC">Nazivu opadajuce</option>
-              <option value="firstName-ASC">Nazivu rastuce</option>
-              <option value="lastName-DESC">Prezimenu opadajuce</option>
-              <option value="lastName-ASC">Prezimenu rastuce</option>
-              <option value="parentName-DESC">Ime roditelja opadajuce</option>
-              <option value="parentName-ASC">Ime roditelja rastuce</option>
-              <option value="birthDate-DESC">Datumu rodjenja opadajuce</option>
-              <option value="birthDate-ASC">Datumu rodjenja rastuce</option>
-              <option value="sex-DESC">Polu opadajuce</option>
-              <option value="sex-ASC">Polu rastuce</option>
-            </select>
-      </div>      
+        <select class="form-control" [(ngModel)]="sort" (change)="onSelectSort()">
+          <option value="">Sortiraj po:</option>
+          <option value="firstName-DESC">Nazivu opadajuce</option>
+          <option value="firstName-ASC">Nazivu rastuce</option>
+          <option value="lastName-DESC">Prezimenu opadajuce</option>
+          <option value="lastName-ASC">Prezimenu rastuce</option>
+          <option value="parentName-DESC">Ime roditelja opadajuce</option>
+          <option value="parentName-ASC">Ime roditelja rastuce</option>
+          <option value="birthDate-DESC">Datumu rodjenja opadajuce</option>
+          <option value="birthDate-ASC">Datumu rodjenja rastuce</option>
+          <option value="sex-DESC">Polu opadajuce</option>
+          <option value="sex-ASC">Polu rastuce</option>
+        </select>
+      </div>
     </li>
     <li class="pull-right">
-        <form action="" class="search-form inline">
-            <div class="form-group has-feedback">
-            <label for="search" class="sr-only">Search</label>
-            <input [(ngModel)]="searchTerm" (keyup)="onGetBySearch()" autocomplete="off" type="text" class="form-control" name="search" id="search" placeholder="pretraga">
-              <span class="glyphicon glyphicon-search form-control-feedback"></span>
-            </div>
-        </form>
+      <form action="" class="search-form inline">
+        <div class="form-group has-feedback">
+          <label for="search" class="sr-only">Search</label>
+          <input [(ngModel)]="searchTerm" (keyup)="onGetBySearch()" autocomplete="off" type="text" class="form-control" name="search"
+            id="search" placeholder="pretraga">
+          <span class="glyphicon glyphicon-search form-control-feedback"></span>
+        </div>
+      </form>
     </li>
-    
+
   </ul>
   <table class="table table-hover">
     <tr class="header">
@@ -104,14 +107,16 @@
         <a (click)="setActiveCONTACTS();sendMessage(employee.employeeId);">Kontant Podaci</a>
       </td>
       <td>
-        <a href="#">Deca</a>
+        <a (click)="setActiveChildren();sendMessage(employee.employeeId);">Deca</a>
       </td>
-      <td><a *ngIf="!all" title="Izmena!" class="show_hand" (click)="onEditEmployee(employee.employeeId)">
-        <span class="glyphicon glyphicon-edit"></span>
-      </a> &nbsp;
-      <a *ngIf="!all" title="Brisanje!" class="show_hand" (click)="onFireEmployee(employee.employeeId);">
-        <span style="color: red;" class="glyphicon glyphicon-remove"></span>
-      </a></td>
+      <td>
+        <a *ngIf="!all" title="Izmena!" class="show_hand" (click)="onEditEmployee(employee.employeeId)">
+          <span class="glyphicon glyphicon-edit"></span>
+        </a> &nbsp;
+        <a *ngIf="!all" title="Brisanje!" class="show_hand" (click)="onFireEmployee(employee.employeeId);">
+          <span style="color: red;" class="glyphicon glyphicon-remove"></span>
+        </a>
+      </td>
     </tr>
   </table>
 
@@ -127,25 +132,28 @@
     </select>
   </div>
   <div [hidden]="!EPQclicked">
-     <hr>
-     <app-employee-professional-qualifications></app-employee-professional-qualifications>
+    <hr>
+    <app-employee-professional-qualifications></app-employee-professional-qualifications>
   </div>
   <div [hidden]="!WorkHistoryClicked">
     <hr>
     <app-work-history></app-work-history>
- </div>
+  </div>
 
   <div [hidden]="!AHRclicked">
     <hr>
     <app-annual-holiday-regulation></app-annual-holiday-regulation>
- </div>
+  </div>
 
- <div [hidden]="!CONTACTSclicked">
+  <div [hidden]="!CONTACTSclicked">
     <hr>
     <app-contacts></app-contacts>
- </div>
+  </div>
 
- 
+  <div [hidden]="!ChildrenClicked">
+    <hr>
+    <app-children></app-children>
+  </div>
 
   <app-dialog [(visible)]="showDialog">
     <h4>Dodaj zaposlenog</h4>
@@ -156,12 +164,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="lastName">Prezime</label>
           <div class="col-md-5">
-            <input id="lastName"
-                   name="lastName" 
-                   type="text" 
-                   placeholder="prezime..." 
-                   class="form-control input-md" 
-                   ngModel required #lastName="ngModel" maxlength="15">
+            <input id="lastName" name="lastName" type="text" placeholder="prezime..." class="form-control input-md" ngModel required
+              #lastName="ngModel" maxlength="15">
             <span class="help-block" *ngIf="lastName.touched && !lastName.valid">Prezime je obavezno.</span>
           </div>
         </div>
@@ -170,12 +174,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="name">Ime</label>
           <div class="col-md-5">
-            <input id="name" 
-                   name="name" 
-                   type="text" 
-                   placeholder="ime..." 
-                   class="form-control input-md"
-                   ngModel required #firstName="ngModel">
+            <input id="name" name="name" type="text" placeholder="ime..." class="form-control input-md" ngModel required #firstName="ngModel">
             <span class="help-block" *ngIf="firstName.touched && !firstName.valid" maxlength="15">Ime je obavezno.</span>
           </div>
         </div>
@@ -184,12 +183,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="parentName">Ime roditelja</label>
           <div class="col-md-5">
-            <input id="parentName"
-                   name="parentName" 
-                   type="text" 
-                   placeholder="ime jednog roditelja..." 
-                   class="form-control input-md"
-                   ngModel required #parentName="ngModel">
+            <input id="parentName" name="parentName" type="text" placeholder="ime jednog roditelja..." class="form-control input-md"
+              ngModel required #parentName="ngModel">
             <span class="help-block" *ngIf="parentName.touched && !parentName.valid" maxlength="15">Ime jednog roditelja je obavezno.</span>
           </div>
         </div>
@@ -207,19 +202,19 @@
 
         <!-- for date -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="birthDate">Datum rodjenja</label>
-            <div class="col-md-5">
-              <input class="form-control input-md" style="float: none" placeholder="Select a date" ngx-mydatepicker name="birthDate"
-                 [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel" required/>
-                 <span class="help-block" *ngIf="datePick.touched && !datePick.valid">Uneti datum nije validan.</span>
-            </div>
+          <label class="col-md-4 control-label" for="birthDate">Datum rodjenja</label>
+          <div class="col-md-5">
+            <input class="form-control input-md" style="float: none" placeholder="Select a date" ngx-mydatepicker name="birthDate" [(ngModel)]="model"
+              [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePick="ngModel" required/>
+            <span class="help-block" *ngIf="datePick.touched && !datePick.valid">Uneti datum nije validan.</span>
+          </div>
           <span class="input-group-btn control-span">
-              <button type="button" class="btn btn-default" (click)="dp.clearDate()">
-                  <i class="glyphicon glyphicon-remove"></i>
-              </button>
-              <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
-                  <i class="glyphicon glyphicon-calendar"></i>
-              </button>
+            <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+              <i class="glyphicon glyphicon-remove"></i>
+            </button>
+            <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
           </span>
         </div>
 
@@ -227,11 +222,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="madenName">Devojacko prezime</label>
           <div class="col-md-5">
-            <input id="madenName" 
-                   name="madenName" 
-                   type="text" 
-                   placeholder="ostaviti prazno ukoliko ga nema..." 
-                   class="form-control input-md" ngModel maxlength="15">
+            <input id="madenName" name="madenName" type="text" placeholder="ostaviti prazno ukoliko ga nema..." class="form-control input-md"
+              ngModel maxlength="15">
           </div>
         </div>
 
@@ -239,12 +231,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="address">Adresa</label>
           <div class="col-md-5">
-            <input id="address" 
-                   name="address" 
-                   type="text" 
-                   placeholder="adresa..." 
-                   class="form-control input-md" ngModel required #address="ngModel">
-                   <span class="help-block" *ngIf="address.touched && !address.valid" maxlength="45">Adresa je obavezna.</span>
+            <input id="address" name="address" type="text" placeholder="adresa..." class="form-control input-md" ngModel required #address="ngModel">
+            <span class="help-block" *ngIf="address.touched && !address.valid" maxlength="45">Adresa je obavezna.</span>
           </div>
         </div>
 
@@ -252,64 +240,55 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="email">Email</label>
           <div class="col-md-5">
-            <input id="email" 
-                   name="email" 
-                   type="text" 
-                   placeholder="email..." 
-                   class="form-control input-md" ngModel maxlength="30">
+            <input id="email" name="email" type="text" placeholder="email..." class="form-control input-md" ngModel maxlength="30">
           </div>
         </div>
         <p>
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="phoneNumber">Broj telefona</label>
-          <div class="col-md-5">
-            <input id="phoneNumber" 
-                   name="phoneNumber" 
-                   type="text" 
-                   placeholder="broj telefona..." 
-                   class="form-control input-md" ngModel maxlength="20">
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="phoneNumber">Broj telefona</label>
+            <div class="col-md-5">
+              <input id="phoneNumber" name="phoneNumber" type="text" placeholder="broj telefona..." class="form-control input-md" ngModel
+                maxlength="20">
+            </div>
           </div>
-        </div>
 
-        <!-- Select Basic -->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="workPlace">Radno mesto</label>
-          <div class="col-md-4">
-            <select id="workPlaceId" name="workPlaceId" class="form-control" ngModel required>
-              <option *ngFor="let wp of workPlaces" value="{{wp.workPlaceId}}">{{ wp.name }}</option>
-            </select>
+          <!-- Select Basic -->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="workPlace">Radno mesto</label>
+            <div class="col-md-4">
+              <select id="workPlaceId" name="workPlaceId" class="form-control" ngModel required>
+                <option *ngFor="let wp of workPlaces" value="{{wp.workPlaceId}}">{{ wp.name }}</option>
+              </select>
+            </div>
+            <span class="input-group-btn control-span">
+              <button type="button" class="btn btn-default" (click)="onAddWorkPlace()">
+                <img src="assets/images/add.gif" />
+              </button>
+            </span>
           </div>
-          <span class="input-group-btn control-span">
-            <button type="button" class="btn btn-default" (click)="onAddWorkPlace()">
-              <img src="assets/images/add.gif" />
-            </button>
-        </span>
-        </div>
 
-        <!-- Select Basic -->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="cityId">Grad</label>
-          <div class="col-md-4">
-            <select id="cityId" name="cityId" class="form-control" ngModel required>
-              <option *ngFor="let city of cities" value="{{city.cityId}}">{{city.cityName}}</option>
-            </select>
+          <!-- Select Basic -->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="cityId">Grad</label>
+            <div class="col-md-4">
+              <select id="cityId" name="cityId" class="form-control" ngModel required>
+                <option *ngFor="let city of cities" value="{{city.cityId}}">{{city.cityName}}</option>
+              </select>
+            </div>
           </div>
-        </div>
 
       </fieldset>
 
       <hr>
       <div style="text-align: center">
-        <button 
-          class="btn btn-primary" 
-          type="submit" [disabled]="!f.valid">Potvrdi</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Potvrdi</button>
         <button type="button" (click)="showDialog = !showDialog; resetForm();" class="btn">Close</button>
       </div>
-      
+
     </form>
 
-    
+
 
   </app-dialog>
   <!-- Edit modal -->
@@ -322,12 +301,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="lastName">Prezime</label>
           <div class="col-md-5">
-            <input id="lastNameEdit"
-                   name="lastNameEdit" 
-                   type="text" 
-                   placeholder="prezime..." 
-                   class="form-control input-md" 
-                   ngModel required #lastNameEdit="ngModel" [(ngModel)]="Employee.lastName" maxlength="15">
+            <input id="lastNameEdit" name="lastNameEdit" type="text" placeholder="prezime..." class="form-control input-md" ngModel required
+              #lastNameEdit="ngModel" [(ngModel)]="Employee.lastName" maxlength="15">
             <span class="help-block" *ngIf="lastNameEdit.touched && !lastNameEdit.valid">Prezime je obavezno.</span>
           </div>
         </div>
@@ -336,12 +311,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="firstName">Ime</label>
           <div class="col-md-5">
-            <input id="firstNameEdit" 
-                   name="firstNameEdit" 
-                   type="text" 
-                   placeholder="ime..." 
-                   class="form-control input-md"
-                   ngModel required #firstNameEdit="ngModel" [(ngModel)]="Employee.firstName" maxlength="15">
+            <input id="firstNameEdit" name="firstNameEdit" type="text" placeholder="ime..." class="form-control input-md" ngModel required
+              #firstNameEdit="ngModel" [(ngModel)]="Employee.firstName" maxlength="15">
             <span class="help-block" *ngIf="firstNameEdit.touched && !firstNameEdit.valid">Ime je obavezno.</span>
           </div>
         </div>
@@ -350,12 +321,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="parentName">Ime roditelja</label>
           <div class="col-md-5">
-            <input id="parentNameEdit"
-                   name="parentNameEdit" 
-                   type="text" 
-                   placeholder="ime jednog roditelja..." 
-                   class="form-control input-md"
-                   ngModel required #parentNameEdit="ngModel" [(ngModel)]="Employee.parentName" maxlength="15">
+            <input id="parentNameEdit" name="parentNameEdit" type="text" placeholder="ime jednog roditelja..." class="form-control input-md"
+              ngModel required #parentNameEdit="ngModel" [(ngModel)]="Employee.parentName" maxlength="15">
             <span class="help-block" *ngIf="parentNameEdit.touched && !parentNameEdit.valid">Ime jednog roditelja je obavezno.</span>
           </div>
         </div>
@@ -376,28 +343,26 @@
           <label class="col-md-4 control-label" for="birthDateEdit">Datum rodjenja</label>
           <div class="col-md-5">
             <input class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker name="birthDateEdit"
-            [(ngModel)]="transormedDate" [options]="myOptions" #dpE="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" #datePickEdit="ngModel" required/>
-               <span class="help-block" *ngIf="datePickEdit.touched && !datePickEdit.valid">Uneti datum nije validan.</span>
+              [(ngModel)]="transormedDate" [options]="myOptions" #dpE="ngx-mydatepicker" (dateChanged)="onDateChanged($event)"
+              #datePickEdit="ngModel" required/>
+            <span class="help-block" *ngIf="datePickEdit.touched && !datePickEdit.valid">Uneti datum nije validan.</span>
           </div>
-        <span class="input-group-btn control-span">
+          <span class="input-group-btn control-span">
             <button type="button" class="btn btn-default" (click)="dpE.clearDate()">
-                <i class="glyphicon glyphicon-remove"></i>
+              <i class="glyphicon glyphicon-remove"></i>
             </button>
             <button type="button" class="btn btn-default" (click)="dpE.toggleCalendar()">
-                <i class="glyphicon glyphicon-calendar"></i>
+              <i class="glyphicon glyphicon-calendar"></i>
             </button>
-        </span>
-      </div>
+          </span>
+        </div>
 
         <!-- Text input-->
         <div class="form-group">
           <label class="col-md-4 control-label" for="madenNameEdit">Devojacko prezime</label>
           <div class="col-md-5">
-            <input id="madenNameEdit" 
-                   name="madenNameEdit" 
-                   type="text" 
-                   placeholder="ostaviti prazno ukoliko ga nema..." 
-                   class="form-control input-md" ngModel [(ngModel)]="Employee.madenName" maxlength="15">
+            <input id="madenNameEdit" name="madenNameEdit" type="text" placeholder="ostaviti prazno ukoliko ga nema..." class="form-control input-md"
+              ngModel [(ngModel)]="Employee.madenName" maxlength="15">
           </div>
         </div>
 
@@ -405,11 +370,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="addressEdit">Adresa</label>
           <div class="col-md-5">
-            <input id="addressEdit" 
-                   name="addressEdit" 
-                   type="text" 
-                   placeholder="adresa..." 
-                   class="form-control input-md" ngModel #address="ngModel" [(ngModel)]="Employee.address" maxlength="45">
+            <input id="addressEdit" name="addressEdit" type="text" placeholder="adresa..." class="form-control input-md" ngModel #address="ngModel"
+              [(ngModel)]="Employee.address" maxlength="45">
           </div>
         </div>
 
@@ -417,49 +379,41 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="emailEdit">Email</label>
           <div class="col-md-5">
-            <input id="emailEdit" 
-                   name="emailEdit" 
-                   type="text" 
-                   placeholder="email..." 
-                   class="form-control input-md" ngModel [(ngModel)]="Employee.email" maxlength="30">
+            <input id="emailEdit" name="emailEdit" type="text" placeholder="email..." class="form-control input-md" ngModel [(ngModel)]="Employee.email"
+              maxlength="30">
           </div>
         </div>
         <p>
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="phoneNumberEdit">Broj telefona</label>
-          <div class="col-md-5">
-            <input id="phoneNumberEdit" 
-                   name="phoneNumberEdit" 
-                   type="text" 
-                   placeholder="broj telefona..." 
-                   class="form-control input-md" ngModel [(ngModel)]="Employee.phoneNumber" maxlength="20">
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="phoneNumberEdit">Broj telefona</label>
+            <div class="col-md-5">
+              <input id="phoneNumberEdit" name="phoneNumberEdit" type="text" placeholder="broj telefona..." class="form-control input-md"
+                ngModel [(ngModel)]="Employee.phoneNumber" maxlength="20">
+            </div>
           </div>
-        </div>
 
-        <!-- Select Basic -->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="cityIdEdit">Grad</label>
-          <div class="col-md-4">
-            <select id="cityIdEdit" name="cityIdEdit" class="form-control" ngModel required [(ngModel)]="Employee.cityId"> 
-              <option *ngFor="let city of cities" value="{{city.cityId}}">{{city.cityName}}</option>
-            </select>
+          <!-- Select Basic -->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="cityIdEdit">Grad</label>
+            <div class="col-md-4">
+              <select id="cityIdEdit" name="cityIdEdit" class="form-control" ngModel required [(ngModel)]="Employee.cityId">
+                <option *ngFor="let city of cities" value="{{city.cityId}}">{{city.cityName}}</option>
+              </select>
+            </div>
           </div>
-        </div>
 
       </fieldset>
 
       <hr>
       <div style="text-align: center">
-        <button 
-          class="btn btn-primary" 
-          type="submit" [disabled]="!fE.valid">Potvrdi</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!fE.valid">Potvrdi</button>
         <button type="button" (click)="showEditDialog = !showEditDialog; resetEditForm();" class="btn">Close</button>
       </div>
-      
+
     </form>
 
   </app-dialog>
   <br>
 </div>
-  <br>
+<br>
