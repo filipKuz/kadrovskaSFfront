@@ -19,13 +19,15 @@ export class WorkPlaceComponent implements OnInit {
     workPlaces = [];
     workPlace = {
         "name": "",
-        "coefficient": 1
+        "coefficient": 1,
+        "extraVacationDays": 0
     };
 
     workplaceForSend = {};
 
     name: string;
     coefficient: any;
+    extraVacationDays: any;
 
 
     WorkPlaceCLicked: boolean = false;
@@ -55,9 +57,11 @@ export class WorkPlaceComponent implements OnInit {
     onPopulateJsonWorkPlace(
         name: string,
         coefficient: any,
+        extraVacationDays: any,
     ) {
         this.workPlace.name = name;
         this.workPlace.coefficient = coefficient;
+        this.workPlace.extraVacationDays = extraVacationDays;
     }
 
     onNext() {
@@ -104,11 +108,11 @@ export class WorkPlaceComponent implements OnInit {
 
     onSubmit(action) {
         if (action === "add") {
-            this.onPopulateJsonWorkPlace(this.name, this.coefficient);
+            this.onPopulateJsonWorkPlace(this.name, this.coefficient, this.extraVacationDays);
             this.onPost();
             this.showDialog = !this.showDialog;
         } if (action === "edit") {
-            this.onPopulateJsonWorkPlace(this.editWorkPlaceForm.value.workPlaceNameEdit, this.editWorkPlaceForm.value.workPlaceCoefficientEdit);
+            this.onPopulateJsonWorkPlace(this.editWorkPlaceForm.value.workPlaceNameEdit, this.editWorkPlaceForm.value.workPlaceCoefficientEdit, this.editWorkPlaceForm.value.workPlaceExtraVacationDaysEdit);
             this.onPut();
             this.showEditDialog = !this.showEditDialog;
             this.resetEditForm();
@@ -146,6 +150,7 @@ export class WorkPlaceComponent implements OnInit {
                 this.onPopulateJsonWorkPlace(
                     response.name,
                     response.coefficient,
+                    response.extraVacationDays,
                 )),
             (error) => console.log(error)
             )
@@ -166,7 +171,8 @@ export class WorkPlaceComponent implements OnInit {
     onPost() {
         let send = {
             name: this.workPlace.name,
-            coefficient: Number(this.workPlace.coefficient)
+            coefficient: Number(this.workPlace.coefficient),
+            extraVacationDays : Number(this.workPlace.extraVacationDays)
         };
         this.workPlaceService.addWorkPlace(send)
             .subscribe(

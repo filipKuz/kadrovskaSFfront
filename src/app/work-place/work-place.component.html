@@ -40,11 +40,13 @@
     <tr class="header">
       <th>Naziv</th>
       <th>Koeficijent</th>
+      <th>Dodatni dani</th>
       <td></td>
     </tr>
     <tr *ngFor="let workPlace of workPlaces; let i = index" [class.active]="i == selectedRow">
       <td>{{workPlace.name}}</td>
       <td>{{workPlace.coefficient}}</td>
+      <td>{{workPlace.extraVacationDays}}</td>
       <td>
         <a title="Izmena!" class="show_hand" (click)="onEditWorkPlace(workPlace.workPlaceId)">
           <span class="glyphicon glyphicon-edit"></span>
@@ -78,11 +80,23 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="coefficient">Keoficijent</label>
           <div class="col-md-5">
-            <input id="workPlaceCoefficientEdit" name="workPlaceCoefficientEdit" type="text" placeholder="Keoficijent" class="form-control input-md"
+            <input id="workPlaceCoefficientEdit" name="workPlaceCoefficientEdit" type="number" placeholder="Keoficijent" class="form-control input-md"
               [(ngModel)]="coefficient" ngModel required #workPlaceCoefficient="ngModel">
             <span class="help-block" *ngIf="workPlaceCoefficient.touched && !workPlaceCoefficient.valid">Keoficijent je obavezan</span>
           </div>
         </div>
+        <!-- for extra vacation days -->
+        <hr>
+        <div style="text-align: center">
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="extraVacationDays">Dodatni dani</label>
+          <div class="col-md-5">
+            <input id="workPlaceExtraVacationDaysEdit" name="workPlaceExtraVacationDaysEdit" type="number" placeholder="Dodatni dani" class="form-control input-md"
+              [(ngModel)]="extraVacationDays">
+            </div>
+        </div>
+        
         <hr>
         <div style="text-align: center">
           <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Potvrdi</button>
@@ -115,6 +129,16 @@
             <input id="workPlaceCoefficientEdit" name="workPlaceCoefficientEdit" type="number" placeholder="Keoficijent" class="form-control input-md"
               [(ngModel)]="workPlace.coefficient" ngModel required #workPlaceCoefficient="ngModel">
             <span class="help-block" *ngIf="workPlaceCoefficient.touched && !workPlaceCoefficient.valid">Keoficijent je obavezan</span>
+          </div>
+        </div>
+        <hr>
+        <div style="text-align: center">
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="extraVacationDays">Dodatni dani</label>
+          <div class="col-md-5">
+            <input id="workPlaceExtraVacationDaysEdit" name="workPlaceExtraVacationDaysEdit" type="number" placeholder="D" class="form-control input-md"
+              [(ngModel)]="workPlace.extraVacationDays" >
           </div>
         </div>
         <div style="text-align: center">

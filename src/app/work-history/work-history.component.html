@@ -36,10 +36,10 @@
     <legend>Dodaj radnu istoriju zaposlenom</legend>
 
     <div class="form-group">
-        <label class="col-md-4 control-label" for="educInst">Predhodna firma</label>  
+        <label class="col-md-4 control-label" for="educInst">Firma</label>  
         <div class="col-md-5">
         <input id="educInst" name="educInst" type="text" class="form-control input-md" [(ngModel)]="workHistory.previousCompany" required maxlength="30" #edInst="ngModel">
-        <span class="help-block" *ngIf="edInst.touched && !edInst.valid">Predhodna firma je obavezna.</span>
+        <span class="help-block" *ngIf="edInst.touched && !edInst.valid">Firma je obavezna.</span>
         </div>
     </div>
 
