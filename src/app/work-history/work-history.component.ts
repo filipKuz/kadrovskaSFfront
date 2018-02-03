@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { error } from 'selenium-webdriver';
 import { WorkHistoryService } from './work-history.service';
 import { EmployeeService } from '../employee/employee.service';
+import { WorkPlaceService } from '../work-place/work-place.service';
 
 @Component({
   selector: 'app-work-history',
@@ -30,6 +31,18 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
   startDate: any = { date: { year: "2017", month: "1", day: "19" } }
   endDate: any = null;
 
+
+  workPlaces = [];
+
+
+  workPlace = {
+    "name": "",
+    "coefficient": 1
+  };
+
+  data = { 'Employee': {}, 'workPlaceId': 0 };
+
+
   clickedWorkHistoryid;
 
   addWorkHistory = false;
@@ -37,26 +50,30 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
 
   workHistory = {
     "previousCompany": "",
-     "startDate": this.startDate.date.year + "-" + this.startDate.date.month + "-" + this.startDate.date.day,
-     //"endDate": this.endDate.date.year + "-" + this.endDate.date.month + "-" + this.endDate.date.day,    
-     "employeeId":0
+    "startDate": this.startDate.date.year + "-" + this.startDate.date.month + "-" + this.startDate.date.day,
+    "endDate": '',
+    //"endDate": this.endDate.date.year + "-" + this.endDate.date.month + "-" + this.endDate.date.day,    
+    "employeeId": 0,
+    "workPlaceId": 0
   };
 
   //workHostories = []
-  constructor(private EmployeeService: EmployeeService,
+  constructor(private _workPlaceService: WorkPlaceService,
+    private EmployeeService: EmployeeService,
     private workHistoryService: WorkHistoryService,
     private _messageService: MessageService) {
     this.subscription = this._messageService.getMessage()
       .subscribe(message => {
-         this.employeeId = message.text;
-         this.mess = message.text, this.onGetWorkHistoryEmployeeId(message.text); 
-        }
+        this.employeeId = message.text;
+        this.mess = message.text, this.onGetWorkHistoryEmployeeId(message.text);
+      }
       );
   }
 
 
   ngOnInit() {
     this.onWorkHistoryTable();
+    this.onPopulateDrowDownWorkPlaces();
   }
 
 
@@ -79,10 +96,10 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
 
   }
 
-  onWorkHistoryTable() { 
+  onWorkHistoryTable() {
     this.workHistoryService.getAllWorkHistories()
       .subscribe(
-      response => { 
+      response => {
         this.workHistoriesEmpl = response;
         console.log(this.workHistoriesEmpl);
       },
@@ -91,19 +108,19 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
   }
 
   transformFormattedDate(date: string, type) {
-    if(date != null){
+    if (date != null) {
       var dateSpilt = date.split("-");
-      if(type == 1){
+      if (type == 1) {
         this.startDate = { date: { year: Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
-      }else if(type == 2){
+      } else if (type == 2) {
         this.endDate = { date: { year: Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
       }
-    }else{ 
-      if(type == 1){
-      this.startDate ={date: null};
-    }else if(type == 2){
-      this.endDate = {date: null};
-    }
+    } else {
+      if (type == 1) {
+        this.startDate = { date: null };
+      } else if (type == 2) {
+        this.endDate = { date: null };
+      }
     }
   }
 
@@ -114,7 +131,7 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
     this.onGetWorkHistorybyId(id);
   }
 
-  onPopulateWorkHistry(previousCompany ) {
+  onPopulateWorkHistry(previousCompany) {
     this.workHistory = previousCompany;
   }
 
@@ -137,12 +154,12 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
     this.editWorkHistoryForm.resetForm();
   }
 
-  
+
   onDateChanged(event: IMyDateModel, whichChanged): void {
     console.log(whichChanged);
-    if(whichChanged == 1){
+    if (whichChanged == 1) {
       this.workHistory.startDate = event.date.year + "-" + event.date.month + "-" + event.date.day;
-    }else if(whichChanged == 2){
+    } else if (whichChanged == 2) {
       this.workHistory.endDate = event.date.year + "-" + event.date.month + "-" + event.date.day;
     }
   }
@@ -167,11 +184,12 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
 
   onCreateWorkHistory() {
     this.workHistory.employeeId = this.employeeId;
+    this.workHistory.workPlaceId = this.addWorkHistoryForm.value.workPlaceId;
     this.workHistoryService.newWorkHistory(this.workHistory)
-      .subscribe(
+      .subscribe( 
       (response: any) => {
         console.log(response);
-        this.workHistoriesEmpl.push(response);      
+        this.workHistoriesEmpl.push(response);
       },
       (error) => console.log(error)
       )
@@ -207,6 +225,14 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
     maxYear: new Date().getFullYear()
   };
 
+
+  onPopulateDrowDownWorkPlaces() {
+    this._workPlaceService.getAllWorkPlaces().
+      subscribe(
+      (response: any) => (this.workPlaces = response),
+      (error) => (console.log(error))
+      );
+  }
 
 
 }

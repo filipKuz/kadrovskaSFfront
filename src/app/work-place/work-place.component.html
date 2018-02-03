@@ -68,8 +68,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="name">Naziv</label>
           <div class="col-md-5">
-            <input id="workPlaceNameEdit" name="workPlaceNameEdit" type="text" placeholder="Naziv radnog mesta" class="form-control input-md"
-              maxlength="25" [(ngModel)]="name" ngModel required #workPlaceName="ngModel">
+            <input id="workPlaceNameEdit" name="workPlaceNameEdit" placeholder="Naziv radnog mesta" class="form-control input-md"
+              maxlength="25" [(ngModel)]="name" ngModel required #workPlaceName="ngModel" type="text">
             <span class="help-block" *ngIf="workPlaceName.touched && !workPlaceName.valid">Opis je obavezan</span>
           </div>
         </div>

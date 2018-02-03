@@ -76,6 +76,17 @@
         </button>
     </span> 
     </div>
+    <hr>
+    
+     <!-- Select Basic -->
+     <div class="form-group">
+        <label class="col-md-4 control-label" for="workPlace">Radno mesto</label>
+        <div class="col-md-4">
+          <select id="workPlaceId" name="workPlaceId" class="form-control" ngModel required>
+            <option *ngFor="let wp of workPlaces" value="{{wp.workPlaceId}}">{{ wp.name }}</option>
+          </select>
+        </div>
+      </div>
 
     
 
