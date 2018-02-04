@@ -82,7 +82,9 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
     this.workHistoryService.getByEmployee(employeeId)
       .subscribe(
       response => {
-        this.workHistoriesEmpl = response;
+        let newRes = response.sort(this.compare)
+        newRes = newRes.reverse();
+        this.workHistoriesEmpl = newRes;
         console.log(this.workHistoriesEmpl);
       },
       (error) => console.log(error)
@@ -100,7 +102,9 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
     this.workHistoryService.getAllWorkHistories()
       .subscribe(
       response => {
-        this.workHistoriesEmpl = response;
+        let newRes = response.sort(this.compare)
+        newRes = newRes.reverse();
+        this.workHistoriesEmpl = newRes;
         console.log(this.workHistoriesEmpl);
       },
       (error) => console.log(error)
@@ -172,27 +176,35 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
   onSubmit(action: string) {
     if (action == "add") {
       this.onCreateWorkHistory();
+      this.addWorkHistoryForm.resetForm();
       this.addWorkHistory = !this.addWorkHistory;
     }
     if (action == "edit") {
       this.onEditButton(this.clickedWorkHistoryid);
       this.onPutWorkHistory();
-      this.resetForm();
+      this.editWorkHistoryForm.resetForm();
+      this.editWorkHistory = !this.editWorkHistory;
     }
   }
 
 
   onCreateWorkHistory() {
-    this.workHistory.employeeId = this.employeeId;
-    this.workHistory.workPlaceId = this.addWorkHistoryForm.value.workPlaceId;
-    this.workHistoryService.newWorkHistory(this.workHistory)
-      .subscribe( 
-      (response: any) => {
-        console.log(response);
-        this.workHistoriesEmpl.push(response);
-      },
-      (error) => console.log(error)
-      )
+    let dateFrom = new Date(this.workHistory.startDate);
+    let dateTo = new Date(this.workHistory.endDate);
+    if (dateTo != null && dateFrom > dateTo) {
+      alert('Ne moze datum pocetka biti veci krajnjeg');
+    } else {
+      this.workHistory.employeeId = this.employeeId;
+      this.workHistory.workPlaceId = this.addWorkHistoryForm.value.workPlaceId;
+      this.workHistoryService.newWorkHistory(this.workHistory)
+        .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.workHistoriesEmpl.push(response);
+        },
+        (error) => console.log(error)
+        )
+    }
   }
 
   onEditWorkHistory() {
@@ -233,6 +245,15 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
       (error) => (console.log(error))
       );
   }
+
+  compare(a, b) {
+    if (a.endDate < b.endDate)
+      return -1;
+    if (a.endDate > b.endDate)
+      return 1;
+    return 0;
+  }
+
 
 
 }
