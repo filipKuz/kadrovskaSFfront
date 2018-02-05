@@ -82,7 +82,7 @@
       <th>Radna istorija</th>
       <th>Kontakt podaci</th>
       <th>Deca</th>
-      <th></th>
+      <th>Opcije</th>
     </tr>
     <tr *ngFor="let employee of employees; let i = index" (click)="setClickedRow(i)" [class.active]="i == selectedRow">
       <td>
@@ -97,9 +97,6 @@
       <td>
         <a (click)="setActiveAHR();sendMessage(employee.employeeId);">Resenje o godisnjem odmoru</a>
       </td>
-      <!-- <td>
-        <a href="#">Radna istorija</a>
-      </td> -->
       <td>
         <a (click)="setActiveWorkHistory();sendMessage(employee.employeeId);">Radna istorija</a>
       </td>
@@ -113,7 +110,7 @@
         <a *ngIf="!all" title="Izmena!" class="show_hand" (click)="onEditEmployee(employee.employeeId)">
           <span class="glyphicon glyphicon-edit"></span>
         </a> &nbsp;
-        <a *ngIf="!all" title="Brisanje!" class="show_hand" (click)="onFireEmployee(employee.employeeId);">
+        <a *ngIf="!all" title="Otpusti!" class="show_hand" (click)="onFireEmployee(employee.employeeId);">
           <span style="color: red;" class="glyphicon glyphicon-remove"></span>
         </a>
       </td>
