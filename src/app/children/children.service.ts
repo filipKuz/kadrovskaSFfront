@@ -62,6 +62,6 @@ export class ChildrenService {
     }
 
     deleteChild(id: number) {
-        return this.http.put(this._baseUrl + '/delete/' + id, null);
+        return this.http.delete(this._baseUrl + '/' + id, null);
     }
 }

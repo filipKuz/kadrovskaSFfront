@@ -52,11 +52,11 @@
         </div>
 
         <div class="form-group">
-          <label class="col-md-4 control-label" for="lastNameEdit">Prezime</label>
+          <label class="col-md-4 control-label" for="lastName">Prezime</label>
           <div class="col-md-5">
-            <input id="lastNameEdit" name="lastNameEdit" type="text" class="form-control input-md" [(ngModel)]="child.lastNameEdit" required
-              maxlength="40" #lastNameEdit="ngModel">
-            <span class="help-block" *ngIf="lastNameEdit.touched && !lastNameEdit.valid">Prezime je obavezno.</span>
+            <input id="lastName" name="lastName" type="text" class="form-control input-md" [(ngModel)]="child.lastName" required
+              maxlength="40" #lastName="ngModel">
+            <span class="help-block" *ngIf="lastName.touched && !lastName.valid">Prezime je obavezno.</span>
           </div>
         </div>
 
@@ -81,8 +81,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="sex">Pol</label>
           <div class="col-md-4">
-            <select id="sex" name="sex" class="form-control" [ngModel]="defaultSex" required>
-              <option value="M">Muski</option>
+            <select id="sex" name="sex" class="form-control" [(ngModel)]="child.sex" required>
+              <option selected value="M">Muski</option>
               <option value="Z">Zenski</option>
             </select>
           </div>
@@ -116,7 +116,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="lastNameEdit">Prezime</label>
           <div class="col-md-5">
-            <input id="lastNameEdit" name="lastNameEdit" type="text" class="form-control input-md" [(ngModel)]="child.lastNameEdit" required
+            <input id="lastNameEdit" name="lastNameEdit" type="text" class="form-control input-md" [(ngModel)]="child.lastName" required
               maxlength="40" #lastNameEdit="ngModel">
             <span class="help-block" *ngIf="lastNameEdit.touched && !lastNameEdit.valid">Prezime je obavezno.</span>
           </div>
@@ -125,8 +125,8 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="birthDateEdit">Datum rodjenja</label>
           <div class="col-md-5">
-            <input id="birthDateEdit" class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker
-              name="birthDateEdit" ngModel [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)"
+            <input id="birthDateEdit" class="form-control input-md" style="float: none" placeholder="Izaberite datum" ngx-mydatepicker 
+            name="birthDateEdit" [(ngModel)]="model" [options]="myOptions" #dpE="ngx-mydatepicker" (dateChanged)="onDateChanged($event)"
               #datePickEdit="ngModel" required/>
             <span class="help-block" *ngIf="datePickEdit.touched && !datePickEdit.valid">Uneti datum nije validan.</span>
           </div>
@@ -143,7 +143,7 @@
         <div class="form-group">
           <label class="col-md-4 control-label" for="sexEdit">Pol</label>
           <div class="col-md-4">
-            <select id="sexEdit" name="sexEdit" class="form-control" [ngModel]="child.sex" required>
+            <select id="sexEdit" name="sexEdit" class="form-control" [(ngModel)]="child.sex" required>
               <option value="M">Muski</option>
               <option value="Z">Zenski</option>
             </select>

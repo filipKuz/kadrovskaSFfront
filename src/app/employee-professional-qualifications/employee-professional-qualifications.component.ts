@@ -133,7 +133,6 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
 
 
   onCreateEPQ() {
-    console.log(this.epq);
     this._employeePQC.postEPQ(this.epq)
       .subscribe(
       (response: any) => (this.employeesEPQCs.push(response)),
@@ -150,7 +149,7 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
   onDeleteEPQ(id) {
     this._employeePQC.deleteEPQ(id)
       .subscribe(
-      (response: any) => (this.onGetEPQbyEmployeeId(id)),
+      (response: any) => (this.onGetEPQbyEmployeeId(this.mess)),
       (error) => console.log(error)
       )
   }

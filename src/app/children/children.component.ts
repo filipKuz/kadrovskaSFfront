@@ -19,7 +19,6 @@ export class ChildrenComponent implements OnDestroy {
   subscription: Subscription;
   children = [];
   message = '';
-  defaultSex = 'M';
   model: any = { date: { year: '2018', month: '1', day: '1' } };
 
   clickedChildId;
@@ -32,14 +31,19 @@ export class ChildrenComponent implements OnDestroy {
     'name': '',
     'lastName': '',
     'sex': '',
-    'employeeId': ''
+    'parentId': ''
+  };
+
+  myOptions: INgxMyDpOptions = {
+    dateFormat: 'yyyy-m-d',
+    maxYear: new Date().getFullYear()
   };
 
   constructor(private _childrenService: ChildrenService, private _messageService: MessageService) {
     this.subscription = this._messageService.getMessage()
       .subscribe(message => {
         this.message = message.text,
-          this.onGetChildrenByEmployeeId(message.text); this.child.employeeId = message.text;
+          this.onGetChildrenByEmployeeId(message.text); this.child.parentId = message.text;
       }
       );
   }
@@ -114,21 +118,15 @@ export class ChildrenComponent implements OnDestroy {
   onCreateChild() {
     this._childrenService.addChild(this.child)
       .subscribe(
-      (response: any) => (this.children.push(response)),
+      (response: any) => (this.children.push(response), this.onGetChildrenByEmployeeId(this.message)),
       (error) => console.log(error)
       );
   }
 
-  myOptions: INgxMyDpOptions = {
-    // other options...
-    dateFormat: 'yyyy-m-d',
-    maxYear: new Date().getFullYear()
-  };
-
   onDeleteChild(id) {
     this._childrenService.deleteChild(id)
       .subscribe(
-      (response: any) => (this.onGetChildrenByEmployeeId(id)),
+      (response: any) => (this.onGetChildrenByEmployeeId(this.message)),
       (error) => console.log(error)
       );
   }
@@ -140,5 +138,4 @@ export class ChildrenComponent implements OnDestroy {
       (error) => console.log(error)
       );
   }
-
 }
