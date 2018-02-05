@@ -1,3 +1,7 @@
 .show_hand {
     cursor: pointer;
 }
+
+a {
+    cursor: pointer;
+  }
