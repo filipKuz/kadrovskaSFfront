@@ -37,6 +37,7 @@ import { WorkHistoryComponent } from './work-history/work-history.component';
 import { WorkHistoryService } from './work-history/work-history.service';
 import { ChildrenComponent } from './children/children.component';
 import { ChildrenService } from './children/children.service';
+import { ReportsComponent } from './reports/reports.component';
 
 
 
@@ -48,7 +49,8 @@ const appRoutes: Routes = [
   { path: 'cities', component: CityComponent },
   { path: 'workPlace', component: WorkPlaceComponent },
   { path: 'company', component: CompanyComponent },
-  { path: 'workHistory', component: WorkHistoryComponent }
+  { path: 'workHistory', component: WorkHistoryComponent },
+  { path: 'reports', component: ReportsComponent}
 
   // { path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },
 ];
@@ -72,7 +74,8 @@ const appRoutes: Routes = [
     CityEmployeesComponent,
     CompanyComponent,
     WorkHistoryComponent,
-    ChildrenComponent
+    ChildrenComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,

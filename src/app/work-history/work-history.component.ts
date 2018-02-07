@@ -85,7 +85,8 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
         let newRes = response.sort(this.compare)
         newRes = newRes.reverse();
         this.workHistoriesEmpl = newRes;
-        console.log(this.workHistoriesEmpl);
+        //console.log(this.workHistoriesEmpl)
+        ;
       },
       (error) => console.log(error)
       );
@@ -105,7 +106,8 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
         let newRes = response.sort(this.compare)
         newRes = newRes.reverse();
         this.workHistoriesEmpl = newRes;
-        console.log(this.workHistoriesEmpl);
+        //console.log(this.workHistoriesEmpl)
+        ;
       },
       (error) => console.log(error)
       )

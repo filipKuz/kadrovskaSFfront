@@ -40,8 +40,8 @@ export class AnnualHolidayRegulationService {
         );
     }
 
-    getById(vReq: number) {
-        return this.http.get(this._baseUrl + "/findById/" + vReq)
+    getById(aHR: number) {
+        return this.http.get(this._baseUrl + "/findById/" + aHR)
             .map(
             (response: Response) => {
                 const data = response.json();
