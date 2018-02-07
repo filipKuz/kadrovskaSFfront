@@ -69,7 +69,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
     if(this.AHRs.length <  1){
       this.ahrId = 0
     }else{
-      this.ahrId = this.AHRs[0].annualHolidayRegulationId, console.log(2)
+      this.ahrId = this.AHRs[0].annualHolidayRegulationId
     }
   }
 
@@ -83,10 +83,10 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
     this._AHRS.getAHRByEmployee(employeeId)
       .subscribe(
       (response: any) => 
-      [(this.AHRs = response,console.log(1),
+      [(this.AHRs = response,
         this.onCheckAHRID(),
-        this.vreq.annualHolidayRegulationId=this.ahrId, console.log(3),
-        this.onGetVReqbyAHRId(this.ahrId), console.log(4)
+        this.vreq.annualHolidayRegulationId=this.ahrId, 
+        this.onGetVReqbyAHRId(this.ahrId)
         )], 
       (error) =>[console.log(error), this.vacationRequests=[]]
       );
