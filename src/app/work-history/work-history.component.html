@@ -22,6 +22,7 @@
       <th>Predhodna firma</th>
       <th>Pocetni datum</th>
       <th>Krajnji datum</th>
+      <th>Radno mesto</th>
       <th>Opcije</th>
     </tr>
     <tr *ngFor="let workHistory of workHistoriesEmpl">
@@ -35,6 +36,7 @@
           Trenutno radno mesto
         </div>
       </td>
+      <td>{{workHistory.workPlaceName}}</td>
       <td>
         <a title="Izmena!" class="show_hand" (click)="onEditButton(workHistory.workHistoryId)">
           <span class="glyphicon glyphicon-edit"></span>
