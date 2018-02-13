@@ -2,11 +2,24 @@
 
   <table class="">
     <tr *ngFor="let ahr of AHRs">
-      <td>
-        <h4>Broj slobodnih dana za {{ahr.businessYear}}. poslovnu godinu: {{AHRs[0].numOfDays}} </h4>
-      </td>
+      <th>
+        <h4>Broj slobodnih dana za <input id="businessYear"
+                                      name="businessYear"    
+                                      class="form-control input-md"
+                                      type="number"
+                                      min="1"
+                                      step="1" 
+                                      (change)="onBYChange()"
+                                      [(ngModel)]="businessYear"
+                                      ngModel> poslovnu godinu: {{AHRs[0].numOfDays}} </h4>
+      </th>
+      <!--{{ahr.businessYear}}-->
+
     </tr>
   </table>
+
+      
+
   
   <ul class="list-inline">
     <li>

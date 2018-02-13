@@ -19,6 +19,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
   @ViewChild('f') addVreqForm: NgForm;
 
 
+
   subscription: Subscription;
   AHRs = [];
   model: any = { date: { year: "2017", month: "1", day: "19" } };
@@ -33,6 +34,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
     "annualHolidayRegulationId": this.ahrId
   };
 
+  businessYear: number = 2018;
   startDateVar: any;
   numOfDaysVar: number=1;
   daysToAddOrSubtract: number = 0;
@@ -51,6 +53,13 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
 
 
   ngOnInit() {
+
+  }
+
+
+
+  onBYChange(){
+    this.onGetAHRbyEmployeeId(this.mess)
   }
 
   setDaysToAddOrSubtract(days) {
@@ -68,6 +77,8 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
   onCheckAHRID(){
     if(this.AHRs.length <  1){
       this.ahrId = 0
+      this.businessYear = 2018;
+      alert("Zaposleni nema resenje za gosinji odmor za odabranu godinu")
     }else{
       this.ahrId = this.AHRs[0].annualHolidayRegulationId
     }
@@ -80,7 +91,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
   }
 
   onGetAHRbyEmployeeId(employeeId) {
-    this._AHRS.getAHRByEmployee(employeeId)
+    this._AHRS.getAHRByEmployee(employeeId, this.businessYear)
       .subscribe(
       (response: any) => 
       [(this.AHRs = response,

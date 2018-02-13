@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsComponent implements OnInit {
 
+  businessYear: number = 2018;
+
+  AHRLink: string = "http://localhost:8080/api/reports/AHR/2018"
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+
+  onBYChange(){
+   this.AHRLink = "http://localhost:8080/api/reports/AHR/"+ this.businessYear
   }
 
 }
