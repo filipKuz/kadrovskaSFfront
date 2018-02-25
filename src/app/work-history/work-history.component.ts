@@ -203,6 +203,14 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
         (response: any) => {
           console.log(response);
           this.workHistoriesEmpl.push(response);
+          this.workHistory = {
+            "previousCompany": "",
+            "startDate": this.startDate.date.year + "-" + this.startDate.date.month + "-" + this.startDate.date.day,
+            "endDate": '',
+            //"endDate": this.endDate.date.year + "-" + this.endDate.date.month + "-" + this.endDate.date.day,    
+            "employeeId": 0,
+            "workPlaceId": 0
+          };
         },
         (error) => console.log(error)
         )
