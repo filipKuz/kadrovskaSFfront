@@ -165,7 +165,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.onGetAll();
+    this.onGet();
     this.onPopulateDropDownCity();
     this.onPopulateDrowDownWorkPlaces();
   }

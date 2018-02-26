@@ -22,6 +22,8 @@ import { DialogComponent } from './dialog/dialog.component';
 import { from } from 'rxjs/observable/from';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { CityService } from './city/city.service';
+
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NonworkingDayComponent } from './nonworking-day/nonworking-day.component';
 import { NonworkingDaysService } from './nonworking-day/nonworkingDayService';
 import { WorkPlaceService } from './work-place/work-place.service';
@@ -83,7 +85,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
-    NgxMyDatePickerModule.forRoot(), NgbModule.forRoot()
+    NgxMyDatePickerModule.forRoot(), NgbModule.forRoot(), BsDropdownModule.forRoot()
   ],
   providers: [EmployeeService,
     AnnualHolidayRegulationService,
