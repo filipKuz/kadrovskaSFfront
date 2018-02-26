@@ -182,10 +182,10 @@ export class WorkHistoryComponent implements OnInit, OnDestroy {
       this.addWorkHistory = !this.addWorkHistory;
     }
     if (action == "edit") {
+      this.resetEditForm();
       this.onEditButton(this.clickedWorkHistoryid);
       this.onPutWorkHistory();
-      this.editWorkHistoryForm.resetForm();
-      this.editWorkHistory = !this.editWorkHistory;
+      // this.editWorkHistory = !this.editWorkHistory;
     }
   }
 
