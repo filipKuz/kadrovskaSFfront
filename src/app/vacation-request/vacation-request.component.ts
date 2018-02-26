@@ -58,8 +58,7 @@ export class VacationRequestComponent implements OnInit, OnDestroy {
                                             .subscribe(message => 
                                                 { this.mess = message.text,
                                                   this.onGetVReqbyAHRId(message.text),
-                                                  this.vreq.annualHolidayRegulationId = message.text,
-                                                  console.log(this.mess)}
+                                                  this.vreq.annualHolidayRegulationId = message.text}
                                               );
                                               
   }

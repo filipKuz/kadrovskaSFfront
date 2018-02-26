@@ -33,7 +33,13 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { VacationRequestComponent } from './vacation-request/vacation-request.component';
 import { VacationReqService } from './vacation-request/vacation-request.service';
 import { CityEmployeesComponent } from './city/city-employees.component';
+import { WorkPlaceComponent } from './work-place/work-place.component';
 import { CompanyService } from './company/company.service';
+import { WorkHistoryComponent } from './work-history/work-history.component';
+import { WorkHistoryService } from './work-history/work-history.service';
+import { ChildrenComponent } from './children/children.component';
+import { ChildrenService } from './children/children.service';
+import { ReportsComponent } from './reports/reports.component';
 
 
 
@@ -43,7 +49,10 @@ const appRoutes: Routes = [
   { path: 'ProfessionalQualification', component: ProfessionalQualificationComponent },
   { path: 'nonworkingDay', component: NonworkingDayComponent },
   { path: 'cities', component: CityComponent },
-  { path: 'company', component: CompanyComponent }
+  { path: 'workPlace', component: WorkPlaceComponent },
+  { path: 'company', component: CompanyComponent },
+  { path: 'workHistory', component: WorkHistoryComponent },
+  { path: 'reports', component: ReportsComponent}
 
   // { path: 'employeePQ/:id', component: EmployeeProfessionalQualificationsComponent },
 ];
@@ -57,9 +66,18 @@ const appRoutes: Routes = [
     NavigationComponent,
     EmployeeProfessionalQualificationsComponent,
     ProfessionalQualificationComponent,
+    NonworkingDayComponent, NgbdPaginationAdvanced, ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent,
+    WorkPlaceComponent,
     NonworkingDayComponent,
     NgbdPaginationAdvanced,
-    ContactsComponent, VacationRequestComponent, CityComponent, CityEmployeesComponent, CompanyComponent
+    ContactsComponent,
+    VacationRequestComponent,
+    CityComponent,
+    CityEmployeesComponent,
+    CompanyComponent,
+    WorkHistoryComponent,
+    ChildrenComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +96,9 @@ const appRoutes: Routes = [
     CompanyService,
     NonworkingDaysService,
     WorkPlaceService,
-    VacationReqService],
+    VacationReqService,
+    WorkHistoryService,
+    ChildrenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

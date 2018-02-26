@@ -5,7 +5,3 @@ a {
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
-
-.search-form{
-  width:220px;
-}

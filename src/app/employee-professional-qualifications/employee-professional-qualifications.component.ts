@@ -24,7 +24,7 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
   subscription: Subscription;
   employeesEPQCs = [];
   mess = '22';
-  model: any = { date: { year: "2017", month: "1", day: "19" } };
+  model: any = { date: { year: '2017', month: '1', day: '19' } };
 
   clickedEPQid;
 
@@ -32,24 +32,24 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
   editEmployeeProfQ = false;
 
   epq = {
-        "dateOfGraduation": this.model.date.year + "-" + this.model.date.month + "-" + this.model.date.day,
-        "educationalInstitution": "",
-        "profession": "",
-        "professionalQId": {
-            "professionalQualificationId": 1,
-        },
-        "employeeId": ""
-      };
+    'dateOfGraduation': this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day,
+    'educationalInstitution': '',
+    'profession': '',
+    'professionalQId': {
+      'professionalQualificationId': 1,
+    },
+    'employeeId': ''
+  };
 
-  profQ = []
+  profQ = [];
 
- 
+
   constructor(private _employeePQC: EmployeeProfessionalQualificationService,
-              private _messageService: MessageService,
-              private _pqService: ProfessionalQualificationService) {
+    private _messageService: MessageService,
+    private _pqService: ProfessionalQualificationService) {
     this.subscription = this._messageService.getMessage()
-                                            .subscribe(message => { this.mess = message.text, this.onGetEPQbyEmployeeId(message.text); this.epq.employeeId = message.text}
-                                              );
+      .subscribe(message => { this.mess = message.text, this.onGetEPQbyEmployeeId(message.text); this.epq.employeeId = message.text }
+      );
   }
 
   onEditButton(id) {
@@ -57,7 +57,7 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
     this.editEmployeeProfQ = !this.editEmployeeProfQ;
     this.onGetEPQbyId(id);
   }
-  
+
   ngOnInit() {
     this.onPopulatePQDropDown();
   }
@@ -70,10 +70,9 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
       );
   }
 
-  
-  transformFormattedDate(date:string) {
-    var dateSpilt = date.split("-");
-    this.model = {date : {year : Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
+  transformFormattedDate(date: string) {
+    var dateSpilt = date.split('-');
+    this.model = { date: { year: Number(dateSpilt[0]), month: Number(dateSpilt[1]), day: Number(dateSpilt[2]) } };
   }
 
   onPopulateEq(educationalInstitution: string, profession: string, professionalQualificationId: number) {
@@ -86,7 +85,7 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
     this._employeePQC.getById(id)
       .subscribe(
       (response: any) => [this.onPopulateEq(response.educationalInstitution, response.profession, response.professionalQId.professionalQualificationId),
-                         this.transformFormattedDate(response.dateOfGraduation)], 
+      this.transformFormattedDate(response.dateOfGraduation)],
       (error) => console.log(error)
       );
   }
@@ -99,8 +98,8 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
   onPopulatePQDropDown() {
     this._pqService.getProfessionalQualification()
       .subscribe(
-        (response:any) => (this.profQ = response),
-        (error) => console.log(error)
+      (response: any) => (this.profQ = response),
+      (error) => console.log(error)
       )
   }
 
@@ -113,11 +112,11 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
   }
 
   onSubmit(action: string) {
-    if (action=="add") {
+    if (action == 'add') {
       this.onCreateEPQ();
       this.addEmployeeProfQ = !this.addEmployeeProfQ;
     }
-    if (action=="edit") {
+    if (action == 'edit') {
       this.onEditButton(this.clickedEPQid);
       this.onPutEPQ();
     }
@@ -125,20 +124,19 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
 
   onAddButton() {
     this.resetForm();
-    this.addEmployeeProfQ = !this.addEmployeeProfQ; 
+    this.addEmployeeProfQ = !this.addEmployeeProfQ;
   }
-  
+
   onDateChanged(event: IMyDateModel): void {
-    this.epq.dateOfGraduation = event.date.year + "-" + event.date.month + "-" + event.date.day;
+    this.epq.dateOfGraduation = event.date.year + '-' + event.date.month + '-' + event.date.day;
   }
 
 
   onCreateEPQ() {
-    console.log(this.epq);
     this._employeePQC.postEPQ(this.epq)
       .subscribe(
-        (response:any) => (this.employeesEPQCs.push(response)),
-        (error) => console.log(error)
+      (response: any) => (this.employeesEPQCs.push(response)),
+      (error) => console.log(error)
       )
   }
 
@@ -151,16 +149,16 @@ export class EmployeeProfessionalQualificationsComponent implements OnInit, OnDe
   onDeleteEPQ(id) {
     this._employeePQC.deleteEPQ(id)
       .subscribe(
-        (response: any) => (this.onGetEPQbyEmployeeId(id)),
-        (error) => console.log(error)
+      (response: any) => (this.onGetEPQbyEmployeeId(this.mess)),
+      (error) => console.log(error)
       )
   }
 
   onPutEPQ() {
     this._employeePQC.putEPQ(this.epq, this.clickedEPQid)
       .subscribe(
-        (response) => (this.onGetEPQbyEmployeeId(this.mess)),
-        (error) => console.log(error)
+      (response) => (this.onGetEPQbyEmployeeId(this.mess)),
+      (error) => console.log(error)
       )
   }
 }

@@ -11,9 +11,9 @@ export class AnnualHolidayRegulationService {
 
     constructor(private http: Http) { }
 
-    getAHRByEmployee(employeeId: number) {
+    getAHRByEmployee(employeeId: number, businessYear : number) {
 
-        return this.http.get(this._baseUrl + "/findByEmployee/" + employeeId)
+        return this.http.get(this._baseUrl + "/findByEmployee/" + employeeId + "/" + businessYear)
             .map(
                 (response: Response) => {
                     const data = response.json();
@@ -40,8 +40,8 @@ export class AnnualHolidayRegulationService {
         );
     }
 
-    getById(vReq: number) {
-        return this.http.get(this._baseUrl + "/findById/" + vReq)
+    getById(aHR: number) {
+        return this.http.get(this._baseUrl + "/findById/" + aHR)
             .map(
             (response: Response) => {
                 const data = response.json();

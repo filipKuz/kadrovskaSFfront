@@ -103,7 +103,7 @@ setClickedRow: Function;
       this.onPost();
       this.showDialog = !this.showDialog;
     }if (action === "edit") {
-      this.onPopulateJsonNWD(this.editNonworkingDayForm.value.nonworkingDayDescriptionEdit, this.editNonworkingDayForm.value.nonworkingDayDateEdit.formatted);
+      this.onPopulateJsonNWD(this.editNonworkingDayForm.value.workPlaceNameEdit, this.editNonworkingDayForm.value.workPlaceCoefficientEdit);
       this.onPut();
       this.showEditDialog = !this.showEditDialog;
       this.resetEditForm();

@@ -1,0 +1,14 @@
+
+<div class="container-fluid">
+  <a class="btn btn-primary" [(href)]="AHRLink"  target="_blank">Izvestaj o koriscenju godisnjeg odmora za </a> 
+  <input id="businessYear"
+    name="businessYear"    
+    class="form-control input-md"
+    type="number"
+    min="1"
+    step="1" 
+    (change)="onBYChange()"
+    [(ngModel)]="businessYear"
+    ngModel> poslovnu godinu. <br><br>
+  <a class="btn btn-primary" href="http://localhost:8080/api/reports/children" target="_blank">Izvestaj o deci radnika</a>
+</div>

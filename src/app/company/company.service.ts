@@ -40,4 +40,8 @@ export class CompanyService {
             }
             );
     }
+
+    editCompany(company: any, id: number) {
+        return this._http.put(this._baseUrl + '/' + id, company);
+    }
 }

@@ -26,5 +26,31 @@ export class WorkPlaceService {
             );
     }
 
+    getWorkPlaceById(id: number) {
+        return this._http.get(this._baseUrl + "/" + id)
+            .map(
+                (response: Response) => {
+                    const data = response.json();
+                    return data;
+                }
+            ).catch(
+                (error: Response) => {
+                    return Observable.throw('Something went wrong');
+                }
+            );
+    }
+
+    addWorkPlace(workPlace: any){
+        return this._http.post(this._baseUrl, workPlace);
+    }
+
+    editWorkPlace(workPlace: any, id: number) {
+        return this._http.put(this._baseUrl + "/" + id, workPlace);
+    }
+
+    deleteWorkPlace(id) {
+        return this._http.delete(this._baseUrl + "/" + id);
+    }
+
 
 }
