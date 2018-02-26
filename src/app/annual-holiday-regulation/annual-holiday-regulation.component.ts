@@ -38,6 +38,8 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
   startDateVar: any;
   numOfDaysVar: number=1;
   daysToAddOrSubtract: number = 0;
+  thisYear: Date = new Date;
+  yearNum:number;
 
 
   constructor(private _AHRS: AnnualHolidayRegulationService,private _vacationReqSevice: VacationReqService, private _messageService: MessageService) {
@@ -53,7 +55,7 @@ export class AnnualHolidayRegulationComponent implements OnInit ,OnDestroy {
 
 
   ngOnInit() {
-
+    this.yearNum = this.thisYear.getFullYear();
   }
 
 

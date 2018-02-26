@@ -8,6 +8,7 @@
                                       class="form-control input-md"
                                       type="number"
                                       min="1"
+                                      [(max)]="yearNum"
                                       step="1" 
                                       (change)="onBYChange()"
                                       [(ngModel)]="businessYear"
