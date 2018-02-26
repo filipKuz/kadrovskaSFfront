@@ -29,6 +29,7 @@
     "browser-sync": "^2.18.13",
     "core-js": "^2.4.1",
     "gulp": "^3.9.1",
+    "ngx-bootstrap": "^2.0.2",
     "ngx-mydatepicker": "^2.3.4",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
